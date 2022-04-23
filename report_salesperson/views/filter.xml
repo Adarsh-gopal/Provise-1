@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <template id="search_template_salesperson">
+        <a  type="button" class="dropdown-toggle account_salesperson_filter" data-toggle="dropdown">
+            <span class="fa fa-user"/> Sales Person
+        </a>
+        <ul class="dropdown-menu o_filters_menu" role="menu">
+            <li class="o_account_report_search js_account_salesperson_m2m"/>
+        </ul>
+    </template>
+    <template id="search_template_inheit_salesperson1" inherit_id="account_reports.search_template">
+        <xpath expr="." position="inside">
+            <div class="btn-group o_dropdown o_account_reports_filter_salesperson">
+                <t t-call="report_salesperson.search_template_salesperson"/>
+            </div>
+        </xpath>
+    </template>
+</data>
+</odoo>
+

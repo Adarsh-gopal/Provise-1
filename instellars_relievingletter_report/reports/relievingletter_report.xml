@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="relieving_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars releiving Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">25</field>
+            <field name="margin_bottom">38</field>
+            <field name="margin_left">12</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="relieving_letter_instellars"
+            model="hr.employee"
+            string="Relieving Letter"
+            report_type="qweb-pdf"
+            name="instellars_relievingletter_report.relieving_letter_template"
+            file="instellars_relievingletter_report.relieving_letter_template"
+            attachment="((object.name or 'RL')+'.pdf')"
+            print_report_name="'RL_%s_%s' % (object.registration_number,time.strftime('%y'))"
+            paperformat="instellars_relievingletter_report.relieving_letter_paper_format"
+        />
+     
+        <template id="relieving_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page" >
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_relievingletter_report.external_layout_relieving_letter"><br/><br/>
+                        <div class="row" style="padding-top:20px">
+                            <div class="col-6">
+                              <p>Date: <span t-esc="o.get_current_date()"/></p>
+                            </div>
+                            <div class="col-6" style="text-align:right;">
+                                <t t-if="o.relieving_letter_ref">
+                                    <p><strong style="font-size: 14px !important;line-height:1.4 !important;"><span t-esc="o.relieving_letter_ref"/></strong></p>
+                                </t>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <strong><p style="font-size:17px;">To whomsoever it may concern</p></strong>
+                            </div>
+                        </div><br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <p style="text-align:justify;">This is to certify that <strong><span t-esc="o.name"/></strong> was employed in our organization from <strong><span t-esc="o.date_of_joining.strftime('%B %d, %Y')"/></strong> till <strong><span t-esc="o.notice_period.strftime('%B %d, %Y')"/></strong></p>
+
+                                <p style="text-align:justify;"><t t-if="o.title.name== 'Mr' or o.title.name== 'Mister'"><span>His</span></t><t t-if="o.title.name== 'Ms' or o.title.name==  'Mrs' or o.title.name==  'Miss' or o.title.name==  'Madam'"><span>Her</span></t> last assignment with us was in the role of &#160;<strong><span t-esc="o.job_id.name"/></strong> and last drawn annual compensation was 
+                                <strong><t t-if="o.company_id.id==1"><span>Rs.</span></t>
+                                        <t t-if="not o.company_id.id==1"><span>SGD</span></t>
+                                </strong>&#160;<strong><span t-esc="'{0}'.format(int(o.offered_salary))"/></strong>
+                                <t t-if="o.company_id.id==1">
+                                    <span>p.a.</span>
+                                </t>
+                                <t t-if= "not o.company_id.id==1">
+                                    <span>p.m.</span>
+                                </t>
+                                </p>
+
+                                <p style="text-align:justify;"><strong><span t-esc="o.name_split(o.name)"/></strong> has resigned from the services of the company on &#160;<strong><span t-esc="o.resigned_date.strftime('%B %d, %Y')"/></strong> and is relieved from <t t-if="o.title.name== 'Mr' or o.title.name== 'Mister'"><span>his</span></t><t t-if="o.title.name== 'Ms' or o.title.name==  'Mrs' or o.title.name==  'Miss' or o.title.name==  'Madam'"><span>her</span></t> responsibilities from the closing hours of <strong><span t-esc="o.notice_period.strftime('%B %d, %Y')"/></strong>.</p>
+
+                                <p style="text-align:justify;">We wish <t t-if="o.title.name== 'Mr' or o.title.name== 'Mister'"><span>him</span></t><t t-if="o.title.name== 'Ms' or o.title.name==  'Mrs' or o.title.name==  'Miss' or o.title.name==  'Madam'"><span>her</span></t> all the very best in&#160; <t t-if="o.title.name== 'Mr' or o.title.name== 'Mister'"><span>his</span></t><t t-if="o.title.name== 'Ms' or o.title.name==  'Mrs' or o.title.name==  'Miss' or o.title.name==  'Madam'"><span>her</span></t> future endeavors.</p>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>for <strong><span t-esc="o.company_id.name"/>.</strong></p><br/>
+                            </div>
+                        </div><br/><br/><br/><br/>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p>Gopinath MN</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p><b>Director</b></p>
+                            </div>
+                        </div>
+
+
+                        <p style="page-break-after:always"></p>
+                        <div class="row mt6" style="padding-top:10px">
+                            <div class="col-6">
+                              <span style="margin_bottom:none !important"> <p>Date: <span t-esc="o.get_current_date()"/></p></span>
+                            </div>
+                            <div class="col-6" style="text-align:right;">
+                                <t t-if="o.relieving_letter_ref">
+                                    <p><strong style="font-size: 14px !important;line-height:1.4 !important;"><span t-esc="o.relieving_letter_ref"/></strong></p>
+                                </t>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row mt6">
+                            <div class="col-6" style="line-height:1.4 !important;"><br/>
+                                <p><span t-field="o.title"/> <span t-esc="o.name"/><br/>
+                                Emp ID: <span t-esc="o.registration_number"/><br/>
+                                <span t-field="o.work_location"/><br/></p>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <p><span style="font-size:17px;"><strong>Sub: Relieving Letter</strong></span></p>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6"><br/>
+                                <p>Dear <strong><span t-esc="o.name_split(o.name)"/>,</strong></p>
+                            </div>
+                        </div><br/>
+                        <p style="text-align:justify;line-height:1.4 !important;">With reference to your letter of resignation dated &#160;<strong> <span t-esc="o.resigned_date.strftime('%B %d, %Y')"/> </strong>, we hereby accept your resignation from the services of the company.</p>
+                        <p style="text-align:justify;line-height:1.4 !important;">Your service record is as follows:</p>
+                        <strong>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>Name</span>
+                                </div>
+                                <div class="col-9" style="text-align:left">
+                                    : <span t-esc="o.name"/> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>Designation</span>
+                                </div>
+                                <div class="col-9" style="text-align:left">
+                                    : <span t-esc="o.job_id.name"/> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>Date of joining</span>
+                                </div>
+                                <div class="col-9" style="text-align:left">
+                                    : <span t-esc="o.date_of_joining.strftime('%B %d, %Y')"/> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>Date of leaving</span>
+                                </div>
+                                <div class="col-9" style="text-align:left">
+                                    : <span t-esc="o.notice_period.strftime('%B %d, %Y')"/> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>Reason of leaving</span>
+                                </div>
+                                <div class="col-9" style="text-align:left">
+                                    : <span t-esc="o.reason_for_resigning.name"/> 
+                                </div>
+                            </div></strong><br/>
+
+
+                        <p style="text-align:justify;line-height:1.4 !important;">We here by state that you are relieved from the services of <span t-esc="o.company_id.name"/> with effect from <strong><span t-esc="o.notice_period.strftime('%B %d, %Y')"/></strong>, &#160;after office hours.</p>
+
+                        <p style="text-align:justify;line-height:1.4 !important;">Your accounts, if any will be settled by our Payroll team.</p>
+
+                        <p style="text-align:justify;line-height:1.4 !important;">It was pleasure having you with <strong><span t-esc="o.company_id.name"/></strong> and we thank you for your contribution to the organization. On behalf of the Instellars family, I wish you all success in your career.</p>
+
+                      <div class="row">
+                            <div class="col-6">
+                                <p>With warm regards,</p>
+                                <p>for <strong><span t-esc="o.company_id.name"/>.</strong></p><br/>
+                            </div>
+                      </div><br/><br/><br/><br/>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                      <div class="row">
+                         <div class="col-6">
+                              <p>Gopinath MN</p>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                            <p><b>Director</b></p>
+                        </div>
+                      </div>
+                    </t>
+                </t>
+            </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

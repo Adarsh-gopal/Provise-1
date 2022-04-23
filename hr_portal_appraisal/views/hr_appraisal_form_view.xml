@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_appraisal_form_inherited_portal" model="ir.ui.view">
+        <field name="name">hr.appraisal.form.portal.inherit</field>
+        <field name="model">hr.appraisal</field>
+        <field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="employee_assessment" string="Employee Assessment Form">
+                    <group>
+                        <field name="employee_assessment_submit_date" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="employee_assessment" nolabel="1" readonly="1"/>
+                    </group>
+                </page>
+                <page name="manager_review" string="Manager Feedback Form">
+                    <group>
+                        <field name="manager_review_submit_date" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="manager_review" nolabel="1" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

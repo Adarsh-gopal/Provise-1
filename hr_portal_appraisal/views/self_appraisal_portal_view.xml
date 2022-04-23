@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_layout" name="Portal layout: My Appraisal Menu Entry" inherit_id="portal.portal_breadcrumbs" priority="55">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'my_appraisals' or my_appraisals" t-attf-class="breadcrumb-item #{'active' if not my_appraisals else ''}">
+                <t>My Appraisals</t>
+            </li>
+            <li t-if="page_name == 'self_assessment' or appraisal" t-attf-class="breadcrumb-item #{'active ' if not appraisal else ''}">
+                <a t-if="appraisal" t-attf-href="/my/appraisals/">My Appraisals</a>
+                <t t-else="">My Appraisals</t>
+            </li>
+            <li t-if="appraisal" class="breadcrumb-item active">
+                <span  class="text-muted"> <span t-esc="appraisal.employee_id.name"/></span>
+            </li>
+         
+         <!-- team submenu -->
+            <li t-if="page_name == 'my_team_appraisals' or my_team_appraisals" t-attf-class="breadcrumb-item #{'active' if not my_team_appraisals else ''}">
+                <t>Team Appraisals</t>
+            </li>
+            <li t-if="page_name == 'manager_review' or appraisal_manager" t-attf-class="breadcrumb-item #{'active ' if not appraisal_manager else ''}">
+                <a t-if="appraisal_manager" t-attf-href="/my/team/appraisals/">Team Appraisal</a>
+                <t t-else="">Team Appraisal</t>
+            </li>
+            <li t-if="appraisal_manager" class="breadcrumb-item active">
+                <span  class="text-muted"> <span t-esc="appraisal_manager.employee_id.name"/></span>
+            </li>
+    <!-- preview appraisal -->
+           
+            <li t-if="page_name == 'assessment_preview' or appraisal_preview" t-attf-class="breadcrumb-item #{'active ' if not appraisal_preview else ''}">
+                <a t-if="appraisal_preview and access_type == 'manager'" t-attf-href="/my/team/appraisals/">Team Appraisal</a>
+                <a t-elif="appraisal_preview and access_type == 'employee'"  t-attf-href="/my/appraisals/">My Appraisals</a>
+                <t t-else=""> Appraisals
+                </t>
+            </li>
+            <li t-if="appraisal_preview" class="breadcrumb-item active">
+                <span  class="text-muted"> <span t-esc="appraisal_preview.employee_id.name"/></span>
+            </li>
+
+        </xpath>
+    </template>
+
+    <template id="portal_home_my_appraisals" name="Portal My Home : My Appraisals Entries" inherit_id="portal.portal_my_home" priority="65">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Appraisals</t>
+                <t t-set="url" t-value="'/my/appraisals'"/>
+                <t t-set="count" t-value="self_appraisal_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_appraisal" name="My Appraisals">
+        <t t-call="portal.portal_layout">
+            <t t-set="no_footer">1</t>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Appraisals</t>
+            </t>
+
+            <t t-if="not self_appraisal_count">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no appraisals yet to evaluate.
+                </div>
+            </t>
+            <t t-if="self_appraisal_count">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_appraisals" t-as="appraisals">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th t-if="groupby == 'none'">Reference</th>
+                                <th t-else="">
+                                    <em class="font-weight-normal text-muted">Reference</em>
+                                    <!-- <span t-field="appraisals[0].holiday_status_id.name"/> -->
+                                </th>
+                         
+                                <th>Employee</th>
+                                <th>Period</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>#</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="appraisals" t-as="appraisal">
+                                <tr>
+                                    <td><a href="#"><span t-esc="appraisal.appraisal_reference"/></a></td>
+                                    <td><span t-esc="appraisal.employee_id.name"/></td>
+                                    <td><span t-esc="appraisal.appraisal_period.name"/></td>
+                                    <td><span t-esc="appraisal.create_date" t-options='{"widget": "date"}'/></td>
+                                    <td><span t-esc="appraisal.date_close" t-options='{"widget": "date"}'/></td>
+                                    <td>
+                                        <t t-if="appraisal.state == 'new'"><span t-attf-class="badge badge-pill badge-dark">To Start</span></t>
+                                        <t t-if="appraisal.state == 'pending'"><span t-attf-class="badge badge-pill badge-warning">Appraisal Sent</span></t>
+                                        <t t-if="appraisal.state == 'done'"><span t-attf-class="badge badge-pill badge-info">Appraisal Received</span></t>
+                                        <t t-if="appraisal.state == 'pending_app_calc'"><span t-attf-class="badge badge-pill badge-warning">Appraisal Pending Calculation</span></t>
+                                        <t t-if="appraisal.state == 'app_calc'"><span t-attf-class="badge badge-pill badge-warning">Appraisal Calculation</span></t>
+                                        <t t-if="appraisal.state == 'approved'"><span t-attf-class="badge badge-pill badge-success">Appraisal Approved</span></t>
+                                        <t t-if="appraisal.state == 'cancel'"><span t-attf-class="badge badge-pill badge-danger">Appraisal Rejected </span></t>
+                                    </td>                                   
+                                    <td> 
+                                        <t t-if="not appraisal.employee_assessment">
+                                            <t t-if="appraisal.date_close &lt; datetime.date.today()" >
+                                                <span style="color:red"> Deadline Reached</span>
+                                            </t>
+                                            <t t-else="">
+                                                <a t-attf-href="/my/appraisals/self-assessment/#{appraisal.id}"><span title="Edit">Take Self Assessment</span></a>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <a t-attf-href="/appraisal/preview/#{appraisal.id}?type=employee"><span style="color:green"> Preview</span>
+                                            </a>
+                                        </t>
+                                    </td>
+                                    <td><t t-if="appraisal.state == 'approved'">
+                                            <a t-attf-class="btn btn-success label-text-align" t-att-href="'/report/pdf/appraisal_download?appraisal_id=%s' % (appraisal.id)" title="Download"><i class="fa fa-download"/> Download</a>
+                                        </t>
+                                    </td>
+                                   
+                                 
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

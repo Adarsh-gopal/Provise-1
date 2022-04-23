@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    
+    
+
+    <record id="project_contact_info_company_line_view_search" model="ir.ui.view">
+        <field name="name">project.contact.info.company.search</field>
+        <field name="model">project.contact.info.company.line</field>
+        <field name="arch" type="xml">
+            <search string="Contact info">
+                <filter string="conatct info type" name="group_by_project_contact_info_line_type" context="{'group_by':'line_type'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="project_contact_info_line_view_search" model="ir.ui.view">
+        <field name="name">project.contact.info.client.search</field>
+        <field name="model">project.contact.info.client.line</field>
+        <field name="arch" type="xml">
+            <search string="Contact info">
+                <filter string="conatct info type" name="group_by_project_contact_info_line_type" context="{'group_by':'line_type'}"/>
+            </search>
+        </field>
+    </record>
+
+<!--     <record id="hr_employee_view_search" model="ir.ui.view">
+        <field name="name">hr.employee.skill.search</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='job_id']" position="after">
+                <field name="employee_skill_ids"/>
+                <field name="resume_line_ids" string="Resumé" filter_domain="['|', ('resume_line_ids.name', 'ilike', self), ('resume_line_ids.description', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record> -->
+
+<!--     <record id="hr_employee_public_view_search" model="ir.ui.view">
+        <field name="name">hr.employee.public.skill.search</field>
+        <field name="model">hr.employee.public</field>
+        <field name="inherit_id" ref="hr.hr_employee_public_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="employee_skill_ids"/>
+                <field name="resume_line_ids" string="Resumé" filter_domain="['|', ('resume_line_ids.name', 'ilike', self), ('resume_line_ids.description', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record> -->
+<!-- company side form view -->
+    <record id="project_contact_info_company_line_view_form" model="ir.ui.view">
+        <field name="name">project.contact.info.company.line.form</field>
+        <field name="model">project.contact.info.company.line</field>
+        <field name="arch" type="xml">
+            <form string="Contact info">
+                <div class="oe_title">
+                    <label for="line_type_id" class="oe_edit_only"/>
+                    <h3>
+                        <field name="line_type_id" placeholder="Title" required="True" domain="[('groups', '=', 'company_group')]"/>
+                    </h3>
+                    
+                </div>
+                <group>
+                    <group string="Main Details">
+                        <field name="name_main" string="Name"/>
+                        <field name="phone_main" string="Phone"/>
+                        <field name="email_main" string="Email"/>
+                        <field name="display_type" invisible="1"/>
+                    </group>
+                    <group string="CC Details">
+                        <field name="name_cc" string="Name"/>
+                        <field name="phone_cc" string="Phone"/>
+                        <field name="email_cc" string="Email"/>
+
+                    </group>                    
+                </group>
+                <field name="description" placeholder="Description"/>
+            </form>
+        </field>
+    </record>
+
+<!-- client side form view -->
+    <record id="project_contact_info_client_line_view_form" model="ir.ui.view">
+        <field name="name">project.contact.info.client.line.form</field>
+        <field name="model">project.contact.info.client.line</field>
+        <field name="arch" type="xml">
+            <form string="Contact info">
+                <div class="oe_title">
+                    <label for="line_type_id" class="oe_edit_only"/>
+                    <h3>
+                        <field name="line_type_id" placeholder="Title" required="True" domain="[('groups', '=', 'client_group')]"/>
+                    </h3>
+                    
+                </div>
+                <group>
+                    <group string="Main Details">
+                        <field name="name_main" string="Name"/>
+                        <field name="job_position" />
+                        <field name="phone_main" string="Phone"/>
+                        <field name="email_main" string="Email"/>
+                        <field name="display_type" invisible="1"/>
+                    </group>
+                    <group string="CC Details">
+                        <field name="name_cc" string="Name"/>
+                        <field name="phone_cc" string="Phone"/>
+                        <field name="email_cc" string="Email"/>
+
+                    </group>                    
+                </group>
+                <field name="description" placeholder="Description"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_form_inherit" model="ir.ui.view">
+        <field name="name">project.project.form.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <page name="emails" position="after">
+                <page string="Contact Information" name="contact_info">
+                    <div class="row">
+                        <div class="o_contact_group o_group_contact col-lg-6 d-flex">
+                            <!-- This field uses a custom tree view rendered by the 'hr_resume' widget.
+                                Adding fields in the tree arch below makes them accessible to the widget
+                            -->
+                            <group string="Company Side Contact Details">
+                            <field mode="kanban" nolabel="1" name="contact_info_company_line_ids" context="{'default_parent_id': active_id}">
+                                <kanban  create="true" delete="true">
+                                    <field name="line_type_id"/>
+                                    <field name="name_main"/>
+                                    <field name="phone_main"/>
+                                    <field name="email_main"/>
+                                    <field name="name_cc"/>
+                                    <field name="phone_cc"/>
+                                    <field name="email_cc"/>
+                                    
+                                    <field name="description"/>
+                                    <field name="display_type" invisible="1"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            
+                                            <div class="oe_kanban_global_click">
+                                               
+                                                <div class="oe_kanban_details">
+                                                    <div t-if="record.line_type_id.raw_value"><h3><field name="line_type_id"/></h3></div>
+                                                    <div t-if="record.name_main.raw_value"><strong><span>Name: </span></strong><field name="name_main"/></div>
+                                                    <div t-if="record.phone_main.raw_value"><strong><span>Phone: </span></strong><field name="phone_main"/></div>
+                                                    <div t-if="record.email_main.raw_value"><strong><span>Email: </span></strong><field name="email_main" widget="email"/>
+                                                </div>
+                                                    
+                                                </div>
+                                          
+                                            </div>
+                                        </t>
+                                    </templates>
+                                     
+                                </kanban>
+                            </field>
+                        </group>
+                        </div>
+                        <div class="o_contact_group o_group_contact col-lg-6 d-flex">
+                            <!-- This field uses a custom tree view rendered by the 'hr_resume' widget.
+                                Adding fields in the tree arch below makes them accessible to the widget
+                            -->
+                            <group string="Client Side Contact Details">
+                            <field mode="kanban" nolabel="1" name="contact_info_client_line_ids"  context="{'default_parent_id': active_id}">
+                                <kanban  create="true" delete="true">
+                                    <field name="line_type_id"/>
+                                    <field name="name_main"/>
+                                    <field name="phone_main"/>
+                                    <field name="email_main"/>
+                                    <field name="name_cc"/>
+                                    <field name="phone_cc"/>
+                                    <field name="email_cc"/>
+                                    <field name="description"/>
+                                   
+                                    <field name="display_type" invisible="1"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            
+                                            <div class="oe_kanban_global_click">
+                                                
+                                                <div class="oe_kanban_details">
+                                                   <div t-if="record.line_type_id.raw_value"><h3><field name="line_type_id"/></h3></div>
+                                                    <div t-if="record.name_main.raw_value"><strong><span>Name: </span></strong><field name="name_main"/></div>
+                                                    <div t-if="record.phone_main.raw_value"><strong><span>Phone: </span></strong><field name="phone_main"/></div>
+                                                    <div t-if="record.email_main.raw_value"><strong><span>Email: </span></strong><field name="email_main" widget="email"/></div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                     
+                                </kanban>
+                            </field>
+                        </group>
+                        </div>
+                    </div>
+                </page>
+            </page>
+        </field>
+    </record>
+
+
+ <!-- contact information types -->
+    <record id="project_contact_info_line_type_tree_view" model="ir.ui.view">
+        <field name="name">project.contact.info.line.type.tree.view</field>
+        <field name="model">project.contact.info.line.type</field>
+        <field name="arch" type="xml">
+            <tree name="Contact info Types" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="groups"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="project_contact_info_line_type_action" model="ir.actions.act_window">
+        <field name="name">Project Contact Info Line Types</field>
+        <field name="res_model">project.contact.info.line.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_project_configuration_contacts"
+            name="Project Contact Details"
+            parent="project.menu_project_config"
+            sequence="4"
+            groups="base.group_no_one"/>
+
+    <menuitem
+        id="project_contact_info_line_type_menu"
+        name="Types"
+        action="project_contact_info_line_type_action"
+        parent="project_contact_info.menu_project_configuration_contacts"
+        sequence="3"
+        groups="base.group_no_one"/>
+
+
+    
+</odoo>

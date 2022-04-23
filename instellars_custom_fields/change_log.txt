@@ -1,0 +1,56 @@
+13.0.0.13 --> 13.0.0.14
+
+Author: Madhukumar
+Date: 31-07-2020
+Changes Made:
+    1) Extended with Task Count for respected employee and task views.
+    2) Added project details while assigning employee from demand screen.
+    3) Project Specific employee related details in list view under the Employee Menu.
+
+13.0.0.20 --> 13.0.0.21
+
+Author: Madhukumar
+Date: 26-11-2020
+Changes Made:
+    1) addes groups for employee fields
+
+
+13.0.0.21 --> 13.0.0.22
+
+Aunthor:Madhukumar
+Date:11-03-2021
+Changes Made:
+        1) Domain in demand genration view
+        2) inherited employee base added all the fields to employee bto employee base for bugg fixes in accessing.
+
+13.0.0.22 --> 13.0.0.23
+
+Author:Subbaiah C T
+Date:26-03-2021
+Changes Made:
+        1) Added two new fields i.e, previous_company_salary_slip2 and previous_company_salary_slip3
+
+
+13.0.0.23 --> 13.0.0.24
+
+Author:Subbaiah C T
+Date:26-03-2021
+Changes Made:
+        1) String name change of three fields. i.e, Previous Company Last Month Salary Slip ,Previous Company 2nd Last Month Salary Slip,Previous Company 3rd Last Month Salary Slip.
+        Changes are made based on client requirement.
+
+13.0.0.24 --> 13.0.0.25
+
+Author:Subbaiah C T
+Date:26-03-2021
+Changes Made:
+        1) Added a new inverse function to make the confirmation_date readonly false.
+
+13.0.0.25 --> 13.0.0.26
+
+Author:Subbaiah C T
+Date:26-03-2021
+Changes Made:
+        1) Revised the inverse function.
+  
+

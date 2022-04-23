@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="joiningbonus_offer_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars offer Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">28</field>
+            <field name="margin_left">14</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="joining_offer_letter_instellars"
+                model="hr.applicant"
+                string="Joining Bonus Offer Letter"
+                report_type="qweb-pdf"
+                name="instellars_joiningbonus_offerletter_report.joiningbonus_offer_letter_template"
+                file="instellars_joiningbonus_offerletter_report.joiningbonus_offer_letter_template"
+                attachment="((object.name or 'JBOL')+'.pdf')"
+                print_report_name="(object.company_id.id == 1 and '%s_IN' % (object.annexure_id.ref_no)) or '%s_SG' % (object.annexure_id.ref_no)"
+                paperformat="instellars_joiningbonus_offerletter_report.joiningbonus_offer_letter_paper_format"
+        />
+     
+        <template id="joiningbonus_offer_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page" >
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_joiningbonus_offerletter_report.external_layout_offer_letter">
+                        <div class="row" style="padding-top:10px">
+                            <div class="col-12 text-center">
+                                <h4 style="text-decoration:underline;font-weight:900;">Offer letter</h4>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="
+                              line-height:1.2 !important;"> <p><span t-esc="o.get_date_for_jbol()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="
+                              line-height:1.2 !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                <strong style="
+                              line-height:1.2 !important;"> <p><span t-esc="o.partner_name"/><br/>
+                                <span t-field="o.email_from"/><br/>
+                                <span t-field="o.partner_mobile"/></p></strong>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12"><br/>
+                                <strong style="
+                              line-height:1.2 !important;"><p>Dear <span t-esc="o.partner_name"/>,</p></strong> 
+
+                                <p style="line-height:1.2 !important;">We take great pleasure in inviting you to be an integral part of Instellars Global Consulting.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">Congratulations on being selected for the position of <strong><span t-esc="o.job_id.name"/></strong> and we are pleased to extend this offer of employment to you, this offer is contingent satisfactory completion of your reference checks and medical examination.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">Your per annum fixed <strong>Cost to Company (CTC) </strong>(inclusive of all statutory payments that one is liable for) shall be <strong> Rs.&#160;<span t-esc="'{0}'.format(int(o.annexure_id.wage))"/> ( <span t-esc="o.amount_words(o.annexure_id.wage)"/> ) </strong> This CTC would be reviewed practically as per the norms and practices of the company. Please refer to the <strong>Annexure 1.</strong></p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">Your date of joining will not be later than <strong><span t-esc="o.offer_date_of_join.strftime('%B %d, %Y')"/></strong>, and your employment location will be in <strong>&#160;<span t-esc="o.annexure_id.employement_loc_ind.name"/></strong>, company reserve the right to depute to any location based on the employment requirement. Post successful completion of 1 month, company will pay you a signing bonus of Rs. <strong><span t-esc="'{0}'.format(int(o.jb_amount))"/></strong>(Taxable) and up on completion of 4th month, company will pay you a signing bonus of Rs. <strong><span t-esc="'{0}'.format(int(o.jb_amount))"/></strong>(Taxable). The Joining Bonus will be recoverable if you leave the company before 1 year. You will be on probation for the first 3 months, and to be confirmed on successful evaluation. You would need to serve notice period of two months, in occasion of resignation from the service.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">As a part of the joining process, you are requested to send the soft copy to HR upon accepting the offer letter.</p>
+                                <ol style="margin-left:50px;line-height:1.2 !important;">
+                                   <li> Relieving letter from the previous organization or Accepted Resignation letter</li>
+                                   <li> Last 3 months pay stubs</li>
+                                   <li> ID (passport Copy, PAN and Aadhar)</li>
+                                   <li> Passport size photograph 3 Nos</li>
+                                   <li> Educational Degree(s) Mark sheet(s)</li>
+                                   <li> Form 16 (Income Tax), from previous employer (if applicable)</li>
+                                   <li> Relevant Certifications</li>
+                                </ol>
+
+                                <p style="text-align:justify;line-height:1.2 !important;"><strong>Please bring the original education certificates / mark sheets for verification.</strong></p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">Please sign the copy of this letter and return it within 2 days, to indicate the acceptance of this offer. The Letter of appointment would be issued at the time of joining after completing the joining formalities as per company policy. This offer supersedes any discussions on this subject or offers made to you previously. The details of this offer are strictly confidential and may not be disclosed.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;">We look forward to you having a long and successful relationship with Instellars.</p>   
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="line-height:1.2 !important;">Yours sincerely,<br/>
+                                For <strong><span t-esc="o.company_id.name"/></strong></p><br/>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;line-height:1.2 !important;">I hereby accept the offer and terms set forth in this<br/>letter</p><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;"><b>Gopinath MN</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;"><b>Candidate Name: <span t-esc="o.partner_name"/></b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;"><b>Director</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;"><b>Date:</b></p>
+                            </div>
+                        </div>
+                        <p style="page-break-after:always"></p>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <b><u><span style="font-size;22px; !important">Annexure 1</span></u></b>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong> <p><span t-esc="o.get_date_for_jbol()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                        </div><br/>
+                      <table class="table" style="width:100%;border:2px solid black;margin-bottom:0 !important;">
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Name: <span t-esc="o.partner_name"/></span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Date of Joining</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span t-esc="o.offer_date_of_join.strftime('%B %d, %Y')"/></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Designation:&#160;<span t-esc="o.job_id.name"/></span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Fixed</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span t-esc="'{0}'.format(int(o.annexure_id.wage))"/></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span t-esc="'{0}'.format(int((o.annexure_id.wage)/12))"/></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Component</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Yearly&#160;(&#8377;)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>Monthly&#160;(&#8377;)</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Basic (A)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BASIC' == line.code">
+                                        <span t-esc="'{0}'.format(int(line.yearly_total))"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BASIC' == line.code">
+                                        <span t-esc="'{0}'.format(int(line.monthly_total))"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>BOA (B)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BOA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BOA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>HRA</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'HRA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'HRA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Conveyance</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'SA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'SA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Medical</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'MA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'MA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>LTA</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'LTA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'LTA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Special Allowances</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'CCA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                    <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'CCA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>PF(C)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'PF' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'PF' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>   
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Fixed (A+B+C)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong> <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Flexible Component (*) (D)</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>-</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span>-</span></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Cost to Company (A+B+C+D)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td style="border:2px solid black;padding:1px;" colspan="3">
+                               <span>
+                                   ** Net Take home is further subject to reduce by an amount equivalent to Professional Tax
+                                        and TDS(Income Tax on salary)<br/>
+                                    ** As per the Statutory requirement, equal amount will be contributed to the employee’s
+                                    Provident Fund and same will be deducted from Monthly gross salary of the employee
+                               </span>
+                            </td>
+                        </tr>  
+                    </table>
+                    <br/><br/>
+                    <div class="row">
+                            <div class="col-6">
+                                <p>Yours sincerely,<br/>
+                                For <strong><span t-esc="o.company_id.name"/></strong></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;">I hereby accept the offer and terms set forth in this<br/>letter</p><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p><b>Gopinath MN</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;"><b>Candidate Name: <span t-esc="o.partner_name"/></b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p><b>Director</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;"><b>Date:</b></p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_demands_demand2opportunity_partner" model="ir.ui.view">
+        <field name="name">demands.demand2opportunity.partner.form</field>
+        <field name="model">demands.demand2opportunity.partner</field>
+        <field name="arch" type="xml">
+            <form string="Convert to Opportunity">
+                <group name="name">
+                    <field name="name" widget="radio"  invisible="True"/>
+                    <field name="partner_id"/>
+                </group>
+                <group>
+                    <field name="user_id"/>                     
+                </group>
+                <footer>
+                    <button name="action_apply" string="Create Opportunity" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_crm_demand2opportunity_partner" model="ir.actions.act_window">
+        <field name="name">Convert to opportunity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">demands.demand2opportunity.partner</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_demands_demand2opportunity_partner"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

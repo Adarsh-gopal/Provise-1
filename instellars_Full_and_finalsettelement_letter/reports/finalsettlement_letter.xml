@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="finalsettlement_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars finalsettlement letter Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">25</field>
+            <field name="margin_bottom">38</field>
+            <field name="margin_left">14</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="instellars_Full_and_finalsettelement_letter"
+                model="hr.payslip"
+                string="F&amp;F Letter"
+                report_type="qweb-pdf"
+                name="instellars_Full_and_finalsettelement_letter.finalsettlement_letter"
+                file="instellars_Full_and_finalsettelement_letter.finalsettlement_letter"
+                attachment="'F&amp;F Letter - %s' % (object.employee_id.name)"
+                print_report_name="'F&amp;F Letter - %s' % (object.employee_id.name)"
+                paperformat="instellars_Full_and_finalsettelement_letter.finalsettlement_letter_paper_format"
+        />
+     
+        <template id="finalsettlement_letter">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_Full_and_finalsettelement_letter.external_layout_finalsettlement_letter">
+                        <br/><br/><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong><p>Date: &#160;<span t-esc="o.get_date()"/></p></strong><br/>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6" style="line-height:1.3 !important;">
+                                <strong><p><span t-esc="o.employee_id.title.name"/> <span t-esc="o.employee_id.name"/>,<br/>
+                                REF: -<span t-esc="o.employee_id.registration_number"/></p></strong><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <strong><u><p style="text-decoration:underline;">Subject: - Full and final Settlement</p></u></strong>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6"><br/>
+                                <p>Dear <strong><span t-esc="o.employee_id.name"/>,</strong></p>
+                            </div>
+                        </div>
+                        <div style="padding:8px">
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="line-height:1.3 !important;">
+                                <p>In continuation of your resignation letter dated <strong><span t-esc="o.employee_id.resigned_date.strftime('%d-%B-%Y')"/></strong> and subsequent relieving from your duties on <span t-esc="o.employee_id.notice_period.strftime('%d-%B-%Y')"/>, your full &amp; final settlement has been prepared in line with the terms &amp; conditions of your appointment letter.</p>
+
+                                <p style="text-align:justify;">F&amp;F payout has been done on <strong><span t-esc="o.get_date()"/></strong> for 
+                                <t t-set="totnet" t-value="0.0"/>
+                                <t t-foreach="o.pay_in_ids" t-as="line">
+                                <t t-if="'NET' == line.code">
+                                    <t t-set="totnet" t-value="totnet+(line.total)"/>
+                                        <b><span t-esc="'{:,}'.format(totnet)"/>&#160;/-</b>
+                                        <b><span t-esc="(line.amount_words(totnet))"/></b>
+                                    </t>
+                                    </t> towards your full &amp; final settlement. Also attached is the statement of settlement of account.</p>
+
+                                <p style="text-align:justify;">With this, your account is settled with our company and nothing is due from the company to you.</p>
+                              </div>
+                        </div><br/><br/><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Thank you</p>
+                            </div>
+                        </div>
+                        <div style="padding:8px">
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>For<strong> <span t-esc="o.company_id.name"/></strong></p><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{6}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p><b>Tulika Kumari</b></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p><b>HR manager</b></p>
+                            </div>
+                        </div>
+                    </t>
+                    </t>
+                    </div>
+                </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

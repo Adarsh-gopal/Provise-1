@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_degree,hr.employee.degree,model_hr_employee_degree,,1,1,1,1
+access_hr_employee_degree_type,hr.employee.degree.type,model_hr_employee_degree_type,,1,1,1,1
+access_hr_employee_degree_division,hr.employee.degree.division,model_hr_employee_degree_division,,1,1,1,1
+access_hr_employee_domain,hr.employee.domain,model_hr_employee_domain,,1,1,1,1 
+access_hr_change_reason,hr.change.reason,model_hr_change_reason,hr.group_hr_user,1,1,1,1 
+access_hr_resign_reason,hr.resign.reason,model_hr_resign_reason,,1,1,1,1 
+access_hr_offboarding_reason,hr.offboarding.reason,model_hr_offboarding_reason,,1,1,1,1 
+access_reschedule_reason,reschedule.reason,model_reschedule_reason,,1,1,1,1 
+access_hr_reject_reason,hr.reject.reason,model_hr_reject_reason,,1,1,1,1 
+access_hr_location,hr.location,model_hr_location,hr.group_hr_user,1,1,1,1 
+access_experience_range,experience.range,model_experience_range,hr.group_hr_user,1,1,1,1 
+access_delivery_sites,delivery.sites,model_delivery_sites,hr.group_hr_user,1,1,1,1 
+access_skills_rate_card_lines,skills.rate.card.lines,model_skills_rate_card_lines,hr.group_hr_user,1,1,1,1 
+access_employee_status,employee.status,model_employee_status,,1,1,1,1
+access_educational_course,educational.course,model_educational_course,,1,1,1,1

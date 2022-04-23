@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="applicant_annexures_view_search" model="ir.ui.view">
+            <field name="name">hr.applicant.annexure.search</field>
+            <field name="model">hr.applicant.annexure</field>
+            <field name="arch" type="xml">
+                <search string="Search Annexure">
+                    <field name="name" string="Annexure"/>
+  
+                    <field name="applicant_id"/>
+                    <field name="job_id"/>
+                    <!-- <filter string="Running" name="running" domain="[('state', '=', 'open')]"/> -->
+              
+                    <separator/>
+
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+               <!--          <filter string="Applicant" name="applicant" domain="[]" context="{'group_by': 'applicant_id'}"/>
+                        <filter string="Job Position" name="job" domain="[]" context="{'group_by': 'job_id'}"/> -->
+                        <filter string="Status" name='group_by_state' domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="applicant_annexures_view_form" model="ir.ui.view">
+            <field name="name">hr.applicant.annexure.form</field>
+            <field name="model">hr.applicant.annexure</field>
+            <field name="arch" type="xml">
+                <form string="Annexure-I">
+                    <header>
+                        <button string="Compute Sheet" name="compute_sheet" type="object"  class="oe_highlight" attrs="{'invisible': [('preferred_country','!=', 104)]}"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" text="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title pr-0" name="title">
+                        <h1 class="d-flex flex-row justify-content-between">
+                            <field name="name" class="text-truncate" placeholder="annexure Reference"/>
+                            <field name="kanban_state" widget="state_selection"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="ref_no"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="applicant_name"/>
+                            <field name="applicant_id" domain="[('stage_id.name','ilike','Managerial Discussion')]" options="{'no_create_edit': True, 'no_create': True}"/>
+                            <field name="struct_id"  attrs="{'invisible': [('preferred_country','!=',104)],'required':[('preferred_country','=',104)]}"/>
+                            <field name="preferred_country" />
+                            <field name="employement_loc_ind" attrs="{'invisible': [('preferred_country','!=', 104)]}" />
+                            <field name="employement_loc_others" attrs="{'invisible': [('preferred_country','=', 104)]}" />
+
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="job_id"/>
+                             <field name="hr_responsible_id"/>
+                        </group>
+                    </group>
+                        <group name="main_info">
+                            <group name="salary_and_advantages" string="CTC">
+                                <label for="wage"/>
+                                <div class="o_row" name="wage">
+                                    <field name="wage" nolabel="1"/>
+                                    <span  attrs="{'invisible': [('preferred_country','!=', 104)]}">/ Year</span>
+                                    <span  attrs="{'invisible': [('preferred_country','=', 104)]}">/ Month</span>
+                                </div>
+                                <field name="advantages" nolabel="1" placeholder="Advantages..." colspan="2" invisible="1"/>
+                                <label for="medical_allowance" attrs="{'invisible': [('preferred_country','!=', 104)]}"/>
+                                <div class="o_row" name="medical_allowance" attrs="{'invisible': [('preferred_country','!=', 104)]}">
+                                    <field name="medical_allowance"  readonly="True" required="True" nolabel="1"/>
+                                    <span>/ Year</span>
+                                </div>
+                                <label for="conveyance" attrs="{'invisible': [('preferred_country','!=', 104)]}"/>
+                                <div class="o_row" name="conveyance" attrs="{'invisible': [('preferred_country','!=', 104)]}">
+                                    <field name="conveyance" readonly="True"  required="True" nolabel="1"/>
+                                    <span>/ Year</span>
+                                </div>
+                               
+                            </group>
+                            <group>
+                                <field name="offer_type_ind" attrs="{'invisible': [('preferred_country','!=', 104)]}" readonly="1"/>
+                                <field name="offer_type_others" attrs="{'invisible': [('preferred_country','=', 104)]}" readonly="1"/>
+                            </group>
+                        </group>
+                    <notebook>
+                        <page string="Annexure Details" name="other"  attrs="{'invisible': [('preferred_country','!=', 104)]}">
+                            <group>
+                                <field name="line_ids" colspan="4" nolabel="1">
+                                    <tree string="Salary Structure" editable="bottom" >
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <!-- <field name="category_id"/> -->
+                                        <field name="sequence" invisible="1"/>
+                                        <field name="yearly_total"/>
+                                        <field name="monthly_total"/>
+                                        <field name="salary_rule_id"/>
+                                        
+                                    </tree>
+                                    <form string="Annexure Line">
+                                        <group col="4">
+                                            <field name="name"/>
+                                            <field name="code"/>
+                                            <field name="category_id"/>
+                                            <field name="sequence"/>
+                                            <field name="yearly_total"/>
+                                            <field name="monthly_total"/>
+                                           
+                                            <field name="salary_rule_id"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </group>
+                        </page>
+
+                    </notebook>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="applicant_annexures_view_tree" model="ir.ui.view">
+            <field name="name">hr.applicant.annexure.tree</field>
+            <field name="model">hr.applicant.annexure</field>
+            <field name="arch" type="xml">
+                <tree string="Annexure-I">
+                    <field name="name"/>
+                    <field name="applicant_id"/>
+                    <field name="job_id"/>
+                    <field name="ref_no"/>
+                   
+                    <field name="state"/>
+                    <field name="kanban_state" widget="state_selection" readonly="1"/>
+                    <field name="wage" invisible="1"/>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="applicant_annexures_view_kanban" model="ir.ui.view">
+            <field name="name">hr.applicant.annexure.kanban</field>
+            <field name="model">hr.applicant.annexure</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="applicant_id"/>
+                    <field name="activity_state"/>
+                    <field name="state"/>
+                    <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown" t-if="!selection_mode" groups="base.group_user">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit Annexure</a></t>
+                                    <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div class="o_applicant_annexures_state">
+                                    <field name="kanban_state" widget="state_selection" />
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/><br/>
+                                        <field name="ref_no"/>
+                                    </strong>
+                                </div>
+                                <div class="text-muted o_kanban_record_subtitle o_applicant_annexures_job_id">
+                                   
+                                    <field name="applicant_id"/>
+                                </div>
+                            
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+
+
+        <record id="action_applicant_annexures" model="ir.actions.act_window">
+            <field name="name">Annexure_I</field>
+            <field name="res_model">hr.applicant.annexure</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('applicant_id', '!=', False)]</field>
+            <field name="context">{'search_default_current':1, 'search_default_group_by_state': 1}</field>
+            <field name="search_view_id" ref="applicant_annexures_view_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new Annexure-I
+              </p>
+            </field>
+        </record>
+
+
+        <menuitem
+            id="hr_menu_annexure"
+            name="Offer Letter Annexure-I"
+            action="action_applicant_annexures"
+            parent="hr_recruitment.menu_crm_case_categ0_act_job"
+            sequence="4"/>
+
+</odoo>

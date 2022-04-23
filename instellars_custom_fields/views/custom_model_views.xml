@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+<!-- change reason View -->
+    <record model="ir.ui.view" id="hr_job_change_reason_tree">
+        <field name="name">hr.change.reason.tree</field>
+        <field name="model">hr.change.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Job Change Reasons" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- job cahnge reason View -->
+    <record model="ir.ui.view" id="hr_job_change_reason_form">
+        <field name="name">hr.change.reason.form</field>
+        <field name="model">hr.change.reason</field>
+        <field name="arch" type="xml">
+            <form string="Job Change Reasons">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="hr_job_change_reason_action" model="ir.actions.act_window">
+        <field name="name">Job changing Reason</field>
+        <field name="res_model">hr.change.reason</field>
+        <field name="view_id" ref="hr_job_change_reason_tree"/>
+    </record>
+
+<!--<menuitem
+        id="menu_hr_configuration_employee_degree"
+        name="Education"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"/> -->
+
+    <menuitem
+        id="menu_hr_job_change_reason"
+        name="Reason For Changing"
+        action="instellars_custom_fields.hr_job_change_reason_action"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"
+        />
+
+<!-- *********************************** For current locations******************************** -->
+
+<!-- current location Tree View -->
+    <record model="ir.ui.view" id="location_tree">
+        <field name="name">hr.location.tree</field>
+        <field name="model">hr.location</field>
+        <field name="arch" type="xml">
+            <tree string="Locations" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- current location Form View -->
+    <record model="ir.ui.view" id="location_form">
+        <field name="name">hr.location.form</field>
+        <field name="model">hr.location</field>
+        <field name="arch" type="xml">
+            <form string="locations">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- current locations Action -->
+    <record id="location_action" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="res_model">hr.location</field>
+        <field name="view_id" ref="location_tree"/>
+    </record>
+
+<!--     <menuitem
+        id="menu_hr_configuration_employee_degree"
+        name="Education"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"/> -->
+
+        <menuitem
+            id="location_menu"
+            name="Locations"
+            action="instellars_custom_fields.location_action"
+            parent="hr_recruitment.menu_hr_recruitment_configuration"
+            
+            sequence="2"
+            />
+
+<!-- ***********************************Experience Level******************************** -->
+
+<!-- Experience Level Tree View -->
+    <record model="ir.ui.view" id="experience_range_tree">
+        <field name="name">experience.range.tree</field>
+        <field name="model">experience.range</field>
+        <field name="arch" type="xml">
+            <tree string="Experinece Range" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Experience Level Form View -->
+    <record model="ir.ui.view" id="experience_range_form">
+        <field name="name">experience.range.form</field>
+        <field name="model">experience.range</field>
+        <field name="arch" type="xml">
+            <form string="Experinece Range">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Experience Level Action -->
+    <record id="experience_range_action" model="ir.actions.act_window">
+        <field name="name">Experience Range</field>
+        <field name="res_model">experience.range</field>
+        <field name="view_id" ref="experience_range_tree"/>
+    </record>
+
+
+        <menuitem
+            id="experinece_range_menu"
+            name="Experience(min-max)"
+            action="instellars_custom_fields.experience_range_action"
+            parent="hr.menu_human_resources_configuration"
+            
+             sequence="3"
+            />
+
+
+<!-- ***********************************Experience Level******************************** -->
+
+<!-- Experience Level Tree View -->
+    <record model="ir.ui.view" id="delivery_sites_tree">
+        <field name="name">delivery.sites.tree</field>
+        <field name="model">delivery.sites</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Sites" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Experience Level Form View -->
+    <record model="ir.ui.view" id="delivery_sites_form">
+        <field name="name">delivery.sites.form</field>
+        <field name="model">delivery.sites</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Sites">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Experience Level Action -->
+    <record id="delivery_sites_action" model="ir.actions.act_window">
+        <field name="name">Delivery Sites</field>
+        <field name="res_model">delivery.sites</field>
+        <field name="view_id" ref="delivery_sites_tree"/>
+    </record>
+
+
+        <menuitem
+            id="delivery_sites_menu"
+            name="Delivery Sites"
+            action="instellars_custom_fields.delivery_sites_action"
+            parent="hr.menu_human_resources_configuration"
+            
+            sequence="4"
+            />
+
+<!-- *******************************Employee resign reason**************************************************** -->
+    <record model="ir.ui.view" id="hr_employee_resign_reason_tree">
+        <field name="name">hr.resign.reason.tree</field>
+        <field name="model">hr.resign.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Resign Reason" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- job cahnge reason View -->
+    <record model="ir.ui.view" id="hr_employee_resign_reason_form">
+        <field name="name">hr.resign.reason.form</field>
+        <field name="model">hr.resign.reason</field>
+        <field name="arch" type="xml">
+            <form string="Employee Resign Reason">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="hr_employee_resign_reason_action" model="ir.actions.act_window">
+        <field name="name">Employee Resign Reason</field>
+        <field name="res_model">hr.resign.reason</field>
+        <field name="view_id" ref="hr_employee_resign_reason_tree"/>
+    </record>
+
+
+    <menuitem
+        id="menu_hr_employee_resign_reason"
+        name="Employee Resign Reasons"
+        action="instellars_custom_fields.hr_employee_resign_reason_action"
+        parent="hr.menu_human_resources_configuration"
+        
+        sequence="1"
+        />
+
+
+<!-- *******************************Employee offboarding reason**************************************************** -->
+    <record model="ir.ui.view" id="hr_employee_offboarding_reason_tree">
+        <field name="name">hr.offboarding.reason.tree</field>
+        <field name="model">hr.offboarding.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Employee offboarding Reason" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- jEmployee offboarding reason View -->
+    <record model="ir.ui.view" id="hr_employee_offboarding_reason_form">
+        <field name="name">hr.offboarding.reason.form</field>
+        <field name="model">hr.offboarding.reason</field>
+        <field name="arch" type="xml">
+            <form string="Employee offboarding Reason">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Employee offboarding reason Action -->
+    <record id="hr_employee_offboarding_reason_action" model="ir.actions.act_window">
+        <field name="name">Employee offboarding Reason</field>
+        <field name="res_model">hr.offboarding.reason</field>
+        <field name="view_id" ref="hr_employee_offboarding_reason_tree"/>
+    </record>
+
+
+    <menuitem
+        id="menu_hr_employee_offboarding_reason"
+        name="Project offboarding Reasons"
+        action="instellars_custom_fields.hr_employee_offboarding_reason_action"
+        parent="hr.menu_human_resources_configuration"
+        
+        sequence="1"
+        />
+
+<!-- *******************************Candidates Reject reason**************************************************** -->
+    <record model="ir.ui.view" id="hr_candidate_reject_reason_tree">
+        <field name="name">hr.reject.reason.tree</field>
+        <field name="model">hr.reject.reason</field>
+        <field name="arch" type="xml">
+            <tree string="candidate reject Reason" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- job cahnge reason View -->
+    <record model="ir.ui.view" id="hr_candidate_reject_reason_form">
+        <field name="name">hr.reject.reason.form</field>
+        <field name="model">hr.reject.reason</field>
+        <field name="arch" type="xml">
+            <form string="candidate reject Reason">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="hr_candidate_reject_reason_action" model="ir.actions.act_window">
+        <field name="name">candidate reject Reason</field>
+        <field name="res_model">hr.reject.reason</field>
+        <field name="view_id" ref="hr_candidate_reject_reason_tree"/>
+    </record>
+
+
+    <menuitem
+        id="menu_hr_candidate_reject_reason"
+        name="Candidate Reject Reasons"
+        action="instellars_custom_fields.hr_candidate_reject_reason_action"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"
+        />
+
+<!-- *******************************Candidates Reject reason**************************************************** -->
+    <record model="ir.ui.view" id="reschedule_reason_tree">
+        <field name="name">reschedule.reason.tree</field>
+        <field name="model">reschedule.reason</field>
+        <field name="arch" type="xml">
+            <tree string="candidate reject Reason" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- job cahnge reason View -->
+    <record model="ir.ui.view" id="reschedule_reason_form">
+        <field name="name">reschedule.reason.form</field>
+        <field name="model">reschedule.reason</field>
+        <field name="arch" type="xml">
+            <form string="candidate reject Reason">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="reschedule_reason_action" model="ir.actions.act_window">
+        <field name="name">Reschedule Reason</field>
+        <field name="res_model">reschedule.reason</field>
+        <field name="view_id" ref="reschedule_reason_tree"/>
+    </record>
+
+
+    <menuitem
+        id="menu_reschedule_reason"
+        name="Re-Schedule Reasons"
+        action="instellars_custom_fields.reschedule_reason_action"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"
+        />
+
+
+        <record model="ir.ui.view" id="employee_status_tree">
+            <field name="name">employee.status.tree</field>
+            <field name="model">employee.status</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Status" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="employee_status_action" model="ir.actions.act_window">
+            <field name="name">Employee Status</field>
+            <field name="res_model">employee.status</field>
+            <field name="view_id" ref="employee_status_tree"/>
+        </record>
+
+
+        <menuitem
+            id="menu_employee_status"
+            name="Employee Status"
+            action="instellars_custom_fields.employee_status_action"
+            parent="hr.menu_human_resources_configuration"
+            
+            sequence="1"
+            />
+
+
+       <record model="ir.ui.view" id="educational_course_tree">
+            <field name="name">educational.course.tree</field>
+            <field name="model">educational.course</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Status" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="educational_course_action" model="ir.actions.act_window">
+            <field name="name">Employee Status</field>
+            <field name="res_model">educational.course</field>
+            <field name="view_id" ref="educational_course_tree"/>
+        </record>
+
+
+        <menuitem
+            id="menu_educational_course"
+            name="Courses"
+            action="instellars_custom_fields.educational_course_action"
+            parent="hr_recruitment.menu_hr_recruitment_configuration"
+            />
+
+
+    </data>
+</odoo>

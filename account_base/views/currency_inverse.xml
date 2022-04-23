@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_currency_rate_tree_change_precision" model="ir.ui.view">
+            <field name="name">view_currency_rate_tree_change_precision</field>
+            <field name="model">res.currency.rate</field>
+            <field name="inherit_id" ref="base.view_currency_rate_tree"/>
+            <field name="arch" type="xml">
+                <field name="rate" position="before">
+                    <field name="inverse_rate" digits="[12,3]"/>
+                </field>
+            
+            </field>
+        </record>
+
+        <record id="view_currency_rate_form_change_precision" model="ir.ui.view">
+            <field name="name">view_currency_rate_form_change_precision</field>
+            <field name="model">res.currency.rate</field>
+            <field name="inherit_id" ref="base.view_currency_rate_form"/>
+            <field name="arch" type="xml">
+                <field name="rate" position="before">
+                    <field name="inverse_rate" digits="[12,3]"/>
+                </field>
+            </field>
+              
+        </record>
+
+    </data>
+</odoo>

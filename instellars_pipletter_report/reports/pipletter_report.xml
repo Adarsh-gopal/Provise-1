@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pip_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars Performance Improvement Program Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">25</field>
+            <field name="margin_bottom">38</field>
+            <field name="margin_left">12</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="pip_letter_instellars"
+                model="hr.employee"
+                string="PIP Letter"
+                report_type="qweb-pdf"
+                name="instellars_pipletter_report.pip_letter_template"
+                file="instellars_pipletter_report.pip_letter_template"
+                attachment="((object.name or 'PIP')+'.pdf')"
+                print_report_name="'PIP_%s_%s' % (object.registration_number,time.strftime('%y'))"
+                paperformat="instellars_pipletter_report.pip_letter_paper_format"
+               
+            />
+     
+        <template id="pip_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page" >
+                <t t-foreach="docs" t-as="o">
+                    <!-- <span t-esc="o.find_values()"/> -->
+                    <t t-call="instellars_pipletter_report.external_layout_pip_letter">
+                        <div class="row">
+                            <div class="col-12 text-center"><br/>
+                                <br/><strong style="font-size:17px !important;line-height:1.4 !important;">Performance Improvement Program (PIP)</strong>
+                            </div>
+                        </div><br/>
+                        <div style="padding:7px;"></div>
+                        <div class="row">
+                            <div class="col-6">
+                              <p><strong style="font-size: 14px !important;line-height:1.4 !important;"><span t-esc="o.get_todaydate()"/></strong></p>
+                            </div>
+                            <div class="col-6" style="text-align:right;">
+                              <p><strong style="font-size: 14px !important;line-height:1.4 !important;">Ref: <span t-esc="o.pip_ref"/></strong></p>
+                            </div>
+                        </div>
+                        <div style="padding:7px;"></div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <p style="font-size: 14px !important;line-height:1.4 !important;"><t t-if="o.title"><span t-field="o.title"/></t> <t t-if="o.name"><span t-esc="o.name"/></t><br/>
+                                 <strong>Emp Id - <t t-if="o.registration_number"><span t-esc="o.registration_number"/></t></strong></p>
+                            </div>
+                        </div>
+                        <div style="padding:7px;"></div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">Dear <strong><span t-esc="o.ename_split(o.name)"/>,</strong></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-12">
+                                <p style="text-align:justify;font-size: 14px !important;line-height:1.4 !important;">This communication is further to the performance review discussion.</p>
+
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">Following detailed discussions with you and a documentation of your performance to date, it has been found that your performance is not up to the required standard.
+                                </p>
+
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">In view of the above, you are being put in a Performance Improvement Plan for a period of 
+                                    <strong><t t-if="o.pip_duration == '1_month'"><span>1 month</span></t>
+                                            <t t-if="o.pip_duration == '2_month'"><span>2 month</span></t>
+                                            <t t-if="o.pip_duration == '3_month'"><span>3 month</span></t>
+                                    </strong>
+                                from the date of this letter.</p>
+
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">You will be evaluated on your performance by your superior and HR during the Performance Improvement Plan period. You will also receive continuous feedback on your performance. All evaluations and ratings will be shared with you.</p>
+
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">On successful completion of the Performance Improvement Plan (PIP), your employment terms and conditions will be the same on your current role. However, if during the PIP period you show no urge of improvement, or you are unable to meet the specified targets at the end of the PIP period, the company reserves the right to take any suitable disciplinary action (including termination of your employment).</p>
+
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">Sincerely,</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">for <strong><span t-esc="o.company_id.name"/>.</strong></p><br/>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -70px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="font-size: 14px !important;line-height:1.4 !important;">Gopinath MN</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="font-size: 14px !important;line-height:1.4 !important;"><b>Director</b></p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="hr_applicant_view_form_inherit_interview" model="ir.ui.view">
+        <field name="name">hr.applicant.form.inherit.interview</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <!-- <field name="partner_name" position="after">
+                <field name="bg_color" invisible="1"/>
+            </field> -->
+
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Technial-1 Evaluation">
+                        <group>
+                            <field name="tech1_interview" nolabel="1" readonly="1"/>
+                        </group>
+                    </page>
+                    <page string="Technial-2 Evaluation">
+                        <group>
+                            <field name="tech2_interview" nolabel="1"  readonly="1"/>
+                        </group>
+                    </page>
+                    <page string="Managerial Evaluation">
+                        <group>
+                            <field name="managerial_interview" nolabel="1"  readonly="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+            <field name="kanban_state" position="replace">
+                <field name="kanban_state" widget="state_selection_instellars"/>
+            </field>
+             <field name="legend_done" position="after">
+                <field name="legend_progress" invisible="1"/>
+                <field name="legend_hold" invisible="1"/>
+                <field name="legend_not_intrested" invisible="1"/>
+                <field name="legend_rescheduled" invisible="1"/>
+                <field name="legend_closed" invisible="1"/>
+            </field>
+            <field name="categ_ids" position="after">
+                <field name="igc_resume"/>
+            </field>
+
+
+        </field>
+    </record>
+
+    <record id="hr_recruitment_stage_form_interview_feedback" model="ir.ui.view">
+        <field name="name">hr.recruitment.stage.form.interview</field>
+        <field name="model">hr.recruitment.stage</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_recruitment_stage_form"/>
+        <field name="arch" type="xml">
+            <field name="fold" position="after">
+                <field name="tech1_interview_feedback_enable" string="Tech1 Interview Feedback"/>
+
+                <field name="tech2_interview_feedback_enable" string="Tech2 Interview Feedback"/>
+                <field name="managerial_interview_feedback_enable" string="Managerial Feedback"/>
+            </field>
+            <field name="legend_done" position="after">
+                <label for="legend_progress" string=" " class="o_status o_status_orange"/>
+                <field name="legend_progress" nolabel="1"/>
+                <label for="legend_hold" string=" " class="o_status o_status_yellow"/>
+                <field name="legend_hold" nolabel="1"/>
+                <label for="legend_not_intrested" string=" " class="o_status o_status_brown"/>
+                <field name="legend_not_intrested" nolabel="1"/>
+                <label for="legend_rescheduled" string=" " class="o_status o_status_blue"/>
+                <field name="legend_rescheduled" nolabel="1"/>
+                <label for="legend_closed" string=" " class="o_status o_status_purple"/>
+                <field name="legend_closed" nolabel="1"/>
+            </field>
+        </field>
+    </record>
+    <record id="hr_recruitment_stage_tree_interview_feedback" model="ir.ui.view">
+        <field name="name">hr.recruitment.stage.tree.interview</field>
+        <field name="model">hr.recruitment.stage</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_recruitment_stage_tree"/>
+        <field name="arch" type="xml">
+            <field name="fold" position="after">
+                <field name="tech1_interview_feedback_enable" string="Tech1 Interview Feedback"/>
+                <field name="tech2_interview_feedback_enable" string="Tech2 Interview Feedback"/>
+                <field name="managerial_interview_feedback_enable" string="Managerial Feedback"/>
+            </field>
+
+            
+        </field>
+    </record>
+
+    <record id="hr_kanban_view_applicant_instellars_inherit" model="ir.ui.view">
+        <field name="name">hr.applicants.kanban.instellars.inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+        <field name="arch" type="xml">
+            <!-- <field name="partner_name" position="after">
+                <field name="bg_color" invisible="1"/>
+            </field> -->
+            <xpath expr="//a[@name='action_makeMeeting']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[hasclass('dropdown-divider')]" position="before">
+                <a role="menuitem" name="trigger_reason_form" context="{'operation':'reject'}" type="object" class="dropdown-item" style="color:red">Reject</a>
+                <a role="menuitem" name="trigger_reason_form" context="{'operation':'hold'}" type="object" class="dropdown-item" style="color:yellow">Hold</a>
+                <a role="menuitem" name="trigger_reason_form" context="{'operation':'re_schedule'}" type="object" class="dropdown-item" style="color:blue">Re Schedule</a>
+                <a role="menuitem" name="update_state" context="{'operation':'done'}" type="object" class="dropdown-item" style="color:green">Selected</a>
+                <a role="menuitem" name="update_state" context="{'operation':'not_intrested'}" type="object" class="dropdown-item" style="color:brown">Not Intrested</a>
+                <a role="menuitem" name="update_state" context="{'operation':'closed'}" type="object" class="dropdown-item" style="color:purple">Closed</a>
+                <a role="menuitem" name="update_state" context="{'operation':'progress'}" type="object" class="dropdown-item" style="color:orange">In Progress</a>
+            </xpath>
+            <field name="kanban_state" position="replace">
+                <field name="kanban_state" widget="state_selection_instellars" readonly="True"/>
+            </field>
+            <field name="legend_done" position="after">
+                <field name="legend_progress" invisible="1"/>
+                <field name="legend_hold" invisible="1"/>
+                <field name="legend_not_intrested" invisible="1"/>
+                <field name="legend_rescheduled" invisible="1"/>
+                <field name="legend_closed" invisible="1"/>
+            </field>
+           <!--  <xpath expr="//div[contains(@t-attf-class, 'oe_kanban_card')]" position="attributes">
+                <attribute name="t-att-style">'background-color:'+ record.bg_color.raw_value</attribute>
+            </xpath> -->
+            
+        </field>
+    </record>
+</odoo>

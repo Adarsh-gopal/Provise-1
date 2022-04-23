@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <record id="instellars_finalsettlement_report_page_format" model="report.paperformat">
+        <field name="name">instellars finalsettlement page format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">18</field>
+        <field name="margin_bottom">7</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">2</field>
+        <field name="dpi">90</field>
+    </record>
+    <report
+        id="instellars_finalsettlement_report.payslip"
+        model="hr.payslip"
+        string="Instellars finalsettlement"
+        report_type="qweb-pdf"
+        name="instellars_finalsettlement_report.finalsettlement_report"
+        file="instellars_finalsettlement_report.finalsettlement_report"
+        attachment="(object.state == 'Draft') and ((object.name or 'INV').replace('/','_')+'.pdf')"
+        print_report_name="'Finalsettlement Payslip - %s' % (object.employee_id.name)"
+        paperformat="instellars_finalsettlement_report.instellars_finalsettlement_report_page_format"
+    />
+    <template id="finalsettlement_report">
+        <t t-call="web.html_container">
+            <style>
+                @font-face 
+                {
+                    font-family: Arial;
+                    src: url('Arial.ttf.woff');
+                }
+                body
+                {
+                    font-family: Arial !important;
+                    font-size:14px !important;
+                }
+            </style>
+            <t t-foreach="docs" t-as="o">
+            <t t-call="instellars_finalsettlement_report.external_layout_for_finalsettlement">
+            <table class="table" style="width:100%;border:1px solid white;margin-bottom:0 !important;">
+                <tr>
+                  <td style="border:1px solid white;padding:1px;" colspan="2">
+                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="height:45px;width:180px;float:left;z-index:9999,padding:1px"/>
+                        <strong><span style="padding:1px;padding-left:110px;font-size:18px !important" t-field="o.company_id.partner_id.name"/></strong><br/>
+                        <span style="font-size:14px;padding-left:50px;">
+                        <t t-foreach="o.company_id.partner_id.child_ids" t-as="l">
+                            <t t-if="l.type=='other'">
+                                <span style="padding:1px;" t-field="l.street"/>
+                                <span style="padding:1px;" t-field="l.street2"/>
+                                <span style="padding:1px;" t-field="l.city"/>
+                            </t>
+                        </t></span><br/>
+                        <strong style="padding-left:350px;"><span>FINAL SETTLEMENT</span></strong>
+                  </td>
+                </tr>
+                <tr>
+                    <td style="width:50%;border: 1px solid white;border-bottom:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        <span>Employee Number</span><br/>
+                        <span>Name:</span><br/>
+                        <span>Department:</span><br/>
+                        <span>Designation:</span><br/>
+                        <span>Location:</span><br/>
+                        <span>Date of Joining:</span><br/>
+                        <span>Submission date of resignation</span><br/>
+                        <span>Last date of working</span><br/>
+                        <span>Last salary paid</span><br/>
+                        <span>Notice period as per application Letter</span><br/> 
+                        <span>Notice Period adjustable</span><br/>
+                        <span>PL days payable</span><br/>
+                        <span>Number of days salary payable</span><br/>
+                        <span>Number of days in the month</span><br/>
+                        <span>Lop Days</span><br/>
+                        <span>Effective Workdays</span><br/>
+                    </td>
+                    <td style="width:50%;border: 1px solid white;border-bottom:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        :&#160;&#160;&#160;<span t-field="o.employee_id.registration_number"/><br/>
+                        :&#160;&#160;&#160;<span t-field="o.employee_id.name"/><br/>
+                        :&#160;&#160;&#160;<span t-field="o.employee_id.department_id"/><br/>
+                        :&#160;&#160;&#160;<span t-field="o.employee_id.job_id"/><br/>
+                        :&#160;&#160;&#160;<span t-field="o.employee_id.work_location"/><br/>
+                        :&#160;&#160;&#160;<span>
+                            <t t-if="o.employee_id.date_of_joining">
+                                <span t-esc="o.employee_id.date_of_joining.strftime('%d %b %Y')"/>
+                            </t>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                            <t t-if="o.employee_id.resigned_date">
+                                <span t-esc="o.employee_id.resigned_date.strftime('%d %b %Y')"/>
+                            </t>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                            <t t-if="o.employee_id.notice_period">
+                                <span t-esc="o.employee_id.notice_period.strftime('%d %b %Y')"/>
+                            </t>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                            <span t-esc="o.employee_id.lastsalpaid_date.strftime('%b %Y')"/>
+                        </span><br/>
+                        :&#160;&#160;&#160;
+                        <span>
+                            <t t-if="o.employee_id.get_last_working_day == 'system'">
+                            <span t-esc="60"/>
+                            </t>
+                            <t t-else=" ">
+                                <span t-esc="'0'"/>
+                            </t>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                            <t t-if="o.employee_id.get_last_working_day == 'custom'">
+                                <span t-esc="o.employee_id.notice_period_adjustable"/>
+                            </t>
+                            <t t-else=" ">
+                                <span t-esc="'0'"/>
+                            </t>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                        <!-- <t t-set="pldays" t-value="0"/>
+                            <t t-foreach="o.worked_days_line_ids" t-as="l">
+                                <t t-if="'Paid Timeoff' in l.work_entry_type_id.name">
+                                    <t t-set="pldays" t-value="'{0}'.format(int(l.number_of_days))"/>
+                                </t>
+                            </t>
+                            <span t-esc="pldays"/> -->
+                            <span t-esc="'{0}'.format(int(o.z_encash))"/>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                        <!-- <t t-foreach="o.worked_days_line_ids" t-as="l">
+                                <t t-if="l.work_entry_type_id.name == 'Attendance'">
+                                    <span t-esc="'{0}'.format(int(l.number_of_days))"/>
+                                </t> 
+                        </t> -->
+                            <span t-esc="'{0}'.format(int(o.no_days_working))"/>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                            <t t-set="total_days" t-value="o.days_in_month(o.date_from)"/>
+                            <span t-esc="total_days"/>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                        <t t-set="lopdays" t-value="0"/>
+                            <t t-foreach="o.worked_days_line_ids" t-as="l">
+                                <t t-if="'Unpaid' in l.work_entry_type_id.name">
+                                    <t t-set="lopdays" t-value="'{0}'.format(int(l.number_of_days))"/>
+                                </t>
+                            </t>
+                            <span t-esc="lopdays"/>
+                        </span><br/>
+                        :&#160;&#160;&#160;<span>
+                        <!-- <t t-set="ewdays" t-value="0"/>
+                        <t t-foreach="o.worked_days_line_ids" t-as="l">
+                                <t t-if="'Attendance' in l.work_entry_type_id.name">
+                                    <t t-set="ewdays" t-value="'{0}'.format(int(l.number_of_days))"/>
+                                </t> 
+                        </t>
+                        <span t-esc="ewdays"/> -->
+                        <span t-esc="'{0}'.format(int(o.no_days_working))"/>
+                        </span><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%;border:1px solid black;font-family: Arial !important;font-size:14px !important; padding:1px;text-align:center;">
+                        <div style="background-color:#c0c0c0;">
+                        <b><span>Income</span></b>
+                    </div>
+                    </td>
+                    <td style="width:50%;border:1px solid black;text-align:center;padding:1px;font-family: Arial !important; font-size:14px !important;">
+                        <div style="background-color:#c0c0c0;">
+                        <b><span>Deduction</span></b>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%;border:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'BASIC'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>BASIC</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'HRA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>HRA</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'SA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>CONVEYANCE</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>MEDICAL ALLOWANCE</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'CCA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>CCA</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'LTA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>LTA</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'LEVENCASH'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>LEAVE ENCASHMENT</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MV'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>MEAL VOUCHER</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </td>
+                    <td style="width:50%;border:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        <t t-set="totdud" t-value="0.0"/>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'PF'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>PF</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                            <span t-esc="'{:,}'.format(line.total)"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'PT'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>PROF TAX</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'GPH'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>GHP PREMIUM</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'IT'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>INCOME TAX</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MVD'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>MEAL VOUCHER DEDUCTION</span>
+                                        </div>
+                                        <div class="col-6" style="text-align:right">
+                                            <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                            <span t-field="line.total"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%;border:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <strong><span>Total Income:</span></strong>
+                            </div>
+                            <div class="col-6" style="text-align:right">
+                                <t t-foreach="o.pay_in_ids" t-as="line">
+                                    <t t-if="'GROSS' == line.code">
+                                        <span t-field="line.total"/><br/>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width:50%;border:1px solid black;padding:1px;font-family: Arial !important;font-size:14px !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <strong><span>Total Deductions:</span></strong>
+                            </div>
+                            <div class="col-6" style="text-align:right">
+                                <span t-esc="'%.2f'%(totdud)"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100%;border:1px solid white;padding:1px;font-family: Arial !important;font-size:14px !important;" colspan="2">
+                        <br/><span>Net Pay:INR.</span>
+                        <t t-set="totnet" t-value="0.0"/>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="'NET' == line.code">
+                                <t t-set="totnet" t-value="totnet+(line.total)"/>&#160;&#160;&#160;&#160;&#160;&#160;
+                                <b><span t-esc="'{:,}'.format(totnet)"/></b>&#160;&#160;&#160;
+                                <span style="font-style:italic;">&#160;&#160;&#160;<b><span t-esc="(line.amount_words(totnet))"/></b></span>
+                            </t>
+                        </t>
+                    </td>
+                </tr>
+        </table><br/><br/><br/>
+        <div class="row mt4">
+            <div class="col-4 text-left">
+              <p>CHECKED BY</p>
+            </div>
+            <div class="col-4 text-center">
+                <p>AUTHORIZED BY</p>
+            </div>
+            <div class="col-4 text-right">
+                <p>RECEIVED AND SIGNED</p>
+            </div>
+        </div><br/><br/><br/>
+        <div class="row">
+            <div class="col-12">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-left">
+                <p>Remarks:</p>
+            </div>
+        </div>
+        </t>
+    </t>
+</t>
+</template>
+</data>
+</odoo>

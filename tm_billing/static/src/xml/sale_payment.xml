@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="ShowSalePaymentInfo">
+        <div>
+            <table style="width:100%;">
+                <t t-foreach="lines" t-as="line">
+                    <tr>
+                        <td>
+                           <a role="button" tabindex="0" class="js_sale_payment_info fa fa-info-circle" t-att-index="line.index" style="margin-right:5px;" aria-label="Info" title="Payment Info" data-toggle="tooltip"></a>
+                        </td>
+                        <td>
+                            <i class="o_field_widget text-right o_payment_label">Posted on <t t-esc="line.posting_date"></t></i>
+                        </td>
+                  
+                        <td style="text-align:right;">
+                            <span class="oe_form_field oe_form_field_float oe_form_field_monetary" style="margin-left: -10px;">
+                                <t t-if="line.position === 'before'">
+                                    <t t-esc="line.currency"/>
+                                </t>
+                                <t t-esc="line.posting_amount"></t>
+                                <t t-if="line.position === 'after'">
+                                    <t t-esc="line.currency"/>
+                                </t>
+                            </span>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+        </div>
+    </t>
+
+    <t t-name="SalePaymentPopOver">
+        <div>
+            <table>
+                <tr>
+                    <td><strong>Invoice:</strong></td>
+                    <td><t t-esc="invoice_ref"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Delivery Site:</strong></td>
+                    <td style="text-transform:capitalize;"><t t-esc="delivery_site"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Service Period:</strong></td>
+                    <td><t t-esc="service_period"/></td>
+                </tr>
+                <tr>
+                    <td><strong>Amount: </strong></td>
+                    <td>
+                        <t t-if="position === 'before'">
+                            <t t-esc="currency"/>
+                        </t>
+                        <t t-esc="amount"></t>
+                        <t t-if="position === 'after'">
+                            <t t-esc="currency"/>
+                        </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Date: </strong></td>
+                    <td><t t-esc="date"/></td>
+                </tr>
+            </table>
+        </div>
+    </t>
+
+</templates>

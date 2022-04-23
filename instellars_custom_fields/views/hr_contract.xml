@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="hr_contract_form_custom_fields" model="ir.ui.view">
+        <field name="name">hr.contract.custom.fields</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <group name="salary_and_advantages" position="inside">
+                <label for="total_ctc"/>
+                <div class="o_row" name="total_ctc">
+                    <field name="total_ctc" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+            </group>
+        </field>
+    </record>
+
+    <record id="hr_contract_form_custom_fields_l10n" model="ir.ui.view">
+        <field name="name">hr.contract.custom.fields.l10n</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="l10n_in_hr_payroll.hr_contract_form_in_inherit"/>
+        <field name="arch" type="xml">
+            <xpath  expr="//field[@name='tds']" position="after">
+                <field name="ghp_premium"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

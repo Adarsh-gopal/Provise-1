@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="offer_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars offer Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">28</field>
+            <field name="margin_left">14</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="offer_letter_instellars"
+            model="hr.applicant"
+            string="Offer Letter"
+            report_type="qweb-pdf"
+            name="instellars_offerletter_report.offer_letter_template"
+            file="instellars_offerletter_report.offer_letter_template"
+            attachment="(object.company_id.id == 1 and '%s_IN' % (object.annexure_id.ref_no)) or '%s_SG' % (object.annexure_id.ref_no)"
+            print_report_name="(object.company_id.id == 1 and '%s_IN' % (object.annexure_id.ref_no)) or '%s_SG' % (object.annexure_id.ref_no)"
+            paperformat="instellars_offerletter_report.offer_letter_paper_format"
+        />
+     
+        <template id="offer_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                     @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body,p
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page" >
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_offerletter_report.external_layout_offer_letter">
+                      <t t-if="o.company_id.id == 1">
+                        <div class="row" style="padding-top:10px">
+                            <div class="col-12 text-center">
+                                <h4 style="text-decoration:underline;font-weight:900;">Offer letter</h4>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="font-family: Arial !important;font-size:14px !important;line-height:1.2 !important;"> <p><span t-esc="o.get_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6"><br/>
+                                <strong style="font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"> <p><span t-esc="o.partner_name"/><br/>
+                                <span t-field="o.email_from"/><br/>
+                                <span t-field="o.partner_mobile"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12"><br/>
+                                <strong style="font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"><p>Dear <span t-esc="o.partner_name"/>,</p></strong> 
+
+                        <p style="font-family: Arial !important;font-size:14px !important;line-height:1.2 !important;">We take great pleasure in inviting you to be an integral part of Instellars Global Consulting.</p>
+
+                        <p style="text-align:justify;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;">Congratulations on being selected for the position of <strong><span t-esc="o.job_id.name"/></strong> and we are pleased to extend this offer of employment to you, this offer is contingent satisfactory completion of your reference checks and medical examination.</p>
+
+                        <p style="text-align:justify;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;">Your per annum fixed <strong>Cost to Company (CTC) </strong>(inclusive of all statutory payments that one is liable for) shall be <strong> Rs.&#160;<span t-esc="'{0}'.format(int(o.annexure_id.wage))"/>( <span t-esc="o.amount_words(o.annexure_id.wage)"/> ) </strong> This CTC would be reviewed practically as per the norms and practices of the company. Please refer to the <strong>Annexure 1.</strong></p>
+
+                        <p style="text-align:justify;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;">Your date of joining will not be later than <strong><span t-esc="o.offer_date_of_join.strftime('%B %d,%Y')"/></strong>, and your employment location will be in <strong>&#160;<span t-esc="o.annexure_id.employement_loc_ind.name"/></strong>, company reserve the right to depute to any location based on the employment requirement. You will be on probation for the first 3 months, and to be confirmed on successful evalution. You would need to serve notice period of two months, in occasion of resignation from the service.</p>
+
+                        <p style="text-align:justify;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;">As a part of the joining process, you are requested to send the soft copy to HR upon accepting the offer letter.</p>
+                        <ol style="margin-left:50px;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;">
+                            <li> Relieving letter from the previous organization or Accepted Resignation letter</li>
+                                   <li> Last 3 months pay stubs</li>
+                                   <li> ID (passport Copy, PAN and Aadhar)</li>
+                                   <li> Passport size photograph 3 Nos</li>
+                                   <li> Educational Degree(s) Mark sheet(s)</li>
+                                   <li> Form 16 (Income Tax), from previous employer (if applicable)</li>
+                                   <li> Relevant Certifications</li>
+                                </ol>
+
+                                <p style="text-align:justify;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"><strong>Please bring the original education certificates / mark sheets for verification.</strong></p>
+
+                                <p style="text-align:justify;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;">Please sign the copy of this letter and return it within 2 days, to indicate the acceptance of this offer. The Letter of appointment would be issued at the time of joining after completing the joining formalities as per company policy.</p>
+
+                                <p style="text-align:justify;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;">This offer supersedes any discussions on this subject or offers made to you previously. The details of this offer are strictly confidential and may not be disclosed.</p>
+
+                                <p style="text-align:justify;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;">We look forward to you having a long and successful relationship with Instellars.</p>   
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                          <div class="col-6">
+                              <p style="font-family: Arial !important;font-size:14px !important;line-height:1.12 !important;">Yours sincerely,<br/>
+                                For <strong><span t-esc="o.company_id.name"/></strong></p><br/>
+                          </div>
+                          <div class="col-6">
+                              <p style="text-align:justify;font-family: Arial !important;font-size:14px !important;  line-height:1.2 !important;">I hereby accept the offer and terms set forth in this<br/>letter</p><br/>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="text-align:left;font-family: Arial !important;font-size:14px !important; line-height:1.2 !important;"><b>Gopinath MN</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"><b>Candidate Name: <span t-esc="o.partner_name"/></b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p style="text-align:left;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"><b>Director</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;font-family: Arial !important;
+                        font-size:14px !important;line-height:1.2 !important;"><b>Date:</b></p>
+                            </div>
+                        </div>
+                        <p style="page-break-after:always"></p>
+                        <div class="row" style="padding-top:10px">
+                            <div class="col-12 text-center">
+                                <b><u><span style="font-size;22px; !important">Annexure 1</span></u></b>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="font-family: Arial !important;font-size:14px !important;"> <p><span t-esc="o.get_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="font-family: Arial !important;font-size:14px !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                        </div><br/>
+                      <table class="table" style="width:100%;border:2px solid black;margin-bottom:0 !important;font-family: Arial !important;font-size:14px !important;">
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Name: <span t-esc="o.partner_name"/></span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Date of Joining</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span t-esc="o.offer_date_of_join.strftime('%B %d, %Y')"/></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Designation:&#160;<span t-esc="o.job_id.name"/></span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Fixed</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span t-esc="'{0}'.format(int(o.annexure_id.wage))"/></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span t-esc="'{0}'.format(int((o.annexure_id.wage)/12))"/></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Component</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Yearly&#160;(&#8377;)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>Monthly&#160;(&#8377;)</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Basic (A)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BASIC' == line.code">
+                                        <span t-esc="'{0}'.format(int(line.yearly_total))"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BASIC' == line.code">
+                                        <span t-esc="'{0}'.format(int(line.monthly_total))"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>BOA (B)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BOA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'BOA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>HRA</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'HRA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'HRA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Conveyance</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'SA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'SA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Medical</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'MA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'MA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>LTA</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'LTA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'LTA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Special Allowances</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'CCA' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                
+                                    <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'CCA' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                                
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>PF(C)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'PF' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                  <span>
+                                    <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'PF' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                              </span>   
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Fixed (A+B+C)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong> <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <span>Flexible Component (*) (D)</span>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>-</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong><span>-</span></strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>Total Cost to Company (A+B+C+D)</span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:35%">
+                                <strong><span>
+                                   <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.yearly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </span></strong>
+                          </td>
+                          <td style="border:2px solid black;padding:1px;width:30%">
+                                <strong>
+                                  <span>
+                                  <t t-foreach="o.annexure_id.line_ids" t-as="line">
+                                    <t t-if="'NET' == line.code">
+                                        <span t-field="line.monthly_total"/><br/>
+                                    </t>
+                                </t>
+                                </span>
+                                </strong>
+                          </td>
+                        </tr>
+                        <tr>
+                            <td style="border:2px solid black;padding:1px;" colspan="3">
+                               <span>
+                                   ** Net Take home is further subject to reduce by an amount equivalent to Professional Tax
+                                        and TDS(Income Tax on salary)<br/>
+                                    ** As per the Statutory requirement, equal amount will be contributed to the employee’s
+                                    Provident Fund and same will be deducted from Monthly gross salary of the employee
+                               </span>
+                            </td>
+                        </tr>  
+                    </table>
+                    <br/><br/>
+                    <div class="row">
+                            <div class="col-6">
+                                <p>Yours sincerely,<br/>
+                                For <strong><span t-esc="o.company_id.name"/></strong></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;">I hereby accept the offer and terms set forth in this<br/>letter</p><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p><b>Gopinath MN</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;"><b>Candidate Name: <span t-esc="o.partner_name"/></b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p><b>Director</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;"><b>Date:</b></p>
+                            </div>
+                        </div>
+                      </t>
+
+                      <!-- for SGD company -->
+                      <t t-if="o.company_id.id != 1">
+
+                        <div class="row" style="padding-top:8px">
+                            <div class="col-12 text-center">
+                                <h4 style="text-decoration:underline;font-weight:900;">Offer letter</h4>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="font-family: Arial !important;font-size:14px !important;line-height:1.2 !important;"> <p><span t-esc="o.get_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="font-family: Arial !important;font-size:14px !important;
+                              line-height:1.2 !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                <strong style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"> <p><span t-esc="o.partner_name"/><br/>
+                                <span t-field="o.email_from"/><br/>
+                                <span t-field="o.partner_mobile"/></p></strong>
+                                
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                    <strong style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><p>Dear <span t-esc="o.partner_name"/>,</p></strong>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-12">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">We are pleased to offer you the position of&#160;<strong> <span t-esc="o.job_id.name"/></strong>. This offer, and your employment are subject to the following terms and conditions.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>1. <u>Commencement Date</u></strong><br/>
+                                  Your employment shall cover with effect from <strong><span t-esc="o.offer_date_of_join.strftime('%B %d, %Y')"/></strong>
+                                </p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><strong>2. <u>Duties</u></strong><br/>
+                                You shall carry out such duties as the Company may from time to time direct to the best of your ability and to the satisfaction of the Company or its appointed customers, observe and comply with the requests and directions of the designated supervisors.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><strong>3. <u>Remuneration</u></strong><br/>
+                                The Company shall pay you a monthly gross salary of SGD <strong><span t-esc="'{0}'.format(int(o.annexure_id.wage))"/> ( <span t-esc="o.amount_wordssgd(o.annexure_id.wage)"/> ) </strong> on condition that you are already assigned to appointed Client and your Employment Pass is approved by Ministry of Manpower Singapore.Your salary is to be kept fully confidential. Salary will be credited to your bank account within the first 7 working day of the following month after completion of work. If you are in breach of this condition, you (recognizing that the Company will suffer substantial damage) will pay to the Company by way of liquidated damages and not by way of penalty a sum of SGD 300.00 per occurrence of breach of this condition. In the event you are not placed with the offered engagement, company will take appropriate actions to fulfill your candidature with the available engagements.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>4. <u>Probation</u></strong><br/>
+                                  When you are assigned to an appointed client of the Company, you shall be subjected to three (3) months’ probation upon commencement of assignment with that client. Should you not perform up to the satisfaction of Company or its appointed client during this period, your employment may be terminated at the sole discretion of the company.
+                                </p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>5. <u>Leave Entitlement</u></strong><br/>
+                                  Annual Leave: 12 days on an annual basis. Unutilized Annual Leave cannot be carried forward to the next year unless approved by the Project In-charge in which case it will be allowed to be carried forward or authorized for encashment. Medical Leave: 14 days on an annual basis (subject to production of a medical certificate from a Singapore Registered Practitioner, Hospital or Clinic). Medical Leave cannot be carried forward.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>6. <u>Entry Visa and Employment Pass</u></strong><br/>
+                                  The Company shall be responsible for obtaining the required visa and employment pass for you.
+                                </p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>7. <u>Accommodation</u></strong><br/>
+                                  You shall be responsible for your own accommodation, initial 2 weeks of accommodation will be provided by the company.
+                                </p>
+
+                              <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>8. <u>Timesheet</u></strong><br/>
+                                  The details of hours you put in for the Client should be recorded and sent to us with the approval of Client/Project-in-charge by the last working day of the month in the Time Sheet format that will be provided to you.
+                                </p>
+
+
+                              <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>9. <u>Confidential Information and Company/Client Property:</u></strong><br/>
+                                  You shall not at any time during the employment make copies of and/or make use of and/or disclose or divulge to any person, firm, the secret(s) and/or any information of a confidential nature concerning your remuneration, the business, software programs, data, or finances of the Company/Client. All equipment, computer hardware and software, documents, reports, files correspondence or other written and graphic records and the like which you may
+                                  prepare, use, construct or which are under your custody and control from time to time shall be and remain the Company’s/Clients sole property. In the event of your expiration or termination of contract you agree to return/deliver to the Company/Client all property, equipment, materials, documents, software, correspondence in whichever media you hold them relating to the Company/Client. You understand and agree that all official information acquired by you in the course of your work in connection with the Purpose is of a strictly secret and confidential nature and is not to be published or communicated by you to any other person in any form whatsoever except in the course of your official duties on a strictly “need-to-know” basis. 
+                                  You undertake to return any document received from the Client/Government of Singapore in connection with the Purpose, any other copies made or reproduced from such document or part thereof whenever required by the Client.<br/>
+                                  You further understand and agree that any breach or neglect of this undertaking may render you liable to legal action.
+                                </p> 
+
+                              <p style="page-break-after:always"></p><br/><br/>
+                              <div class="row mt6">
+                                <div class="col-6">
+                                  <strong style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><span t-esc="o.get_date()"/></strong>
+                                </div>
+                                <div class="col-6 text-right">
+                                <strong style="font-family: Arial !important;font-size:14px !important;
+                              line-height:1.2 !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                              </div><br/>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>10. <u>Medical/Hospitalization Cover</u></strong><br/>
+                                  The Company shall provide medical insurance by the Company’s appointed insurer. Refer to the Company’s appointed insurer medical plan for the details of the insurance policy. However, medical expenses arising out of diseases caused by indiscretion; illness or disablement arising from attempted suicide; the performance of any unlawful act, provoked assault, the use of drugs, abortive measure, excessive use of alcohol or participation in hazardous activities (except when endeavoring to save life) are not payable under the insurer’s medical plan. 
+                                  Expenses on the purchase of medical or surgical or dental or optical appliances including spectacles or glasses are not payable.Dental benefits will not be provided under the policy. The Company shall not bear any of those payments which are not payable under the policy and/or are subject to the Exclusion Clauses by the policy.
+                                </p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>11. <u>Termination</u></strong><br/>
+                                  Without prejudice to the aforesaid, the following incidence shall constitute causes for the termination of your employment with the Company: </p>
+                                  <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">1) Incapacity by ill health or mental incapacity from fully performing your duties for an aggregate period of 30 days in any six-month period and upon such incapacity being duly certified as such by the Company's doctor(s).</p>
+                                  <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  2) Incapacity by accident from fully performing your duties for an aggregate period of 30 days in any six-month period and upon such incapacity being duly certified as such by the Company's doctor(s).</p>
+                                  <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  3) Insubordination and/or lack of competence to carry out the duties as instructed by the Company or its appointed customers.</p>
+                                  <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  4) Violation of the laws of Singapore or the regulations of the Company and/or any of the Company's customer(s) assigned to you. For the above-mentioned situations, the Company reserves the right to terminate your employment. On termination of your employment, you undertake that no attempts shall be made to renew or convert your employment pass into other legal or immigration permit that permit you to stay on in Singapore under any pretext unless with the express consent of the Company. Notice Period required from you is 60 Days for the first 6 months and thereafter notice of 30 days is applicable. Notice period for termination of employment from INSTELLARS Global Consulting Pvt Ltd shall always remain as 30 days. If you fail to exercise proper adherence to notice period, you become liable to INSTELLARS Global Consulting Pvt Ltd the sum amounting to one month’s basic remuneration applicable to you.</p>
+                
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>12. <u>Taxation</u></strong><br/>
+                                  Your tax liability will depend on your tax residency status, Under Singapore Income Tax rule, if you are issued with a work pass that is valid for at least one year, you will be treated as a tax resident upfront. You tax residency status will be reviewed at the point of tax clearance when you cease your employment based on the tax residency rules. If your stay in Singapore is less than 183 days, you will be regarded as a non-resident. If you wish to leave the Country, you will have to inform your decision one month in advance to enable us to process the Tax Clearance with the Inland Revenue Authority of Singapore. For the updated regulations on Individuals (Foreigners) Required to Pay Tax please visit www.iras.gov.sg
+                                </p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>13. <u>General</u></strong><br/>
+                                  a) You shall not join any of the Company's customers assigned to you upon completion of your contract, without the expressed approval of the Company. This covenant is effective and enforceable throughout the period of your tenure of employment with the Company and for one (1) year after the termination of your tenure of employment with the Company. If you are in breach of this condition, you (recognizing that the Company will suffer substantial damage)
+                                  will pay to the Company by way of liquidated damages and not by way of penalty a sum equal to twenty percent of your then current annual salary (your earning to be calculated on the basis of 12 months’ wages for one year).<br/><br/>
+
+                                  b) In the event of disputes or disagreements in the interpretation of any of these terms or those of your appointment and the Principal Agreement with your sponsoring unit, if there is any, in your country of origin, the interpretation and decision of the Company shall be final.<br/><br/>
+
+                                  c) This offer is in the English language only, which language shall be controlling in all respects. No translations, if any, of this offer in any other language shall be of any force or effect in the interpretation of this offer in determination of the intent of either party hereto.                                  
+
+                                </p>
+
+
+                              <p style="page-break-after:always"></p><br/><br/>
+                              <div class="row mt6">
+                                <div class="col-6">
+                                  <strong style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><span t-esc="o.get_date()"/></strong>
+                                </div>
+                                <div class="col-6 text-right">
+                                <strong style="font-family: Arial !important;font-size:14px !important;
+                              line-height:1.2 !important;"> <p>Ref: <span t-field="o.annexure_id.ref_no"/></p></strong>
+                            </div>
+                              </div><br/><br/>
+                                
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">
+                                  <strong>14. <u>Agreement</u></strong><br/>
+                                  This Agreement shall be governed and construed by the laws of Singapore.<br/><br/>
+                                  You agree not to discuss these terms and conditions which are confidential in nature. In case of non-performance and/or disciplinary issues, INSTELLARS Global Consulting Pte Ltd reserves the right of legal remedies which will include recovering the incremental cost of finding a replacement and other associated costs like advertisements, consultants fee etc. in addition to reimbursement of damages or penalties levied by the client for non-performance of the contractual obligation.<br/><br/>
+                                  Please acknowledge your acceptance of this agreement, including the terms and conditions of Employment, by signing as provided below and returning one copy to us. The contract of employment would become valid from your date of joining the organization and reporting at Client Site.<br/><br/>
+                                  On behalf of INSTELLARS Global Consulting Pte Ltd, we would like to welcome you to the team and we look forward to a long and mutually rewarding relationship.<br/><br/>
+                                  We welcome you to <strong> <span t-esc="o.company_id.name"/>.</strong> and look forward to a mutually rewarding association.
+                                </p>
+
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">Yours sincerely,<br/>
+                                For<strong> <span t-esc="o.company_id.name"/>.</strong></p><br/>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;">I hereby accept the offer and terms set forth in this<br/>letter</p><br/>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -70px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><b>Gopinath MN</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><b>Candidate Name: <span t-esc="o.partner_name"/></b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><b>Director</b></p>
+                            </div>
+                            <div class="col-6">
+                                <p style="text-align:left;line-height:1.2 !important;font-family: Arial !important;font-size:14px !important;"><b>Date:</b></p>
+                            </div>
+                        </div>
+                      </t>
+                      <!-- for SGD company -->
+                    </t>
+                </t>
+            </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

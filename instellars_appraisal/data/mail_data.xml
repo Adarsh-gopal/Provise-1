@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="appraisal_letter_template" model="mail.template">
+        <field name="name">Appraisal Letter Temaplate</field>
+        <field name="model_id" ref="hr_appraisal.model_hr_appraisal"/>
+        <field name="subject">Appraisal - ${object.employee_id.name}</field>
+        <field name="email_to">${object.work_email | safe}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin-bottom: 0.28cm; line-height: 108%"><font face="Tahoma, serif"><font size="2" style="font-size:9pt">Dear&#160;</font></font><span style="text-align:inherit;font-size: 12px;"><font face="Tahoma, serif"><b>${object.employee_id.name}</b></font></span><span style="font-size:9pt;font-family: Tahoma, serif; color: rgb(0, 0, 0); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit;">,</span></p><p style="margin-bottom: 0.28cm; line-height: 108%"><br/>
+                <br/>
+
+                </p><p style="margin-bottom:0.28cm;line-height: 108%"><font>
+                    
+                    
+                    <style type="text/css">
+                        @page { margin: 2cm }
+                        p { margin-bottom: 0.25cm; direction: ltr; line-height: 120%; text-align: left; orphans: 2; widows: 2 }
+                        a:link { color: #0563c1 }
+                    </style>
+
+
+
+                </font></p><p style="margin-bottom: 0.28cm; line-height: 108%"><font face="Tahoma, serif"><font style="font-size:9pt">We
+                are delighted to inform you that in recognition of your performance
+                and contribution to the company as a&#160;</font></font><span style="text-align:inherit;font-size: 12px;"><font face="Tahoma, serif"><b>${object.current_designation.name}</b></font></span><span style="font-size:9pt;font-family: Tahoma, serif; color: rgb(0, 0, 0); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit;">&#160;</span><span style="font-size:9pt;font-family: Tahoma, serif; color: rgb(0, 0, 0); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit;">during the appraisal period of</span><span style="font-size:9pt;font-family: Tahoma, serif; color: rgb(0, 0, 0); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit;">&#160;</span><span style="text-align:inherit;font-size: 12px;"><font color="#000000" face="Tahoma, serif">${object.appraisal_period.name}</font></span><span style="color:rgb(0, 0, 0);font-family: Tahoma, serif; font-size: 9pt; font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit;">, your&#160;monthly&#160;compensation has been revised which is cited in the attached Appraisal Letter.</span></p><p style="margin-bottom: 0.28cm; line-height: 108%"><font face="Tahoma, serif"><font style="font-size:9pt">
+                <br/>
+                We
+                are sure you will make best use of the opportunity offered to you and
+                contribute substantially to the success of our Company as you have
+                done in the past.<br/>
+                <br/>
+                <br/>
+                </font></font><font face="Tahoma, serif"><font style="font-size:9pt"><b>PS:
+                A manager's opinion of an employee's performance is confidential and
+                must be guarded from inappropriate disclosures.</b></font></font></p><p style="margin-bottom:0.28cm;line-height: 108%">
+                <br/>
+
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+    </data>
+</odoo>

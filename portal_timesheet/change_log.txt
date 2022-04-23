@@ -1,0 +1,7 @@
+Version: 13.0.0.22 --> 13.0.0.23
+Changes Made: 1. Added Extra menu "my portal" for internal users on above the My profile Menu under Logged in users Menu
+
+Changes Made By: Madhukumar
+Changes Done on: 9/11/2020
+
+------------------------------------------------------------------------------------

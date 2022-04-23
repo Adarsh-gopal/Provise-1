@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    
+    <template id="appraisal_manager_review" name="Manager Review">
+        <t t-call="portal.portal_layout">
+           <t t-set="no_footer">1</t>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md text-center">
+                            <h5 class="mb-1 mb-md-0">
+                                <span>Performance Management And Dvelopment Process </span><br/>
+                                <span>(PMDP)</span>
+                    
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <t t-raw="appraisal_manager.employee_assessment"/>
+                    <div id="manager_review_form" class="row">
+                        <form>
+                            <input type="hidden" name="appraisal_id" t-att-value="appraisal_manager.id"/>
+                            <div class="col-lg-8 offset-lg-2 mb8 pull-left">
+                                <h5 class="mb16 mt16 text-center" style="background-color: #2b2554;color: white;padding: 7px;"> Feedback Form (Counselor)</h5>
+                                <p style="text-align:justify">
+                                    Please note that this form should be filled in by the Counselor prior to the Service Line Normalization/ Validation/ Round Table discussion and necessary examples must be provided for a fruitful discussion.
+                                </p>
+                                <p style="text-align:justify">
+                                    Feedback and the annual performance rating are to be communicated to the Counselee after the Normalization meeting.
+                                </p>
+                            </div>
+                    
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques1">1. Areas of Strengths:</label>
+                                <textarea rows="2" name="ques1" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques2">2. Areas for improvement:</label>
+                                <textarea rows="2" name="ques2" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques3">3. Counselee can further build upon his/ her strengths by:</label>
+                                <textarea rows="2" name="ques3" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques4">4. Counselee needs the following training/ coaching:</label>
+                                <textarea rows="2" name="ques4" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="overall_performance">5. Overall Performance Rating:(Please tick as applicable)</label><a role="button"  class="fa fa-info-circle"  style="margin-left:5px;" aria-label="Info" href="#" data-toggle="modal" data-target="#rating_abbrevation" ></a><br/>
+                                    <label class="control-label " style="border:1px solid black; padding:10px;">
+                                        <input type="radio" name="overall_performance" value="HE" class="advantage_input" required="required" /> HE
+                                       
+                                    </label>
+                                    <label class="control-label " style="border:1px solid black; padding:10px;">
+                                        <input type="radio" name="overall_performance" value="E+" class="advantage_input"/>
+                                       E+
+                                    </label>
+                                    <label class="control-label " style="border:1px solid black; padding:10px;">
+                                        <input type="radio" name="overall_performance" value="E" class="advantage_input"/>
+                                       E
+                                    </label>
+                                    <label class="control-label " style="border:1px solid black; padding:10px;">
+                                        <input type="radio" name="overall_performance" value="E-" class="advantage_input"/>
+                                       E-
+                                    </label>
+                                    <label class="control-label " style="border:1px solid black; padding:10px;">
+                                        <input type="radio" name="overall_performance" value="ME" class="advantage_input"/>
+                                       ME
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Defination of  rating starts-->
+                            <div id="rating_abbrevation" class="modal fade" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="ayaz" align="center"> 
+                                                <strong><h4 class="modal-title" id="new_time_off_header" aling="center">Definition of Performance Ratings</h4></strong>
+                                            </div>
+                                            <button type="button" class="btn btn-primary close" data-dismiss="modal">&amp;times;</button>
+                                        </div>
+                                        <div class="modal-body" style="display:inline-block">
+                                            <div calss="row">
+                                                <table class="table table-sm table-bordered" syle="color:#2a2453 !important">
+                                                    <tr>
+                                                        <th class="text-center">Performance</th>
+                                                        <th class="text-center">RatingsDefinition</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Highly Effective (HE)</th>
+                                                        <td>
+                                                            <p>Consistently and significantly performs above the Firm’s required performance standard.</p>
+                                                            <ul>
+                                                                <li>Counselee’s performance is significantly and consistently above the Firm’s expected standards. </li>
+                                                                <li>Counselee consistently performs at the top most level and demonstrates numerous indicators of exceptional performance. </li>
+                                                                <li>Counselee contributes at an exceptional or top most level in both client &amp; non-client related areas</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Effective Plus (E+)</th>
+                                                        <td>
+                                                            <p>Consistently performs better than the Firm’s required performance standard.</p>
+                                                            <ul>
+                                                                <li> Counselee demonstrates an extra contribution at his/ her level and goes beyond what is expected. </li>
+                                                                <li> Constantly looks for opportunities and always takes on extra responsibility willingly (e.g. Go To person, Champion, Classroom leader).</li>
+                                                                <li> Counselee’s performance fully meets the firm's standards on a consistent basis and exceeds standards in several other “parameters being assessed”. </li>
+                                                                <li> Counselee consistently performs above expectations, or higher than effective level in both client and non-client related areas. </li>
+                                                                <li> Counselee exceeds the expectation of the firm on a regular basis, in most of the technical and non technical functions (e.g., performance on assignments, timely and appropriate communication with Managers, direct assignments, sharing work and knowledge with peers and co-workers, relationship building, helping other professionals, utilization, chargeability, etc.). </li>
+                                                                <li> Counselee possesses an excellent attitude, shows more proactiveness, and loyalty than an effective performer. Goes an extra step and takes ownership and stretches more than his/ her peers.</li>
+                                                                <li> Counselee demonstrates indicators of effective performance and at times demonstrates numerous indicators of highly effective performance. </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Effective (E)</th>
+                                                        <td>
+                                                            <p>Consistently performs at the Firm’s required performance standards.</p>
+                                                            <ul>
+                                                                <li>Counselee meets the firm’s high-performance standards. </li>
+                                                                <li>Counselee regularly demonstrates indicators of effective performance.</li>
+                                                                <li>Counselee typically receives ratings in the middle of the effective range and at times may have received ratings in the high or low ends of the effective range.</li>.
+                                                                <li>Counselee has contributed in non-client performance areas at effective level.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Effective Minus (E-)</th>
+                                                        <td>
+                                                            <p>Not consistently performing at the Firm’s required performance standards.</p>
+                                                            <ul>
+                                                                <li> Counselee’s performance is a level lower than firm’s standards and inconsistent most of the times. </li>
+                                                                <li> Counselee mostly receives ratings below the effective range, demonstrates very few indicators of effective performance and requires improvement and needs to contribute at the level expected by the firm. </li>
+                                                                <li> Counselee needs improvement on certain key areas and has one or more aspects lacking in the technical or non technical area being assessed (e.g., performance on assignments, utilization, chargeability, timely and appropriate communication with Managers, direct assignments, sharing work and knowledge with peers and co-workers, relationship building, teamwork, etc.). </li>
+                                                                <li> Counselee possesses a negative attitude, is not focused and dedicated, has little respect for the firm’s values as well as for co-workers, is erratic and does not accept responsibilities.</li>
+                                                                <li> Counselee does not make any extra contribution towards work and lacks the ability to prioritize. In other words, counselee does not show interest in performing and has little respect for work.</li>
+                                                                <li> Counselee does not take any learning initiatives and is overall a slow learner.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">Minimally Effective (ME)</th>
+                                                        <td>
+                                                            <p>Performs significantly below the Firm’s required performance standards.</p>
+                                                            <ul>
+                                                                <li>Counselee’s performance minimally meets requirements and needs tremendous improvement to contribute at the firm’s performance standard.</li>
+                                                                <li>Counselee significantly or regularly demonstrates numerous indicators of improvement needed. </li>
+                                                                <li>Counselee’s performance is the focus of immediate attention and development.</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>                                        
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-right close"  style="font-size: 15px;border:none;" data-dismiss="modal">CANCEL</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Defination of  rating Ends-->
+
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques5_comments">Comments(if Any)</label>
+                                <textarea rows="2" name="ques5_comments" class="form-control" />
+                            </div>
+                           
+                        
+                            <div  class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <button type="button" id="send_manager_review" class="btn btn-primary label-text-align" style="font-size: 15px;border:none;" name="send_manager_review">SEND</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </t>
+            </t>
+
+        </t>
+    </template>
+
+    <template id="preview_appraisal" name="Manager Review">
+        <t t-call="portal.portal_layout">
+           <t t-set="no_footer">1</t>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md text-center">
+                            <h5 class="mb-1 mb-md-0">
+                                <span>Performance Management And Dvelopment Process </span><br/>
+                                <span>(PMDP)</span>
+                    
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                <!--     <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td><strong>Employee Name:</strong></td><td><span t-esc="appraisal_preview.employee_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Employee IEN (Instellars Employee No.):</strong></td><td><span t-esc="appraisal_preview.employee_id.registration_number"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Joining IGC:</strong></td><td><span t-esc="appraisal_preview.employee_id.date_of_joining"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Designation:</strong></td><td><span t-esc="appraisal_preview.employee_id.job_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Client Name</strong></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Assessment Period</strong></td><td><span t-esc="appraisal_preview.appraisal_period.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Name of Counselor</strong></td><td><span t-esc="appraisal_preview.employee_id.parent_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Issue of Form:</strong></td><td><span t-esc="appraisal_preview.create_date" t-options='{"widget": "date"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Submission(to Counselor) of Form:</strong></td><td><span t-esc="appraisal_preview.employee_assessment_submit_date" t-options='{"widget": "date"}'/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div> -->
+                    <t t-raw="appraisal_preview.employee_assessment"/>
+                    <t t-raw="appraisal_preview.manager_review"/>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_profile_id" model="ir.sequence">
+            <field name="name">Profile ID Instellars</field>
+            <field name="code">hr.applicant</field>
+            <field name="prefix">CA-</field>
+            <field name="padding" eval="0"/>
+        </record>
+        <record id="employee_registration_number_india" model="ir.sequence">
+            <field name="name">Employee Registration Number India</field>
+            <field name="code">hr.employee.india</field>
+            <field name="prefix">IGC</field>
+            <field name="company_id">1</field>
+
+            <field name="padding" eval="4"/>
+        </record>
+        <record id="employee_registration_number_singapore" model="ir.sequence">
+            <field name="name">Employee Registration Number Singapore</field>
+            <field name="code">hr.employee.singapore</field>
+            <field name="prefix">IGC-SG-</field>
+            <field name="company_id">2</field>
+            <field name="padding" eval="3"/>
+        </record>
+        <record id="confirmation_sequence" model="ir.sequence">
+            <field name="name">Confirmation Letter Sequence</field>
+            <field name="code">hr.employee.confirmation</field>
+            <field name="prefix">CL_</field>
+            <field name="suffix">_%(year)s</field>
+            <field name="padding" eval="3"/>
+        </record>
+        <record id="pip_sequence" model="ir.sequence">
+            <field name="name">PIP Letter Sequence</field>
+            <field name="code">hr.employee.pip</field>
+            <field name="prefix">PIP_</field>
+            <field name="suffix">_%(year)s</field>
+            <field name="padding" eval="3"/>
+        </record>
+        <record id="relieving_letter_sequence" model="ir.sequence">
+            <field name="name">Relieving Letter Sequence</field>
+            <field name="code">hr.employee.relieving</field>
+            <field name="prefix">RL_</field>
+            <field name="suffix">_%(year)s</field>
+            <field name="padding" eval="3"/>
+        </record>
+        <record id="appointment_letter_sequence" model="ir.sequence">
+            <field name="name">Appointment Letter Sequence</field>
+            <field name="code">hr.employee.appointment</field>
+            <field name="prefix">AL_</field>
+            <field name="suffix">_%(year)s</field>
+            <field name="padding" eval="3"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_demand_view_form" model="ir.ui.view">
+        <field name="name">project.demand.wizard.form</field>
+        <field name="model">project.demand</field>
+        <field name="arch" type="xml">
+        <form string="Raise Demand">
+            <div class="oe_title">
+                <h3>Raise Demand for the Project</h3>  
+            </div>
+            <group>
+                <group>
+                	<field name="certification_type" />
+                    <field name="certification"  widget="many2many_tags" domain="[('skill_type_id','=',certification_type)]"/>
+                    <field name="domain" />                   
+                    <field name="delivery_site" /> 
+                    <field name="product_id" domain="[('id', 'in', context.get('con_related_products'))]" options="{'no_create_edit': True, 'no_create': True}"/>                  
+                </group>
+                <group>
+                   <label for="years_of_exp_min" string="Experience Min-Max"/>
+                    <div class="o_row">
+                        <field name="years_of_exp_min" nolabel="1"/>
+                        <span>Years-</span>
+                        <field name="years_of_exp_max" attrs="{'required': [('years_of_exp_min','!=', False)]}" nolabel="1"/>
+                        <span>Years</span>
+                    </div>
+               <!--      <field name="years_of_exp_min"/>
+                    <field name="years_of_exp_max" attrs="{'required': [('years_of_exp_min','!=', False)]}"/> -->
+                    <field name="demand_closed_date"/>
+                    <field name="no_of_resource_required"/>
+                </group>
+                <group>
+                    <field name="job_description"/>
+                </group>                    
+            </group>
+            <footer>
+                <button name="raise_demand" type="object" string="Raise Demand" class="oe_highlight"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="raise_demand_action" model="ir.actions.act_window">
+        <field name="name">Raise Demand action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.demand</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="project_demand_view_form"/>
+        <field name="context">{'active_id' : active_id}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <record id="instellars_payslip_report_page_format" model="report.paperformat">
+        <field name="name">instellars invoice page format</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">7</field>
+        <field name="margin_bottom">7</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">2</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+            id="instellars_payslip_report.payslip"
+            model="hr.payslip"
+            string="Instellars payslip"
+            report_type="qweb-pdf"
+            name="instellars_payslip_report.payslip_report"
+            file="instellars_payslip_report.payslip_report"
+            attachment="'Payslip_%s_%s' % (object.curr_month(object.date_from),object.employee_id.name)"
+            print_report_name="'Payslip_%s_%s' % (object.curr_month(object.date_from),object.employee_id.name)"
+            paperformat="instellars_payslip_report.instellars_payslip_report_page_format"
+    />
+
+    <template id="payslip_report">
+        <t t-call="web.html_container">
+            <style>
+                @font-face 
+                {
+                    font-family: Arial;
+                    src: url('Arial.ttf.woff');
+                }
+                body
+                {
+                    font-family: Arial !important;
+                    font-size:10px !important;
+                }
+            </style>
+            <t t-foreach="docs" t-as="o">
+            <t t-call="instellars_payslip_report.external_layout_for_payslip">
+            <table class="table" style="width:100%;border:1px solid black;margin-bottom:0 !important;">
+                <tr>
+                 <td style="border:1px solid black;text-align:center;line-height:15px;" class="text-center"  colspan="5">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="height:35px;position: fixed;top:7px;left: 20px;width:170px"/>
+                    <strong><span  t-field="o.company_id.partner_id.name"/></strong><br/>
+                    <span style="font-size:11px;">
+                        <t t-foreach="o.company_id.partner_id.child_ids" t-as="l">
+                            <t t-if="l.type=='other'">
+                                <span style="padding:1px;" t-field="l.street"/>
+                                <span style="padding:1px;" t-field="l.street2"/>
+                                <span style="padding:1px;" t-field="l.city"/>
+                            </t>
+                        </t></span><br/>
+                    <strong ><span>Payslip for the month of</span>
+                    <span><t t-esc="o.date_from.strftime('%B %Y')"/></span></strong>
+                </td>
+                </tr>
+                <tr>
+                    <td style="width:20%;border:1px solid black;border-right: 1px solid white;font-size:14px;;padding:1px">
+                        <span>Name:</span><br/>
+                        <span>Join Date:</span><br/>
+                        <span>Designation:</span><br/>
+                        <span>Department:</span><br/>
+                        <span>Location:</span><br/>
+                        <span>Effective Work Days:</span><br/> 
+                        <span>Days In Month:</span><br/>
+                    </td>
+                    <td style="width:30%;border:1px solid black;padding:1px;font-size:14px;" colspan="2">
+                        <span t-field="o.employee_id.name"/><span>[
+                        <span t-esc="o.employee_id.registration_number"/>]</span><br/>
+                        <span>
+                            <t t-if="o.employee_id.date_of_joining">
+                                <t t-esc="o.employee_id.date_of_joining.strftime('%d %b %Y')"/>
+                            </t>
+                        </span><br/>
+                        <span t-field="o.employee_id.job_id"/><br/>
+                        <span t-field="o.employee_id.department_id"/><br/>
+                        <span t-field="o.employee_id.work_location"/><br/>
+                        <span t-esc="'{0}'.format(int(o.no_days_working))"/><br/>
+                        <span t-esc="'{0}'.format(int(o.no_days_month))"/><br/>
+                    </td>
+                    <td colspan="2" style="width:50%;font-size:14px;border:1px solid black;;padding:1px">
+                        <div class="row">
+                            <div class="col-4">
+                                <span>Bank Name:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.bank_account_id.bank_id"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>Bank Account No.:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.bank_account_id.acc_number"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>PF No.:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.provident_fund"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>PF UAN:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.universal_account_number"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>ESI No:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.esi_number"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>PAN No.:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <span t-field="o.employee_id.pan_no"/> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <span>LOP:</span>
+                            </div>
+                            <div class="col-8" style="text-align:left">
+                                <t t-foreach="o.worked_days_line_ids" t-as="l">
+                                    <t t-if="l.work_entry_type_id.name == 'Unpaid'">
+                                        <span t-esc="'{0}'.format(int(l.number_of_days))"/><br/>
+                                    </t>
+                                </t> 
+                            </div>
+                        </div>
+                    </td> 
+                </tr>
+                <tr>
+                    <td style="width:20%;font-size:14px;padding:1px;border:1px solid black;border-right:1px solid white;text-align:center">
+                        <strong><span>Earnings</span></strong>
+                    </td>
+                    <td style="width:15%;font-size:14px;padding:1px;border-bottom:1px solid black;text-align:right">
+                        <strong><span>Full</span></strong>
+                    </td>
+                    <td style="width:15%;font-size:14px;padding:1px;border-bottom:1px solid black;text-align:right">
+                        <strong><span>Actual</span></strong>
+                    </td>
+                    <td style="width:25%;font-size:14px;padding:1px;border:1px solid black;border-right:1px solid white;text-align:center">
+                        <strong><span>Deductions</span></strong>
+                    </td>
+                    <td style="width:25%;font-size:14px;padding:1px;border:1px solid black;text-align:right">
+                        <strong><span>Actual</span></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="width:50%;border:1px solid black;font-size:14px;padding:1px">
+                        <t t-foreach="o.line_ids" t-as="line">
+                            <t t-if="line.code == 'BASIC'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>BASIC</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'BASIC'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'HRA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>HRA</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'HRA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'SA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>CONVEYANCE</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'SA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>MEDICAL ALLOWANCE</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'MA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'CCA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>CCA</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'CCA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'LTA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                        <span>LTA</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'LTA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MV'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>MEAL VOUCHER</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'MV'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'OEA'">
+                                <t t-if="line.total != 0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span>OTHER EARNINGS</span>
+                                        </div>
+                                        <div class="col-3" style="text-align:right">
+                                            <span t-field="line.total"/> 
+                                        </div>
+                                        <t t-foreach="o.pay_in_ids" t-as="line">
+                                            <t t-if="line.code == 'OEA'">
+                                                <t t-if="line.total != 0">
+                                                    <div class="col-3" style="text-align:right">
+                                                        <span t-field="line.total"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </td>
+                    <td colspan="2" style="width:50%;padding:1px;border:1px solid black;padding:1px;font-size:14px;text-align:right">
+                        <t t-set="totdud" t-value="0.0"/>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'PF'">
+                                <t t-if="line.total != 0">
+                                    <span style="float:left">PF</span>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'PF'">
+                                <t t-if="line.total != 0">
+                                    <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                    <span style="float:right"><span t-esc="'{:,}'.format(line.total)"/></span><br/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'PT'">
+                                <t t-if="line.total != 0">
+                                    <span style="float:left">PROF TAX</span>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'PT'">
+                                <t t-if="line.total != 0">
+                                    <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                    <span style="float:right"><span t-field="line.total"/></span><br/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'IT'">
+                                <t t-if="line.total != 0">
+                                    <span style="float:left">INCOME TAX</span>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'IT'">
+                                <t t-if="line.total != 0">
+                                    <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                    <span style="float:right"><span t-field="line.total"/></span><br/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'GPH'">
+                                <t t-if="line.total != 0">    
+                                    <span style="float:left">GHP PREMIUM</span>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'GPH'">
+                                <t t-if="line.total != 0">
+                                    <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                    <span style="float:right"><span t-field="line.total"/></span><br/>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-foreach="o.pay_in_ids" t-as="line">
+                            <t t-if="line.code == 'MVD'">
+                                <t t-if="line.total != 0">
+                                    <span style="float:left">MEAL VOUCHER DEDUCTION</span>
+                                </t>
+                            </t>
+                            <t t-if="line.code == 'MVD'">
+                                <t t-if="line.total != 0">
+                                <t t-set="totdud" t-value="totdud+(line.total)"/>
+                                <span style="float:right"><span t-field="line.total"/></span><br/>
+                            </t>
+                            </t>
+                        </t>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width:50%;border:1px solid black;font-size:14px;padding:1px">
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Total Earnings:INR.</span>
+                            </div>
+                            <div class="col-3" style="text-align:right">
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <t t-if="line.code == 'GROSS' ">
+                                        <span t-field="line.total"/><br/>
+                                    </t>
+                                </t> 
+                            </div>
+                            <div class="col-3" style="text-align:right">
+                                <t t-foreach="o.pay_in_ids" t-as="line">
+                                    <t t-if="'GROSS' == line.code">
+                                        <span t-field="line.total"/><br/>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width:25%;border:1px solid black;border-right:1px solid white;font-size:14px;padding:1px">
+                        <span>Total Deductions:INR.</span>
+                    </td>
+                    <td style="width:25%;border:1px solid black;padding:1px;font-size:14px;text-align:right;" colspan="2">
+                        <span t-esc="'{:,}'.format(totdud)">&#160;</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100%;font-size:14px;padding:1px;border:1px solid black;" colspan="5">
+                        <span>&#160;&#160;&#160;Net Pay for the month (&#160;Total Earnings - Total Deductions):</span>
+                        <t t-set="totnet" t-value="0"/>
+                            <t t-foreach="o.pay_in_ids" t-as="line">
+                                <t t-if="'NET' == line.code">
+                                    <t t-set="totnet" t-value="totnet+(line.total)"/>&#160;&#160;
+                                        <b><span t-esc="'{:,}'.format(totnet)"/></b><br/>
+                                        <span style="font-style:italic;">&#160;&#160;&#160;<span t-esc="line.amount_words(totnet)"/></span>
+                                </t>
+                            </t>
+                    </td>
+                </tr>
+        </table>
+        <div style="text-align:center;padding:1px;margin_top:none !important;">
+            <span style="padding-top:-18px;font-size:14px;">This is system generated payslip  and does not require signature.</span>
+        </div>
+        </t>
+    </t>
+</t>
+</template>
+</data>
+</odoo>
+            
+                             
+                        
+
+
+
+

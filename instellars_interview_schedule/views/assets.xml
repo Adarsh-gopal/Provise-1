@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+   <!-- for front end -->
+    <template id="evaluation_form_assets" inherit_id="website.assets_frontend" name="Interview Evaluation form Assets">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/instellars_interview_schedule/static/src/css/evaluation_form.scss"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/instellars_interview_schedule/static/src/js/evaluation_form.js"></script>
+            <script type="text/javascript" src="/instellars_interview_schedule/static/src/js/managerial_evaluation.js"></script>
+        </xpath>
+    </template>
+
+    <!-- for backend -->
+    <template id="kanban_status_asset" inherit_id="web.assets_backend" name="Kanban Widget Assets">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/instellars_interview_schedule/static/src/css/kanban_status.scss"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/instellars_interview_schedule/static/src/js/kanban_state_selection.js"></script>
+        </xpath>
+    </template>
+</odoo>

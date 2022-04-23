@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="rounding_form_view_round_off" model="ir.ui.view">
+            <field name="name">rounding_form_view_round_off</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="inherit_id" ref="account.rounding_form_view"/>
+            <field name="arch" type="xml">
+                <field name="rounding_method" position="after">
+                    <field name="activate"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

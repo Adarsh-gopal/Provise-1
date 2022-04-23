@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<!-- <record id="hrms_pixon_view_hloidays_form" model="ir.ui.view">
+			<field name="name">hrms.pixon.view.holidays.form</field>
+			<field name="model">custom.allocation</field>
+			<field name="arch" type="xml">
+				<form string="Leave Encash">
+					<group>
+						<group>
+							<field name="leave_encashnemt" invisible='0'/>
+							<field name="leave_encashnemt_date" invisible='0'/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record> -->
+
+		<record model="ir.ui.view" id="inherit_hrms_instellars_view_holidays_tree">
+			<field name="name">inherit.hrms.instellars.view.holiday.tree</field>
+			<field name="model">custom.allocation</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="leave_encashnemt" sum='leave_encashnemt'/>
+					<field name="leave_encashnemt_date"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_custom_allocation" model="ir.actions.act_window">
+	        <field name="name">Leave Encashed</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">custom.allocation</field>
+	        <field name="view_mode">tree</field>
+	        <field name="view_id" ref="inherit_hrms_instellars_view_holidays_tree"/>
+    	</record>
+
+		<record model="ir.ui.view" id="inherit_hrms_pixon_view_employee_form">
+			<field name="name">view employee</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				 <div name="button_box" position="inside">
+                    <button name="%(action_custom_allocation)d"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        type="action">
+                        <field name="leave_count" widget="statinfo" string="Leave Encashed"/>
+                    </button>
+                </div>
+				<field name="tz" position="after">
+					<field name="leave_encashnemt_date"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="inherit_hrms_pixon_view_payslip_form">
+			<field name="name">view employee</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//header" position="after">
+					<div class="alert alert-warning text-center o_form_header oe_edit_only"  role="status">
+						<a class="close" data-dismiss="alert" href="#" aria-label="Close" modifiers="{}">
+							x
+						</a>
+						<div>
+							<strong>
+								Check the Final Settlement Checkbox Before Choose Employee, If this Payslip is for F&amp;F Payslip.
+							</strong>
+						</div>
+					</div>
+				</xpath>
+				<field name="struct_id" position="after">
+					<field name="leave_encashnemt" attrs="{'invisible': [('final_settlement_information','!=', True)]}"/>
+					<field name="z_encash" attrs="{'invisible': [('final_settlement_information','!=', True)]}"/>
+				</field>
+			</field>
+		</record>
+
+		
+	</data>
+</odoo>

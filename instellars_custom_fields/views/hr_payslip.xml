@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <div style="padding:10px;">
+                    <label for="final_settlement_information"/>
+                    <field name="final_settlement_information"/>
+                </div>
+
+            </div>
+            <xpath expr="//notebook" position="inside">
+                <page name="full_finale_settlement" string="F&amp;F information" attrs="{'invisible': [('final_settlement_information','=', False)]}">
+                    <group>
+                        <group>
+                            <field name="date_of_relieving" readonly="1"/>
+                            <field name="last_working_day_at_instellars" readonly="1"/>
+                            <field name="submission_date_of_resignation" readonly="1"/>
+                            <field name="last_salary_paid_date" readonly="1"/>
+                            <field name="notice_period_as_per_application" readonly="1"/>
+                            <field name="notice_period_adjustable" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

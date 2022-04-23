@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+   	 <template id="assets_login" inherit_id="web.assets_frontend">
+   	 	<xpath expr="." position="inside">
+   	 		<link rel="stylesheet" href="/login_background/static/src/css/web_login_style.css"/>
+   	 	</xpath>
+    </template>
+    
+   	<template id="login_layout_custom" inherit_id="web.login_layout" name="Login Layout Inherit">   		
+   		
+   		<xpath expr="//div[@t-attf-class='card border-0 mx-auto bg-100 {{login_card_classes}} o_database_list']" position="before">
+   			<div id="background-wrapper" t-attf-style="background-image: url('#{background_src}');"></div>
+   		</xpath>
+   		
+   	</template>
+   	
+   
+
+</odoo>

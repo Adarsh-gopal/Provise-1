@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_layout" name="Portal layout: payslip menu entry" inherit_id="portal.portal_breadcrumbs" priority="45">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'my_payslips' or my_payslips" t-attf-class="breadcrumb-item #{'active' if not my_payslips else ''}">
+                <t>My Payslips</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_home_my_payslips" name="Portal My Home : Payslip Entries" inherit_id="portal.portal_my_home" priority="55">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Payslips</t>
+                <t t-set="url" t-value="'/my/payslips'"/>
+                <t t-set="count" t-value="payslip_counts"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_payslip" name="My Payslip">
+        <t t-call="portal.portal_layout">
+            <t t-set="no_footer">1</t>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Payslips</t>
+            </t>
+            <t t-if="not grouped_payslips">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no payslips.
+                </div>
+            </t>
+            <t t-if="grouped_payslips">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_payslips" t-as="payslips">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th t-if="groupby == 'none'">Name</th>
+                                <th t-else="">
+                                    <em class="font-weight-normal text-muted">Name</em>
+                                    <!-- <span t-field="payslips[0].holiday_status_id.name"/> -->
+                                </th>
+                                <th>Employee Name</th>
+                                <th>Period</th>
+                                <th>Download Payslip</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="payslips" t-as="payslip">
+                                <tr>
+                                   
+                                    <td><a href="#" ><span t-esc="payslip.name"/></a></td>
+                                    <td><span t-esc="payslip.employee_id.name"/></td>
+                                    <td><span t-field="payslip.date_from" t-options='{"widget": "date"}'/> - <span t-field="payslip.date_to" t-options='{"widget": "date"}'/></td>
+                                    
+                                    <td>
+                                       <t t-if="report_templates">
+                                            <t t-if="payslip.state == 'done'">
+                                                <a t-attf-class="btn #{'btn-danger' if payslip.final_settlement_information else 'btn-primary'} label-text-align" t-att-href="'/report/pdf/payslip_download?payslip_id=%s&amp;fandf=%s' % (payslip.id,payslip.final_settlement_information)" title="Download"><i class="fa fa-download"/> Download</a>
+                                            </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,272 @@
+.o_portal_docs.list-group.prix_portal {
+    width: 100%;
+    display: inline-block;
+}
+
+.o_portal_wrap{
+    .o_my_sidebar{
+    background: #38373c;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    }
+}
+
+.prix_portal {
+    width: 100%;
+    display: inline-block;
+    
+    .badge-pill {
+        font-size: 32px;
+        color: gray;
+    }
+
+    
+    .badge-secondary {
+        background-color: transparent;
+    }
+    span.badge.badge-secondary.badge-pill {
+            display: none !important;
+    }
+    
+    .list-group-item {
+            float: left;
+            margin: 25px 10px;
+            padding: 14px 18px;
+            min-height: 130px;
+            width: 30%;
+            border-radius: 8px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            font-size: 20px;
+            
+            @media (max-width: 767px) {
+                width: 100%;
+            }
+    }
+    
+    [href="/my/quotes"]{
+        display:none !important;
+    }
+    [href="/my/orders"]{
+        display:none !important;
+    }
+
+    [href="/my/purchase"]{
+        display:none !important;
+    }
+    [href="/my/invoices"]{
+        display:none !important;
+    }
+
+    [href="/my/quotes"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f155";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: theme-color('primary');
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+
+    [href="/my/orders"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f201";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: theme-color('secondary');
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+    
+        [href="/my/purchase"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f07a";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: theme-color('epsilon');
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+
+    [href="/my/invoices"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f0d6";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: theme-color('delta');
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);      color: #fff !important;
+    }
+
+
+
+    [href="/my/projects"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f12e";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: #74789e;
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+
+    [href="/my/tasks"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f0ae";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: #268f92;
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+    
+    [href="/my/timesheets"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f017";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: #484848;
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+    [href="/my/attendance"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f007";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            background-color: #88afc4;
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);         color: #fff !important;
+    }
+
+    [href="/my/leaves"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f235";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            background-color: #c8bf7c;
+            color: #fff !important;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);
+        }
+    [href="/my/team/leaves"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f274";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            background-color: #c8bf7c;
+            color: #fff !important;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);
+        }
+
+      [href="/my/payslips"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f0d6";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            background-color: #cc6c89;
+            color: #fff !important;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);
+        }
+    [href="/my/appraisals"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f006";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            background-color: #12698b;
+            color: #fff !important;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);
+        }
+        [href="/my/team/appraisals"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f005";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            background-color: #8c4444;
+            color: #fff !important;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);
+        }
+        [href="/my/team/timesheets"]::before {
+            width: 70px;
+            height: 70px;
+            content: "\f252";
+            font-family: FontAwesome;
+            position: absolute;
+            top: -23px;
+            left: 30px;
+            padding: 13px 20px 20px 24px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        background-color: #484848;
+        box-shadow: 1px 1px 9px rgba(10, 9, 9, 0.3);     color: #fff !important;
+    }
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_calendar_event_form_inherit" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit</field>
+        <field name="model">calendar.event</field>
+         <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Interview Details" name="interview_details" attrs="{'invisible':[('category_name', '!=', 'meeting')]}">
+                    <group>
+                        <group>
+                           <field name="activity_type" readonly="1"/>
+                           <field name="category_name" readonly="1" invisible="1"/>
+                       </group>
+                        <group>
+                        </group>
+
+                    </group>
+                    <group>
+                        <group>
+                            <div class="oe_title"  name="title">
+                                <h3>
+                                    <field name="activity_type" options='{"no_open": True}' readonly="1"/>
+                                </h3>
+                            </div>
+                            <field name="interviewer" widget="many2many_tags"/>
+                            <field name="interviewee" readonly="False"/>
+                            <field name="activity_type_name" invisible="1"/>
+                            <field name="interview_location" attrs="{'invisible':[('activity_type_name', '!=', 'F2F Interview')]}"/>
+
+                            <field name="meeting_id" attrs="{'invisible':[('activity_type_name', '!=', 'Zoom Interview')]}"/>
+                            <field name="password" attrs="{'invisible':[('activity_type_name', '!=', 'Zoom Interview')]}"/>
+                            <field name="zoom_link" attrs="{'invisible':[('activity_type_name', '!=', 'Zoom Interview')]}"/>
+
+                            <field name="skype_link" attrs="{'invisible':[('activity_type_name', '!=', 'Skype Interview')]}"/>
+<!--                             <field name="igc_resume"/> -->
+                            <field name="note"/>
+                           <!--  <div>
+                                <button  name="send_igc_form" type="object" string="Send IGC Resume"  class="btn-danger" style="background-color: #875a7b; border-color: #875a7b;" />
+                            </div> -->
+                            <button  name="%(generate_evaluation_web_link_action)d" type="action" string="Send Evaluation Form" class="oe_highlight"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+<!-- 
+    <record id="mail_activity_type_view_form_inherit" model="ir.ui.view">
+        <field name="name">mail.activity.type.view.form.inherit</field>
+        <field name="model">mail.activity.type</field>
+        <field name="inherit_id" ref="mail.mail_activity_type_view_form"/>
+        <field name="arch" type="xml">
+            <field name="decoration_type" position="after">
+                <field name="template_id"/>
+            </field>
+        </field>
+    </record> -->
+</odoo>

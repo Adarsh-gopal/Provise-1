@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="mail_template_send_weblink_applicant" model="mail.template">
+        <field name="name">Applicant: On Boarding link</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="subject">${object.company_id.name} : Job Offer - ${object.name}</field>
+        <field name="partner_to" >${ctx.get('partner_to', False)}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <h2>Congratulations!</h2>
+                You can configure your Employee details by clicking on the link below.
+                <div style="margin: 16px 0px 16px 0px;">
+                    <a href="${ctx.get('salary_package_url')}"
+                        target="_blank"
+                        style="background-color: #875a7b; text-decoration: none; color: #fff; padding: 8px 16px 8px 16px; border-radius: 5px;">Update your details</a>
+                </div>
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+     <record id="hr_notification_on_onboard" model="mail.template">
+        <field name="name">Employee: On Boarding notification to HR</field>
+        <field name="model_id" ref="model_hr_employee"/>
+        <field name="subject">Employee Onboard successfully</field>
+        <!-- <field name="partner_to" >${object.}</field> -->
+        <field name="email_to" >subbu@dispostable.com</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                            </div>
+        </field>
+        <field name="lang">${object.company_id.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+  </data>
+
+</odoo>

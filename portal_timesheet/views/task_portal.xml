@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_layout_portal_timesheet" inherit_id="project.portal_layout" name="Portal layout: project menu entry" >
+        <xpath expr="//li/a[@t-if='task']" position="replace">
+                <a t-if="task" t-attf-href="/my/tasks">Tasks</a>
+        </xpath>
+    </template>
+
+    <template id="portal_my_tasks_protal" inherit_id="project.portal_my_tasks">
+        <xpath expr="//tbody//tr/td[1]" position="replace">
+            <td>
+                <a t-attf-href="/my/task/#{task.id}?{{ keep_query() }}"><span t-esc="task.project_id.name"/></a>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="portal_my_projects_inherit" inherit_id="project.portal_my_projects">
+        <xpath expr="//tbody/tr//td[2]" position="replace">
+            <t t-set="tc" t-value="len(project.task_ids.filtered(lambda x: x.user_id.id == request.env.user.id))"/>
+            <!-- <span t-esc="tc"/> -->
+            <td class="text-right">
+                <a t-attf-href="/my/tasks?{{keep_query(filterby=project.id)}}">
+                    <t t-if="tc &gt; 0">
+                        <t t-esc="tc" />
+                    </t>
+                    <t t-else="">
+                        <t t-esc="project.task_count" />
+                    </t>
+                    <t t-esc="project.label_tasks" />
+                </a>
+            </td>
+        </xpath>
+    </template>
+
+
+    <template id="portal_timesheet_table_inherit" inherit_id="hr_timesheet.portal_timesheet_table">
+        <xpath expr="//table" position="replace">
+            <t t-if="not grouped_tms">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no timesheets.
+                </div>
+            </t>
+            <t t-if="grouped_tms">
+                    <t t-foreach="grouped_tms" t-as="timesheets_grpd">
+                    <table t-attf-class="table table-sm table-responsive-sm #{timesheets_grpd[0].date.strftime('%B_%Y')} " style="margin-bottom:0">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else 'd-none'}}" >
+                                <th t-if="groupby == 'month'" colspan="5" style="cursor: pointer; width:60%" t-att-data-toggle="not groupby == 'none' and 'collapse' or None" t-attf-data-target="#timesheet_grouped_#{timesheets_grpd[0].date.strftime('%B-%Y')}" aria-expanded="false" aria-controls="collapseExample">
+                                    <em class="font-weight-normal text-muted">Timesheets for Month:</em>
+                                    <span t-esc="timesheets_grpd[0].date.strftime('%B %Y')"/>
+                                </th>
+                                <t t-set="all_tm_ids" t-value="[tm.id for tm in timesheets_grpd if tm.manager_approval_state == 'pending_submission']"/>
+                                <th class="submit_all_ids_for_month d-none" t-if="groupby == 'month'" ><t t-esc="all_tm_ids"/></th>
+                                <th class="export_class d-none" t-if="groupby == 'month'" ><t t-esc="timesheets_grpd[0].date.strftime('%B_%Y')"/></th>
+                                <th t-if="groupby == 'month'" colspan="2" style="width:20%">
+                                    <t t-if="all_tm_ids">
+                                        <button  class="btn btn-sm btn-success"  id="submitt_all_tm">
+                                            <span title="Submit All">SUBMIT</span>
+                                        </button>
+                                    </t>
+                                </th>
+                                <th t-if="groupby == 'month'" colspan="1" style="width:18%">
+                                    <button  class="btn btn-sm btn-default"  id="export_tm"><i class="fa fa-download"></i>
+                                    </button>
+                                </th>
+                                <th style="width:2%"></th>
+                            </tr>
+                            <tr t-attf-class="{{'collapse' if not groupby == 'none' else ''}}"  t-attf-id="timesheet_grouped_#{timesheets_grpd[0].date.strftime('%B-%Y')}">
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Employee</th>
+                            <th class="text-right">Duration</th>
+                            <th>Status</th>
+                            <th>Duration Days</th>
+                            <th>Delivery Site</th>
+                            <th>Manager Approval Status</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tr t-foreach="timesheets_grpd" t-as="timesheet" t-attf-class="{{'collapse' if not groupby == 'none' else ''}}" t-attf-id="timesheet_grouped_#{timesheets_grpd[0].date.strftime('%B-%Y')}">
+                            <td><t t-esc="timesheet.date" t-options='{"widget": "date"}'/></td>
+                            <td style="white-space: pre-wrap;"><t t-esc="timesheet.name"/></td>
+                            <td><t t-esc="timesheet.employee_id.name"/></td>
+                            <td class="text-right"><span t-field="timesheet.unit_amount" t-options='{"widget": "duration", "unit": "hour", "round": "minute"}'/></td>
+                            <td><span t-field="timesheet.status"/></td>
+                           <td><span t-field="timesheet.duration_days"/></td>
+                           <td ><span t-field="timesheet.delivery_site"/></td>
+                           <td class="text-center">
+                                <t t-if="timesheet.manager_approval_state == 'pending_submission'"><span t-attf-class="badge badge-pill badge-dark">Pending Submission</span></t>
+                                <t t-if="timesheet.manager_approval_state == 'pending_approval'"><span t-attf-class="badge badge-pill badge-primary">Pending Approval</span></t>
+                                <t t-if="timesheet.manager_approval_state == 'approved'"><span t-attf-class="badge badge-pill badge-success">Approved</span></t>
+                                <t t-if="timesheet.manager_approval_state == 'resubmit'"><span t-attf-class="badge badge-pill badge-warning">Resubmit</span></t>
+                               <!--  <t t-if="timesheet.manager_approval_state == 'rejected'"><span t-attf-class="badge badge-pill badge-danger">Rejected</span></t> -->
+                            </td>
+                           <td><t t-if="timesheet.manager_approval_state in ['pending_submission','resubmit'] "> <a t-attf-href="/my/task/#{task.id}/#{timesheet.id}"><span title="Edit"><i class="fa fa-pencil"></i></span></a></t></td>
+                        </tr>
+                        </table>
+                    </t>
+            </t>
+        </xpath>
+     
+    </template>
+
+    <template id="project_portal_my_task_inherit" inherit_id="project.portal_my_task">
+        <xpath expr="//div[hasclass('container')]" position="attributes">
+            <attribute name="id">tm_sheet_table</attribute>
+        </xpath>
+    </template>
+
+    <template id="portal_my_task_inherit" inherit_id="hr_timesheet.portal_my_task">
+
+        <xpath expr="//t[@t-call='portal.portal_record_layout']" position="before">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">task timesheet</t>
+            </t>
+        </xpath>
+        <xpath expr="//div[@t-if='timesheets']" position="replace">
+            <div class="container" >
+                <hr class="mt-4 mb-1"/>
+                <h5 class="mt-2 mb-2">Timesheets</h5>
+                <button id="create_ts" class="btn btn-primary label-text-align mb8 mt6" title="Create New Timehseet" data-toggle="modal" data-target="#create_new_ts_modal">
+                    Create New Timesheet
+                </button>
+                <t t-call="hr_timesheet.portal_timesheet_table"/>
+            </div>
+            <div id="create_new_ts_modal" class="modal fade" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form id="new_timsheet_form" >
+                            <div class="modal-content">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="original_link" t-att-value="original_link"/>
+                            <input type="date" name="service_period_from" t-att-value="task.sale_line_id.service_period_from" style="display:none;"/>
+                            <input type="date" name="service_period_to" t-att-value="task.sale_line_id.service_period_to" style="display:none;"/>
+                            <input type="date" name="today_date" t-att-value="datetime.date.today()" style="display:none;"/>
+                            <input type="hidden" name="sale_order" t-att-value="task.sale_order_id.id"/>
+
+                            <input type="hidden" name="duration_days_on_status" t-att-value="task.project_id.duration_days_on_status"/>
+                            <div class="modal-header">
+                                <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+
+                                <div class="ayaz" align="center"> 
+                                    <strong><h4 class="modal-title" id="bi_website_rma" aling="center">Create New Timesheet</h4></strong>
+                                </div>
+                            </div>
+                            <div class="modal-body" style="display:inline-block">
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="date">Date:<span style="color:red">*</span></label>
+                                    <input type="date" name="date" class="form-control" required="required" t-att-max="datetime.date.today()"/>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="Day">Day:</label>
+                                    <input type="text" name="day" class="form-control" disabled="disabled"/>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="delivery_site">Delivery Site:<span style="color:red">*</span></label>
+                                    <select name="delivery_site" class="form-control" data-placeholder="Select a Delivery Site" required="required">
+                                        <option/>
+                                        <t t-foreach="delivery_sites" t-as="ds">
+                                          <option t-att-value="ds.id"><t t-esc="ds.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="project_id">Project:</label>
+                                    <select name="project_id" class="form-control" disabled="disabled" data-placeholder="Select a Project" required="required">
+                                        <option/>
+                                        <t t-foreach="projects" t-as="project">
+                                          <option t-att-value="project.id" t-att-selected="task.project_id.id == project.id"><t t-esc="project.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="task_id">Task:</label>
+                                    <select name="task_id" class="form-control" disabled="disabled"  data-placeholder="Select a Task" required="required">
+                                        <option/>
+                                        <t t-foreach="tasks" t-as="tk">
+                                          <option t-att-value="tk.id" t-att-selected="tk.id == task.id"><t t-esc="tk.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="status">Status:</label>
+                                    <select name="status" class="form-control" data-placeholder="Select a Task" required="required">
+                                        <option/>
+                                       
+                                          <option value="full_day">Full Day</option>
+                                          <option value="half_day">Half Day</option>
+                                          <option value="absent">Absent</option>
+                                          <option value="weekend">Weekend</option>
+                                          <option value="public_holiday">Public HoliDay</option>
+                                          <option value="comp_off">Comp Off</option>
+                                          <option value="business_travel">Business Travel</option>
+                                       
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="description">Description:<span style="color:red">*</span></label>
+                                    <textarea rows="1" name="description" class="form-control" required="required"/>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="unit_amount">Duration(Hours):</label>
+                                    <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                        <input type="text" value="00:00"  name="unit_amount" class="form-control datetimepicker-input" data-target="#datetimepicker3" readonly="readonly" required="required"/>
+                                        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="duration_days">Duration(Days):</label>
+                                    <input type="text"  disabled="disabled" name="duration_days" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- <button id="submit"  style="font-size: 15px;border:none;">SAVE</button> -->
+                                <button type="button" id="submit" class="btn btn-primary label-text-align" style="font-size: 15px;border:none;" name="submit1">SAVE</button>
+
+                                <button type="button" class="btn btn-default pull-right close"  style="font-size: 15px;border:none;" data-dismiss="modal">CANCEL</button>
+                            </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+        </xpath>
+        <xpath expr="//div[@t-if='task.user_id']" position="inside">
+            <t t-set="ts_manager" t-value="request.env['hr.employee'].sudo().search([('user_id','=',task.user_id.id)])"/>
+            <t t-if="ts_manager.timesheet_portal_manager_id">
+                <div class="row mt16">
+                 <strong>Timesheet Manager</strong>
+                </div>
+                <div class="row ">
+                    <div class="col flex-grow-0 pr-3">
+                        <img t-if="ts_manager.timesheet_portal_manager_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(ts_manager.timesheet_portal_manager_id.image_1024)" alt="Contact"/>
+                        <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                    </div>
+                    <div class="col pl-md-0">
+                        <div t-field="ts_manager.timesheet_portal_manager_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+       
+    </template>
+
+    <template id="portal_layout" name="Portal layout: Edit Timesheet menu entry" inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'edit_timesheet' or timesheet" t-attf-class="breadcrumb-item #{'active ' if not timesheet else ''}">
+                <a t-if="timesheet" t-attf-href="/my/task/#{timesheet.task_id.id}?{{ keep_query() }}">Task</a>
+                <t t-else="">Task</t>
+            </li>
+            <li t-if="timesheet" class="breadcrumb-item active">
+                <span  class="text-muted"> Edit Timesheet</span>
+            </li>
+            <li t-if="page_name == 'team_timesheet' or project_id" t-attf-class="breadcrumb-item #{'active ' if not project_id else ''}">
+                <a t-if="project_id" t-attf-href="/my/team/timesheets?{{ keep_query() }}">My Team Timesheets</a>
+                <t t-else="">My Team Timesheet</t>
+            </li>
+            <li t-if="project_id" class="breadcrumb-item active">
+               <!--  <span t-field="sale_order.type_name"/> -->
+                <t t-esc="project_id.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_task_timesheet_edit" name="My Timesheet Edit">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md">
+                            <h5 class="mb-1 mb-md-0">
+                                <!-- <span t-field="timesheet.name"/> -  --><span>Edit Timesheet</span>
+                                <span t-field="timesheet.date"/>
+                                <small class="text-muted"> (#<span t-field="timesheet.id"/>)</small>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div id="edit_timsheet_form" class="row">
+                        <form>
+                            <div class="col-lg-12 mb16 mt8 text-right">
+                                <button type="button" id="update" class="badge badge-info label-text-align d-none" style="font-size: 15px;border:none;"><i class="fa fa-pencil"></i>&#160;UPDATE</button>
+                                <button type="button" id="delete" class="badge badge-danger label-text-align" style="font-size: 15px;border:none;"><i class="fa fa-trash"></i>&#160;DELETE</button>
+                            </div>
+                           
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <!-- <input type="hidden" name="original_link" t-att-value="original_link"/> -->
+                            <input type="date" name="service_period_from" t-att-value="timesheet.task_id.sale_line_id.service_period_from" style="display:none;"/>
+                            <input type="date" name="service_period_to" t-att-value="timesheet.task_id.sale_line_id.service_period_to" style="display:none;"/>
+                            <input type="hidden" name="duration_hrs" t-att-value="timesheet.unit_amount"/>
+                            <input type="hidden" name="timesheet_id" t-att-value="timesheet.id"/>
+                            <input type="date" name="today_date" t-att-value="datetime.date.today()" style="display:none;"/>
+                            <input type="hidden" name="sale_order" t-att-value="timesheet.task_id.sale_order_id.id"/>
+                            <input type="hidden" name="duration_days_on_status" t-att-value="timesheet.project_id.duration_days_on_status"/>
+                            <!-- <div class="modal-body" style="display:inline-block"> -->
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="date">Date:</label>
+                                    <input type="date" name="date" t-att-value="timesheet.date" class="form-control" required="required"/>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="Day">Day:</label>
+                                    <input type="text" name="day"  t-att-value="timesheet.day" class="form-control" disabled="disabled"/>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="delivery_site">Delivery Site:</label>
+                                    <select name="delivery_site" class="form-control" data-placeholder="Select a Delivery Site" required="required">
+                                        <option/>
+                                        <t t-foreach="delivery_sites" t-as="ds">
+                                          <option t-att-value="ds.id" t-att-selected="ds.id == timesheet.delivery_site.id"><t t-esc="ds.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="project_id">Project:</label>
+                                    <select name="project_id" class="form-control" disabled="disabled" data-placeholder="Select a Project" required="required">
+                                        <option/>
+                                        <t t-foreach="projects" t-as="project">
+                                          <option t-att-value="project.id" t-att-selected="timesheet.project_id.id == project.id"><t t-esc="project.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="task_id">Task:</label>
+                                    <select name="task_id" class="form-control" disabled="disabled"  data-placeholder="Select a Task" required="required">
+                                        <option/>
+                                        <t t-foreach="tasks" t-as="tk">
+                                          <option t-att-value="tk.id" t-att-selected="tk.id == timesheet.task_id.id"><t t-esc="tk.name" /></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="status">Status:</label>
+                                    <select name="status" class="form-control" data-placeholder="Select a Task" required="required">
+                                        <option/>
+                                       
+                                          <option value="full_day" t-att-selected="timesheet.status == 'full_day'">Full Day</option>
+                                          <option value="half_day" t-att-selected="timesheet.status == 'half_day'">Half Day</option>
+                                          <option value="absent" t-att-selected="timesheet.status == 'absent'">Absent</option>
+                                          <option value="weekend" t-att-selected="timesheet.status == 'weekend'">Weekend</option>
+                                          <option value="public_holiday" t-att-selected="timesheet.status == 'public_holiday'">Public HoliDay</option>
+                                          <option value="comp_off" t-att-selected="timesheet.status == 'comp_off'">Comp Off</option>
+                                           <option value="business_travel" t-att-selected="timesheet.status == 'business_travel'">Business Travel</option>
+                                       
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="description">Description:</label>
+                                    <textarea rows="1" name="description" class="form-control" required="required"><t t-esc="timesheet.name"/></textarea>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="unit_amount">Duration(Hours):</label>
+                                    <!-- <input type="text"  name="unit_amount" class="form-control" required="required"/> -->
+                                    <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                        <input type="text"  name="unit_amount" class="form-control datetimepicker-input" data-target="#datetimepicker3" readonly="readonly"  required="required"/>
+                                        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6 pull-left">
+                                    <label class="control-label" for="duration_days">Duration(Days):</label>
+                                    <input type="text"  disabled="disabled" t-att-value="timesheet.duration_days" name="duration_days" class="form-control" />
+                                </div>
+                            <!-- </div> -->
+                       
+                        </form>
+                    </div>
+
+
+                </t>
+            </t>
+
+        </t>
+    </template>
+</odoo>

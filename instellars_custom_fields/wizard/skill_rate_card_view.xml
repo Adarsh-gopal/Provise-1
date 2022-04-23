@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="skill_rate_card_view_form" model="ir.ui.view">
+          <field name="name">skills.rate.card.wizard.form</field>
+          <field name="model">skill.rate.card</field>
+          <field name="arch" type="xml">
+            <form string="skills rate">
+                <div class="oe_title">
+                    <h3>Skills to rate card</h3>  
+                </div>
+                <group>
+                    <group>
+                    	<field name="project_id" invisible="1"/>
+                        <field name="engagement_model" readonly="1"/>
+                        <field name="delivery_site" />
+                        <field name="duration_of_working" />
+                        <field name="years_of_exp_min" />
+                        <field name="years_of_exp_max" />
+                    </group>
+                    <group>
+                        <field name="project_skill"/>
+                        <field name="domain"/>
+                        <field name="rate_card_type"/>
+                        <field name="currency" />
+                        <field name="rate" />
+                        <field name="rate_start_date" />
+                        <field name="rate_start_end_date" />
+
+                    </group>                    
+                </group>
+                <footer>
+                    <button name="create_rate_card" type="object" string="Create" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+          </field>
+    </record>
+
+    <!-- <record id="create_rate_card_action" model="ir.actions.act_window">
+        <field name="name">Create Rate Card</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">skill.rate.card</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="skill_rate_card_view_form"/>
+        <field name="context">{'active_id' : active_id}</field>
+        <field name="target">new</field>
+    </record> -->
+
+    <record id="create_rate_card_action" model="ir.actions.act_window">
+        <field name="name">Create Rate Card</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">skill.rate.card</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="skill_rate_card_view_form"/>
+        <field name="context">{'active_id' : active_id, 'engagement_model': 'engagement_model', active_model: 'project.project'}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

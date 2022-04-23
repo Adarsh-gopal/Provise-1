@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+        <field name="name">Jobs - Recruitment Form inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="is_user_approver" invisible="1"/>
+                <field name="stage_approved" invisible="1"/>
+                <field name="approver" widget="many2many_tags" attrs="{'readonly':['|',('is_user_approver','!=', True),('stage_id','!=',1)]}"/>
+            </field>
+        </field>
+    </record>
+    <record id="hr_kanban_view_applicant_instellars" model="ir.ui.view">
+        <field name="name">hr.applicants.kanban.instellars</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="before">
+                <field name="stage_approved" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

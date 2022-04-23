@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="timesheet_validation_view_form_portal" model="ir.ui.view">
+        <field name="name">timesheet.validation.form</field>
+        <field name="model">timesheet.validation</field>
+        <field name="inherit_id" ref="timesheet_grid.timesheet_validation_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='validation_date']" position="after">
+                 <group><group></group><group><field name="deselect_all" string="DeSelect All"/></group></group>
+            </xpath>
+            <xpath expr="//footer" position="before">
+                     <!-- <button type="object" string="Check Approval" name="action_check_approval" class="btn-primary"/> -->
+                <group string="Non Approved Timesheets For till this month">
+                    <field name="timesheet_line_ids" widget="one2many" nolabel="1">
+                        <tree editable="bottom" create="false" delete="false">
+                            
+                            <field name="employee_id"  required="1"/>
+                            <field name="timesheet_id" />
+                            <field name="date" />
+                            <field name="manager_approval_state" />
+                            
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>

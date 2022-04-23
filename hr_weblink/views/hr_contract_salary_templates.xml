@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="weblink_page" name="Employee Onboard">
+        <title>Employee Onboard Link</title>
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div name="loading_block" class="overlay">
+                    <div class="spinner"></div>
+                </div>
+
+                <form id="hr_cs_form">
+                    <section id="hr_cs_personal_information">
+                        <div class="container">
+                            <div class="row">
+                                <input type="hidden" name="token" t-att-value="token"/>
+                                <input type="hidden" name="applicant_id" t-att-value="applicant_id"/>
+                                <input type="hidden" name="partner_id" t-att-value="partner_id"/>
+                                <input type="hidden" name="original_link" t-att-value="original_link"/>
+                                <input type="hidden" name="freeze" t-att-value="freeze"/>
+                                <input type="hidden" name="job_title" t-att-value="job_title"/>
+                                <!-- <input type="text" name="current_company" t-att-value="current_company"/> -->
+                               <!--  <span  t-esc="current_company">dfsdgfsdfgdsfg</span> -->
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    <h1>Your Personal Information</h1>
+                                </div>
+
+                                <div class="col-md-4 mt48">
+                                    <button t-att-class="'d-none' if need_personal_information else 'btn'" type="button" name="toggle_personal_information">Show <i class="fa fa-chevron-down"></i></button>
+                                    <button class="d-none btn" type="button" name="toggle_personal_information">Hide <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div t-att-class="'col-md-8' if need_personal_information else 'col-md-8 d-none'" name="personal_info">
+
+                                    <!-- Name + Gender -->
+                                    <div class="row">
+                                       
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="d-none">
+                                                    <label class="col-form-label" for="name">Name</label><span class="text-muted"> (Lastname Firstname)</span>
+                                                    <input type="text" name="name" class="form-control"/>
+                                                </div>
+                                                
+                                                    <label class="col-form-label" for="first_name">First Name<span style="color:red">*</span></label>
+                                                    <input type="text" name="first_name" class="form-control half_name"  required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_name">Last Name<span style="color:red">*</span></label>
+                                                    <input type="text" name="last_name" class="form-control half_name"  required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="title">Title<span style="color:red">*</span></label>
+                                                <select  required="required" name="title" class="form-control" data-placeholder="Select a Title" >
+                                                    <option/>
+                                                    <t t-foreach="title" t-as="titles">
+                                                      <option t-att-value="titles.id"><t t-esc="titles.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="gender">Gender<span style="color:red">*</span></label><br/>
+                                                <label class="hr_cs_control hr_cs_control_radio">Male
+                                                    <input type="radio" name="gender" value="male" class="advantage_input" required="required" />
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                                <label class="hr_cs_control hr_cs_control_radio">Female
+                                                    <input type="radio" name="gender" value="female" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                                <label class="hr_cs_control hr_cs_control_radio">Other
+                                                    <input type="radio" name="gender" value="other" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="father_name">Father Name<span style="color:red">*</span></label>
+                                                <input type="text" name="father_name" class="form-control advantage_input" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="mother_name">Mother Name<span style="color:red">*</span></label>
+                                                <input type="text" name="mother_name" class="form-control advantage_input" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="phone">Phone number<span style="color:red">*</span></label>
+                                                <input type="text" name="phone" class="form-control" placeholder="+91 1234567890" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="private_email">Email<span style="color:red">*</span></label>
+                                                <input type="email" name="private_email" class="form-control" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="blood_group">Blood Group<span style="color:red">*</span></label>
+                                                <select name="blood_group" class="form-control" data-placeholder="Select Blood Group" required="required">
+                                                    <option/>
+                                                    <option value="O+">O +ve </option>
+                                                    <option value="O-">O -ve </option>
+                                                    <option value="A+">A +ve </option>
+                                                    <option value="A-">A -ve </option>
+                                                    <option value="B+">B +ve </option>
+                                                    <option value="B-">B -ve </option>
+                                                    <option value="AB+">AB +ve </option>
+                                                    <option value="AB-">AB -ve </option>     
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="skype_id">Skype ID<span style="color:red">*</span></label>
+                                                <input type="text" name="skype_id" class="form-control"  required="required"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="birthdate">DOB<span style="color:red">*</span></label>
+                                                <input type="date" name="birthdate" class="form-control advantage_input"  min="1000-01-01" max="9999-12-31" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="place_of_birth">Place of birth<span style="color:red">*</span></label>
+                                                <input type="text" name="place_of_birth" class="form-control" required="required" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Nationality -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="country_id">Nationality<span style="color:red">*</span></label>
+                                                <select name="country_id" class="form-control" data-placeholder="Select a country" required="required">
+                                                    <option/>
+                                                    <t t-foreach="countries" t-as="country">
+                                                      <option t-att-value="country.id"><t t-esc="country.name" /></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="universal_account_number">UAN<span style="color:red">*</span></label>
+                                                <input type="text" name="universal_account_number"  class="form-control" required="required"  />
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="esi_number">ESI Number</label>
+                                                <input type="text" name="esi_number"  class="form-control" />
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-12">
+                                            <span><strong> Do you wish to continue with your existing PF Number? </strong></span>
+                                            <div class="form-group mt8">
+                                                <label class="hr_cs_control hr_cs_control_radio">Yes
+                                                    <input type="radio" name="existing_pf_number" value="yes" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                                <label class="hr_cs_control hr_cs_control_radio">No
+                                                    <input type="radio" name="existing_pf_number" value="no" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none"  name="new_pf_number">
+                                                <div class="alert alert-success">
+                                                    our HR executive will comunicate with you for new PF details
+                                                </div>      
+                                        </div>
+                                        <div class="col-md-6 d-none" name="existing_pf_number">
+                                            <div class="form-group ">
+                                                <label class="col-form-label" for="provident_fund">PF Number<span style="color:red">*</span></label>
+                                                <input type="text" name="provident_fund"  class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="identification_id">Aadhar Number<span style="color:red">*</span></label>
+                                                <input type="text" name="identification_id" placeholder="1234 5678 9123" class="form-control" required="required"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="col-form-label" for="aadhar_doc">Upload your Aadhar Document</label>
+                                            <input type="file" name="aadhar_doc" class="form-control document"/>
+                                        </div>
+                                        <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                            <span class="reset" title="Reset"  name="aadhar_doc" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="pan_no">PAN No<span style="color:red">*</span></label>
+                                                <input type="text" name="pan_no"  class="form-control"  required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="col-form-label" for="pan_doc">Upload your PAN Document</label>
+                                            <input type="file" name="pan_doc" class="form-control document"/>
+                                        </div>
+                                        <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                            <span class="reset" title="Reset"  name="pan_doc" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="form-group col-md-4 reset_sibling">
+                                                    <label class="col-form-label" for="photo_for_id">Photo for ID<span style="color:red">*</span>(png,jpeg,jpg formats only)</label>
+                                                    <input type="file" name="photo_for_id" accept="image/x-png,image/jpeg"  class="form-control document"/>
+                                                    <!-- <span class="reset" name="photo_for_id" title="Reset" style="cursor:hand;float:right;position: relative;top: -26px;right: -16px;"><i class="fa fa-trash"></i></span> -->
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset" title="Reset"  name="photo_for_id" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="photo_for_id_img" t-att-src="photo_for_id" alt="ID Card Copy" width="256" t-att-class="'d-none' if not photo_for_id or photo_for_id[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="photo_for_id_pdf" t-att-src="photo_for_id" height="256" width="256" t-att-class="'d-none' if not photo_for_id or photo_for_id[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <!-- Emergency -->
+                                    <div class="row" name="emergency">
+                                        <div class="col-md-12">
+                                            <h2>In case of emergency</h2>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="emergency_contact">Person to call<span style="color:red">*</span></label>
+                                                <input type="text" name="emergency_contact" class="form-control" placeholder="contact person name..." required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="emergency_phone">Phone number<span style="color:red">*</span></label>
+                                                <input type="text" name="emergency_phone" class="form-control" placeholder="+91 1234567890" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="relation_with_employee">Relation<span style="color:red">*</span></label>
+                                                <input type="text" name="relation_with_employee" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="emergency_contact_city">City<span style="color:red">*</span></label>
+                                                <input type="text" name="emergency_contact_city" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="emergency_contact_country">Country<span style="color:red">*</span></label>
+                                                <select name="emergency_contact_country" class="form-control" data-placeholder="Select a country" required="required">
+                                                     <option value="">select...</option>
+                                                    <t t-foreach="countries or []" t-as="country">
+                                                      <option t-att-value="country.id" ><t t-esc="country.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="emergency_contact_state">State<span style="color:red">*</span></label>
+                                                <select name="emergency_contact_state" class="form-control" data-placeholder="Select a state" required="required">
+                                                     <option value="">select...</option>
+                                                    <t t-foreach="states or []" t-as="state">
+                                                      <option t-att-value="state.id" t-att-data-emergency_contact_country="state.country_id.id" style="display:none;"><t t-esc="state.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="row" name="address_info">
+                                        <div class="col-md-12">
+                                            <h2>Address</h2>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h4>Present Address</h4>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="street">Street<span style="color:red">*</span></label>
+                                                <input type="text" name="street_present" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="street2">Street 2<span style="color:red">*</span></label>
+                                                <input type="text" name="street2_present" class="form-control" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="city">City<span style="color:red">*</span></label>
+                                                <input type="text" name="city_present" class="form-control" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="zip">Zip Code<span style="color:red">*</span></label>
+                                                <input type="text" name="zip_present" class="form-control" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="country_pid_resent">Country<span style="color:red">*</span></label>
+                                                <select name="country_id_present" class="form-control" data-placeholder="Select a country" required="required">
+                                                     <option value="">select...</option>
+                                                    <t t-foreach="countries or []" t-as="country">
+                                                      <option t-att-value="country.id"><t t-esc="country.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="state__id_present">State<span style="color:red">*</span></label>
+                                          <!--       <input type="text" name="state_present" class="form-control" /> -->
+                                                <select name="state_id_present" class="form-control" data-placeholder="Select a state" required="required" >
+                                                     <option value="">select...</option>
+                                                    <t t-foreach="states" t-as="state">
+                                                      <option t-att-value="state.id" t-att-data-country_id_present="state.country_id.id" style="display:none"><t t-esc="state.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="km_home_work">Km Home to Work</label>
+                                                <input type="number" name="km_home_work" class="form-control advantage_input km_home_work" t-att-value="contract.employee_id.km_home_work" />
+                                            </div>
+                                        </div> -->
+                                        <div class="col-md-12">
+                                            <h4>Permanent Address</h4>
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label class="hr_cs_control hr_cs_control_checkbox mt4">if permanent address same as present address?
+                                                <input type="checkbox" name="present_permanent_same" class="advantage_input"/>
+                                                <div class="hr_cs_control_indicator hr_cs_control_indicator_white" />
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="street">Street<span style="color:red">*</span></label>
+                                                <input type="text" name="street_permanent" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="street2">Street 2<span style="color:red">*</span></label>
+                                                <input type="text" name="street2_permanent" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="city">City<span style="color:red">*</span></label>
+                                                <input type="text" name="city_permanent" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="zip">Zip Code <span style="color:red">*</span></label>
+                                                <input type="text" name="zip_permanent" class="form-control"  required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="country_id_permanent">Country<span style="color:red">*</span></label>
+                                                <select name="country_id_permanent" class="form-control" data-placeholder="Select a country" required="required">
+                                                    <option value="">select...</option>
+                                                    <t t-foreach="countries or []" t-as="country">
+                                                      <option t-att-value="country.id" ><t t-esc="country.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="state_id_permanent">State</label>
+                                            
+                                                <select name="state_id_permanent" class="form-control" data-placeholder="Select a state">
+                                                    <option value="">select...</option>
+                                                    <t t-foreach="states" t-as="state">
+                                                      <option t-att-value="state.id" t-att-data-country_id_permanent="state.country_id.id" style="display:none"><t t-esc="state.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <!-- Educations Details -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Education </h2>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="degree">Degree<span style="color:red">*</span></label>
+                                                <select name="degree" multiple="multiple" class="form-control multi-select " data-placeholder="Select a Degree" required="required">
+                                                    <option/>
+                                                    <t t-foreach="degrees" t-as="degree">
+                                                      <option t-attf-value="#{degree.id}"><t t-esc="degree.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="degree_type">Degree Type<span style="color:red">*</span></label>
+                                                <select name="degree_type" class="form-control" data-placeholder="Select a Degree" required="required" >
+                                                    <option/>
+                                                    <t t-foreach="degree_type" t-as="degreestype">
+                                                      <option t-att-value="degreestype.id"><t t-esc="degreestype.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="division">Division<span style="color:red">*</span></label>
+                                                <select name="division" class="form-control" data-placeholder="Select a Degree" required="required">
+                                                    <option/>
+                                                    <t t-foreach="division" t-as="divisions">
+                                                      <option t-att-value="divisions.id"><t t-esc="divisions.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">                                            
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="year_of_pass">Year of Pass<span style="color:red">*</span></label>
+                                                <input type="text" name="year_of_pass" class="form-control advantage_input"  min="1000-01-01" max="9999-12-31" required="required"/>
+                                            </div>                                          
+                                        </div>
+                                        <div class="col-md-6">                                            
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="university_name">University Name<span style="color:red">*</span></label>
+                                                <input type="text" name="university_name" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">                                            
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="percentage">Percentage(%)<span style="color:red">*</span></label>
+                                                <input type="number" min="0" name="percentage" class="form-control" required="required"/>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+
+                                    <!-- Certificate -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Resume</h2>
+                                        </div>
+                                    </div> 
+                                    <div class="resume-block" >
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="skill_type_id">Skill Type<span style="color:red">*</span></label>
+                                                <select name="skill_type_id" class="form-control" data-placeholder="Select Skill Type" required="required">
+                                                     <option value="">Select...</option>
+                                                    <t t-foreach="skill_types or []" t-as="skill_type">
+                                                      <option t-att-value="skill_type.id" ><t t-esc="skill_type.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="skill_id">Skills<span style="color:red">*</span></label>
+                                                <select multiple="multiple" name="skill_id" class="form-control multi-select" data-placeholder="Select a Skill" required="required">
+                                                    <t t-foreach="skills or []" t-as="skill">
+                                                      <option t-att-value="skill.id" t-att-data-skill_type_id="skill.skill_type_id.id"><t t-esc="skill.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                            <!-- <div class="col-md-5 ">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="skill_id_type">Skill Type<span style="color:red">*</span></label>
+                                                    <select name="skill_id_type"  class="form-control" data-placeholder="Select a skill type" required="required">
+                                                       <option>Select..</option>
+                                                        <t t-foreach="skill_types or []" t-as="skill_type">
+                                                          <option t-att-value="skill_type.id"><t t-esc="skill_type.name"/></option>
+                                                      </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label class="col-form-label"  for="skill_id">Certification<span style="color:red">*</span></label>
+                                                    <select name="skill_id" class="form-control" data-placeholder="Select a skills" required="required">
+                                                       <option>Select..</option>
+                                                        <t t-foreach="skills" t-as="skill">                               
+                                                            <option t-att-value="skill.id" t-att-data-skill_id_type="skill.skill_type_id.id"><t t-esc="skill.name"/></option>
+                                                      </t>
+                                                    </select>
+                                                </div>
+                                            </div> -->
+                                            
+                                            <!-- <div class="col-md-2" style="padding-top: 38px;"> -->
+                                                <!-- <a class="add_button" style="cursor:hand;float:right" title="Add field"><i class="fa fa-plus"></i>Add lines</a> -->
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+
+
+
+                                     <!-- Last worked Company informations -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Last Experience Detail</h2>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mt16">
+                                                <label class="hr_cs_control hr_cs_control_radio">Freshers
+                                                    <input type="radio" name="experience_level" value="fresher" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                                <label class="hr_cs_control hr_cs_control_radio">Experienced
+                                                    <input type="radio" name="experience_level" value="experienced" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_working_company">Last working Company<span style="color:red">*</span></label>
+                                                <input type="text" name="last_working_company" class="form-control"  />
+
+                                               <!--  <select name="last_working_company"  class="form-control" data-placeholder="select company" disabled="disabled">
+                                                    <option/>
+                                                    <t t-foreach="companies" t-as="company">
+                                                      <option t-att-value="company.id"  t-att-selected="'selected' if company.name == current_company else None" ><t t-esc="company.name"/></option>
+                                                  </t>
+                                                </select> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level" >
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_drawn_salary">Last Drawn Salary<span style="color:red">*</span></label>
+                                                <input type="number" min="0" class="form-control" name="last_drawn_salary" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_company_department">Last Company Department<span style="color:red">*</span></label>
+                                                <input type="text" name="last_company_department" class="form-control"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_company_designation">Last Company Designation<span style="color:red">*</span></label>
+                                                <input type="text" name="last_company_designation" class="form-control"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_working_day">Last Working Day<span style="color:red">*</span></label>
+                                                <input type="date" name="last_working_day" class="form-control advantage_input"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="start_date_of_career">Start Date of career<span style="color:red">*</span></label>
+                                                <input type="date" name="start_date_of_career" class="form-control advantage_input"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="last_company_employeed_code">Last company employee code</label>
+                                                <input type="text" name="last_company_employeed_code" class="form-control advantage_input"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="reason_for_leaving">Reason For Leaving Previous company</label>
+                                                <textarea type="textarea" rows="3" name="reason_for_leaving"  class="form-control" placeholder="reasons for leaving.."/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12 mb0">
+                                                    <label class="col-form-label">Total Years of Experience<span style="color:red">*</span></label>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="tot_exp_years">Years</label>
+                                                    <input type="number" min="0" name="tot_exp_years"  class="form-control" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="tot_exp_months">Months</label>
+                                                    <select name="tot_exp_months" class="form-control" data-placeholder="Select Month" required="required">
+                                                        <option value="00">00</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                           
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="experience_level">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12 mb0">
+                                                    <label class="col-form-label">Relevant Years of Experience<span style="color:red">*</span></label>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="relevant_exp_years">Years</label>
+                                                    <input type="number" min="0" name="relevant_exp_years"  class="form-control"  />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-form-label" for="relavant_exp_months">Months</label>
+                                                    <select name="relavant_exp_months" class="form-control" data-placeholder="Select Month" required="required">
+                                                        <option value="00">00</option>
+                                                        <option value="01">01</option>
+                                                        <option value="02">02</option>
+                                                        <option value="03">03</option>
+                                                        <option value="04">04</option>
+                                                        <option value="05">05</option>
+                                                        <option value="06">06</option>
+                                                        <option value="07">07</option>
+                                                        <option value="08">08</option>
+                                                        <option value="09">09</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                           
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" name="experience_level">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="domain">Domain<span style="color:red">*</span></label>
+                                                <select name="domain" class="form-control" data-placeholder="Select a domain" required="required">
+                                                    <option/>
+                                                    <t t-foreach="domains" t-as="domain">
+                                                      <option t-att-value="domain.id"><t t-esc="domain.name"/></option>
+                                                  </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                              
+                                        <!-- documents -->
+
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="previous_company_salary_slip">Previous Company Last Month Salary Slip<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="previous_company_salary_slip" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="previous_company_salary_slip" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="previous_company_salary_slip_img" t-att-src="previous_company_salary_slip" alt="ID Card Copy" width="256" t-att-class="'d-none' if not previous_company_salary_slip or previous_company_salary_slip[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="previous_company_salary_slip_pdf" t-att-src="previous_company_salary_slip" height="256" width="256" t-att-class="'d-none' if not previous_company_salary_slip or previous_company_salary_slip[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="previous_company_salary_slip2">Previous Company 2nd Last Month Salary Slip<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="previous_company_salary_slip2" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="previous_company_salary_slip2" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="previous_company_salary_slip2_img" t-att-src="previous_company_salary_slip2" alt="ID Card Copy" width="256" t-att-class="'d-none' if not previous_company_salary_slip2 or previous_company_salary_slip2[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="previous_company_salary_slip2_pdf" t-att-src="previous_company_salary_slip2" height="256" width="256" t-att-class="'d-none' if not previous_company_salary_slip2 or previous_company_salary_slip2[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="previous_company_salary_slip3">Previous Company 3rd Last Month Salary Slip<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="previous_company_salary_slip3" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="previous_company_salary_slip3" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="previous_company_salary_slip3_img" t-att-src="previous_company_salary_slip3" alt="ID Card Copy" width="256" t-att-class="'d-none' if not previous_company_salary_slip3 or previous_company_salary_slip3[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="previous_company_salary_slip3_pdf" t-att-src="previous_company_salary_slip3" height="256" width="256" t-att-class="'d-none' if not previous_company_salary_slip3 or previous_company_salary_slip3[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="last_company_releiving_letter">Last Company releiving letter<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="last_company_releiving_letter" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="last_company_releiving_letter" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="last_company_releiving_letter_img" t-att-src="last_company_releiving_letter" alt="ID Card Copy" width="256" t-att-class="'d-none' if not last_company_releiving_letter or last_company_releiving_letter[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="last_company_releiving_letter_pdf" t-att-src="last_company_releiving_letter" height="256" width="256" t-att-class="'d-none' if not last_company_releiving_letter or last_company_releiving_letter[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="last_company_experience_letter">Last Company experience letter<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="last_company_experience_letter" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="last_company_experience_letter" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="last_company_experience_letter_img" t-att-src="last_company_experience_letter" alt="ID Card Copy" width="256" t-att-class="'d-none' if not last_company_experience_letter or last_company_experience_letter[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="last_company_experience_letter_pdf" t-att-src="last_company_experience_letter" height="256" width="256" t-att-class="'d-none' if not last_company_experience_letter or last_company_experience_letter[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-none" name="experience_level">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="last_company_offer_letter">Last Last Company offer letter<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="last_company_offer_letter" accept="application/pdf" class="form-control document"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset"  title="Reset" name="last_company_offer_letter" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="last_company_offer_letter_img" t-att-src="last_company_offer_letter" alt="ID Card Copy" width="256" t-att-class="'d-none' if not last_company_offer_letter or last_company_offer_letter[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="last_company_offer_letter_pdf" t-att-src="last_company_offer_letter" height="256" width="256" t-att-class="'d-none' if not last_company_offer_letter or last_company_offer_letter[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>     
+                                    </div>
+
+                                    <!-- bank Details -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2>Bank account Detail</h2>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span><strong> Do you wish to go with your old Bank account details? </strong></span>
+                                            <div class="form-group mt8">
+                                                <label class="hr_cs_control hr_cs_control_radio">Yes
+                                                    <input type="radio" name="existing_bank_account" value="yes" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                                <label class="hr_cs_control hr_cs_control_radio">No
+                                                    <input type="radio" name="existing_bank_account" value="no" class="advantage_input"/>
+                                                    <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none"  name="new_bank_account">
+                                            
+                                                <div class="alert alert-success">
+                                                    our HR executive will comunicate with you for new bank account soon!.
+                                                </div>
+                                            
+                                        </div>
+
+                                        <div class="col-md-6 d-none" name="existing_bank_account">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="account_holder_name">Account Holder Name<span style="color:red">*</span></label>
+                                                <input type="text"  name="account_holder_name"  class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none" name="existing_bank_account">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="bank_name">Bank Name<span style="color:red">*</span></label>
+                                                <input type="text" name="bank_name" class="form-control"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 d-none"  name="existing_bank_account">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="acc_number">Bank account<span style="color:red">*</span></label>
+                                                <input type="text" name="acc_number" class="form-control" placeholder="1111 2222 3333 4444"  />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none"  name="existing_bank_account">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="bank_branch">Bank Branch<span style="color:red">*</span></label>
+                                                <input type="text" name="bank_branch" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-none"  name="existing_bank_account">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="bank_ifsc_code">Bank IFSC<span style="color:red">*</span></label>
+                                                <input type="text" name="bank_ifsc_code" class="form-control" />
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                   
+                    
+                                    <!-- Personal Documents -->
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="image_1920">Employee Photo<span style="color:red">*</span><span>(Jpeg,Png,Jpg)</span></label>
+                                                    <input type="file" name="image_1920" accept="image/x-png,image/jpeg" class="form-control document" required="required"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset" title="Reset" name="image_1920" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="image_1920_img" t-att-src="image_1920" alt="Employee Photo" width="256" t-att-class="'d-none' if not image_1920 or image_1920[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="image_1920_pdf" t-att-src="image_1920" height="256" width="256" t-att-class="'d-none' if not image_1920 or image_1920[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="form-group col-md-4">
+                                                    <label class="col-form-label" for="certificate_of_fitness">Certificate of fitness<span style="color:red">*</span><span>(PDF documents only)</span></label>
+                                                    <input type="file" name="certificate_of_fitness" accept="application/pdf" class="form-control document" required="required"/>
+                                                </div>
+                                                <div class="col-md-2 reset_parent" style="padding: 40px 0 40px 0;">
+                                                    <span class="reset" title="Reset" name="certificate_of_fitness" style="cursor:hand"><i class="fa fa-trash"></i></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <img id="certificate_of_fitness_img" t-att-src="certificate_of_fitness" alt="ID Card Copy" width="256" t-att-class="'d-none' if not certificate_of_fitness or certificate_of_fitness[:28] == 'data:application/pdf;base64,' else ''"/>
+                                                    <iframe id="certificate_of_fitness_pdf" t-att-src="certificate_of_fitness" height="256" width="256" t-att-class="'d-none' if not certificate_of_fitness or certificate_of_fitness[:28] != 'data:application/pdf;base64,' else ''"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <button type="button" id="hr_cs_submit" class="hr_cs_btn_submit btn" name="submit2">SUBMIT</button>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-3  offset-xl-1">
+
+                                    <!-- Marital Status -->
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="marital">Marital Status<span style="color:red">*</span></label>
+                                        <select name="marital" class="form-control advantage_input" data-placeholder="Select a status">
+                                            <option/>
+                                            <option value="single">Single</option>
+                                            <option value="married">Married</option>
+                                            <option value="cohabitant">Legal Cohabitant</option>
+                                            <option value="widower">Widower</option>
+                                            <option value="divorced">Divorced</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Spouse -->
+                                    <div name="spouse_information" class="card">
+                                        <div class="card-body">
+                                            <div class="form-group mt8">
+                                                <label class="col-form-label" for="spouse_complete_name">Spouse Name and First Name</label>
+                                                <input type="text" name="spouse_complete_name" class="form-control"/>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+ 
+
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="salary_package_thank_you" name="Details Submitted ">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional"><i class="fa fa-check-circle-o mr8"/>Congratulations</h1>
+                        <p class="lead mb24">Your details been has been sent to:</p>
+                        <p class="lead mb4"> <b><t t-if="responsible_name" t-esc="responsible_name"/></b></p>
+                        <p class="mb24">
+                            <a t-if="responsible_email" t-att-href="'mailto:' + responsible_email" class="hr_cs_brand_optional">
+                                <t t-if="responsible_email" t-esc="responsible_email"/>
+                            </a>
+                            <span class="text-muted mr4 ml4">|</span>
+                            <a t-if="responsible_phone" t-att-href="'tel:' + responsible_phone" class="hr_cs_brand_optional">
+                                <t t-esc="responsible_phone"/>
+                            </a>
+                        </p>
+                        <p>He/She will review your Details.<br/> Feel free to contact him/her if you have further questions.</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="applicant_exist" name="Applicant Already Exist">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional"><i class="fa fa-exclamation mr8"/>ERROR</h1>
+                        <p class="lead mb24">The following applicant already in employee list</p>
+                        <!-- <p class="lead mb4"> <b><t t-if="responsible_name" t-esc="responsible_name"/></b></p> -->
+                        <p class="mb24">
+                            <!-- <a t-if="responsible_email" t-att-href="'mailto:' + responsible_email" class="hr_cs_brand_optional">
+                                <t t-if="responsible_email" t-esc="responsible_email"/>
+                            </a>
+                            <span class="text-muted mr4 ml4">|</span>
+                            <a t-if="responsible_phone" t-att-href="'tel:' + responsible_phone" class="hr_cs_brand_optional">
+                                <t t-esc="responsible_phone"/>
+                            </a> -->
+                        </p>
+                        <p>Please contact<br/> HR responsible</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

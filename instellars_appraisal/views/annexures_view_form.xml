@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="applicant_annexures_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.annexure.form.inherit</field>
+        <field name="model">hr.applicant.annexure</field>
+        <field name="inherit_id" ref="instellars_offer_release.applicant_annexures_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="filter_appraisal" attrs="{'invisible': [('state', '=', 1)]}" type="object" icon="fa-star-half-o">
+                    <field string="Appraisals" name="appraisal_count" widget="statinfo" />
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

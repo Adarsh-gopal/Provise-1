@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_layout" name="Portal layout: Attendance menu entry" inherit_id="portal.portal_breadcrumbs" priority="35">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'attendance' or attendance" t-attf-class="breadcrumb-item #{'active' if not attendance else ''}">
+                <t>Attendance</t>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_attendance" name="Portal My Home : Attendance" inherit_id="portal.portal_my_home" priority="1">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Attendance</t>
+                <t t-set="url" t-value="'/my/attendance'"/>
+                <!-- <t t-set="count" t-value="attendance_count"/> -->
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_attendance" name="My Attendance">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Attendance</t>
+            </t>
+          <!--   <t t-if="not grouped_timesheets">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no Attendance.
+                </div>
+            </t> -->
+            <div class="row">
+                <div class="col-lg-12">
+                     <div class="o_hr_attendance_kiosk_mode_container o_home_menu_background">
+                        <!-- <span class="o_hr_attendance_kiosk_backdrop"/> -->
+                       <!--  <div class="o_hr_attendance_clock text-center"/> -->
+                       <input type="hidden" name="logged_in_user" t-att-value="logged_in_user"/>
+                       <input type="hidden" name="original_link" t-att-value="original_link"/>
+                        <div class="o_hr_attendance_kiosk_mode">
+                            <t t-set="checked_in" t-value="employee.attendance_state =='checked_in'"/>
+
+                            <t>
+                                <div class="o_hr_attendance_user_badge o_home_menu_background">
+                                    <img class="img rounded-circle" t-attf-src="/web/image?model=res.users&amp;field=image_128&amp;id=#{employee.user_id.id}" t-att-title="employee.name" t-att-alt="employee.name"/>
+                                </div>
+                                <h1 id="emp_name" class="mb8"><t t-esc="employee.name"/></h1>
+                                <h3 id="wc_msg" class="mt8 mb24"><t t-if="not checked_in">Welcome!</t><t t-else="">Want to check out?</t></h3>
+                                <h4 id="work_hrs" class="mt0 mb0 text-muted" t-if="checked_in">Today's work hours: <span t-esc="employee.hours_today" t-options='{"widget": "float_time"}'/></h4>
+                                <a class="fa fa-7x o_hr_attendance_sign_in_out_icon fa-sign-out btn-warning" t-if="checked_in" aria-label="Sign out" title="Sign out"/>
+                                <a class="fa fa-7x o_hr_attendance_sign_in_out_icon fa-sign-in btn-secondary1" t-if="not checked_in" aria-label="Sign in" title="Sign in"/>
+                                <h3 id="click_chkdin" class="mt0 mb0 text-muted">Click to <b t-if="checked_in">check out</b><b t-if="not checked_in">check in</b></h3>
+                            </t>
+                           <!--  <t t-else="">
+                                Warning : Your user should be linked to an employee to use attendance. Please contact your administrator.
+                            </t> -->
+                        </div>
+                </div>
+                </div>
+            </div>
+                 
+               <!--  <t t-call="portal.portal_table">
+                    <thead>
+                        <tr>                              
+                            <th>Check-In </th>
+                            <th>Check-Out</th>
+                            <th class="text-right">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="attendances" t-as="attendance">
+                            <tr>
+                                <td><span t-esc="attendance.check_in"/></td>
+                                <td><span t-field="attendance.check_out"/></td>     
+                                <td class="text-right"><span t-field="attendance.worked_hours" t-options='{"widget": "float_time"}' /></td>
+                            </tr>
+                        </t>
+                    </tbody>  
+                </t> -->
+            </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="quotation_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.quotation.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="replace">
+            </field>
+            <field name="name" position="after">
+                <field name="purchase_order_number" string="PO" optional="show"/>
+                <field name="resource_id" string="Resource Name" optional="show"/>
+                <field name="partner_id" string="Customer Name" optional="show"/>
+                <field name="purchase_order_date" string="PO Date" optional="show"/>
+                <field name="amount_total" string="PO Amount" optional="show"/>
+                <field name="due_date" string="PO Expiry Date" optional="show"/>
+                <field name="amount_due" string="PO Balance Amount" optional="show"/>
+            </field>
+        </field>
+    </record>
+     <!-- <record id="to_invoice_tree_inerited" model="ir.ui.view">
+        <field name="name">sale.order.invoice.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="replace">
+            </field>
+            <field name="name" position="after">
+                <field name="purchase_order_number" string="PO" optional="show"/>
+                <field name="resource_id" string="Resource Name" optional="show"/>
+                <field name="partner_id" string="Customer Name" optional="show"/>
+                <field name="purchase_order_date" string="PO Date" optional="show"/>
+                <field name="amount_total" string="PO Amount" optional="show"/>
+                <field name="due_date" string="PO Expiry Date" optional="show"/>
+            </field>
+        </field>
+    </record> -->
+
+</odoo>

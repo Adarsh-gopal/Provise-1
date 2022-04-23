@@ -1,0 +1,11 @@
+V13.0.0.5 ----> V13.0.0.6
+Date: 15-07-2020
+Changes Made:
+    1. Automatic flow of Remaining earned leaves at the time of Leaving company  to Full and final settlement settlement.
+    2. Vallidate this based on the final_settlement_information boolean so that this functionality works only when the **this boolean is 'True'.
+    3. Made invisible true for all the respected encashing app fields for normal payslip.
+    4. this app is dependent with instellars_finalsettlement_report module where final_settlement_information field is declared.
+Changes made By:
+    Madhukumar
+
+**********************************************************************************************************

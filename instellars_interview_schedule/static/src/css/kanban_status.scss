@@ -1,0 +1,31 @@
+.o_status {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    border-radius: 6px;
+    vertical-align: middle;
+
+    background-color: gray('300');
+
+    &.o_status_green {
+        background-color: theme-color('success');
+    }
+    &.o_status_red {
+        background-color: theme-color('danger');
+    }
+    &.o_status_orange {
+        background-color: #FFA500;
+    }
+    &.o_status_yellow {
+        background-color: #FFFF00;
+    }
+    &.o_status_brown {
+        background-color: #A52A2A;
+    }
+    &.o_status_blue {
+        background-color: #0000FF;
+    }
+    &.o_status_purple {
+        background-color: #800080;
+    }
+}

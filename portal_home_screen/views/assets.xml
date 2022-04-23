@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="my_home_portal_frontend" inherit_id="website.assets_frontend"
+        name="Timesheet Portal Frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/portal_home_screen/static/src/scss/homescreen.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/portal_home_screen/static/src/scss/org_chart_portal.scss"/>
+        </xpath>
+         <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/portal_home_screen/static/src/js/org_chart_portal.js"></script>
+           
+        </xpath>
+    </template>
+</odoo>

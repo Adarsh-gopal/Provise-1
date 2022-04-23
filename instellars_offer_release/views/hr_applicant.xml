@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_applicant_view_offer_release" model="ir.ui.view">
+        <field name="name">hr.applicant.form.offer.release</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="filter_annexure" attrs="{'invisible': [('annexure_count', '=', 0)]}" type="object" icon="fa-file-o">
+                    <field string="Annexure-I" name="annexure_count" widget="statinfo" />
+                </button>
+
+            </xpath>
+            <field name="stage_id" position="before">
+                <field name="enable_offer_letter_button" invisible="1"/>
+                <field name="enable_update_result_button" invisible="1"/>
+                <field name="enable_appointment_letter" invisible="1"/>   
+                <button  name="send_offer" type="object" string="Send Offer by Mail" class="oe_highlight" attrs="{'invisible': [('enable_offer_letter_button', '=', False)]}" />
+                <button  name="%(instellars_offer_release.send_offer_action)d" type="action" string="Update Results" class="oe_highlight"  attrs="{'invisible': [('enable_update_result_button', '=', False)]}"/>
+                <button  name="send_appointment_letter" type="object" string="Appointment Letter" class="oe_highlight" attrs="{'invisible': [('enable_appointment_letter', '=', False)]}" />
+            </field>
+            <!-- <xpath expr="//sheet" position="inside">
+                <field name="evaluation_form"/>
+            </xpath> -->
+        </field>
+    </record>
+    <!-- Add action entry in the Action Menu for Leads -->
+     <!-- <act_window id="update_applicat_detals"
+        name="Update Results"
+        binding_model="hr.applicant"
+        res_model="send.offer.letter"
+        binding_views="form"
+        view_mode="form"
+        target="new"
+        
+    /> -->
+
+    <!-- *******************************hr.annexure.state**************************************************** -->
+    <record model="ir.ui.view" id="annexure_state_tree">
+        <field name="name">hr.annexure.state.tree</field>
+        <field name="model">hr.annexure.state</field>
+        <field name="arch" type="xml">
+            <tree string="Annexure State" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- job cahnge reason View -->
+    <record model="ir.ui.view" id="annexure_state_form">
+        <field name="name">hr.annexure.state.form</field>
+        <field name="model">hr.annexure.state</field>
+        <field name="arch" type="xml">
+            <form string="Annexure State">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="annexure_state_action" model="ir.actions.act_window">
+        <field name="name">Annexure State</field>
+        <field name="res_model">hr.annexure.state</field>
+        <field name="view_id" ref="annexure_state_tree"/>
+    </record>
+
+
+    <menuitem
+        id="menu_annexure_state"
+        name="Annexures-I Stages"
+        action="instellars_offer_release.annexure_state_action"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        
+        sequence="1"
+        />
+
+</odoo>

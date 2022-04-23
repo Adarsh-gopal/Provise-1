@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="demand_sale_action_quotations_new" model="ir.actions.act_window">
+        <field name="name">Quotation</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form,tree,graph</field>
+        <field name="domain">[('demands_id', '=', active_id)]</field>
+        <field name="context">{'search_default_demands_id': active_id, 'default_demands_id': active_id}</field>
+    </record>
+
+    <record id="all_demand_sale_action_quotations_new" model="ir.actions.act_window">
+        <field name="name">Demand Quotation</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('demands_id', '!=', None)]</field>
+        <!-- <field name="context">{'search_default_demands_id': active_id, 'default_demands_id': active_id}</field> -->
+    </record>
+
+    <record id="sale_view_inherit_demand" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='technical']" position="inside">
+                <field name="demands_id" help="Log in the chatter from which demand the order originates" groups="base.group_no_one"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- This menu is display in CRM app when sale is installed-->
+    <menuitem
+        id="sale_order_menu_quotations_demands"
+        name="My Demand Quotations"
+        action="all_demand_sale_action_quotations_new"
+        parent="instellars_demand_management.demand_management_menu_demands_main"
+        sequence="3"/>
+
+</odoo>

@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+<!-- Degree Tree View -->
+    <record model="ir.ui.view" id="hr_employee_degree_tree">
+        <field name="name">hr.employee.degree.tree</field>
+        <field name="model">hr.employee.degree</field>
+        <field name="arch" type="xml">
+            <tree string="Degree" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Degree Form View -->
+    <record model="ir.ui.view" id="hr_employee_degree_form">
+        <field name="name">hr.employee.degree.form</field>
+        <field name="model">hr.employee.degree</field>
+        <field name="arch" type="xml">
+            <form string="Degree">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree Action -->
+    <record id="hr_employee_degree_action" model="ir.actions.act_window">
+        <field name="name">Degree</field>
+        <field name="res_model">hr.employee.degree</field>
+        <field name="view_id" ref="hr_employee_degree_tree"/>
+    </record>
+
+    <menuitem
+        id="menu_hr_configuration_employee_degree"
+        name="Education"
+        parent="hr.menu_human_resources_configuration"
+        
+        sequence="1"/>
+
+        <menuitem
+            id="menu_hr_employee_degree"
+            name="Degrees"
+            action="instellars_custom_fields.hr_employee_degree_action"
+            parent="instellars_custom_fields.menu_hr_configuration_employee_degree"
+            
+            sequence="1"
+            />
+
+
+    <!-- Degree Type Tree View -->
+    <record model="ir.ui.view" id="hr_employee_degree_type_tree">
+        <field name="name">hr.employee.degree.type.tree</field>
+        <field name="model">hr.employee.degree.type</field>
+        <field name="arch" type="xml">
+            <tree string="Degree Type" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Degree type Form View -->
+    <record model="ir.ui.view" id="hr_employee_degree_type_form">
+        <field name="name">hr.employee.degree.type.form</field>
+        <field name="model">hr.employee.degree.type</field>
+        <field name="arch" type="xml">
+            <form string="Degree">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Degree type Action -->
+    <record id="hr_employee_degree_type_action" model="ir.actions.act_window">
+        <field name="name">Degree Type</field>
+        <field name="res_model">hr.employee.degree.type</field>
+        <field name="view_id" ref="hr_employee_degree_type_tree"/>
+    </record>
+
+
+    <menuitem
+            id="menu_hr_employee_degree_type"
+            name="Degrees Type"
+            action="instellars_custom_fields.hr_employee_degree_type_action"
+            parent="instellars_custom_fields.menu_hr_configuration_employee_degree"
+            
+            sequence="2"
+            />
+
+
+     <!-- Division in which em,ployee passed Tree View -->
+    <record model="ir.ui.view" id="hr_employee_degree_division_tree">
+        <field name="name">hr.employee.degree.division.tree</field>
+        <field name="model">hr.employee.degree.division</field>
+        <field name="arch" type="xml">
+            <tree string="Division" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Division in which em,ployee passed Form View -->
+    <record model="ir.ui.view" id="hr_employee_degree_division_form">
+        <field name="name">hr.employee.degree.division.form</field>
+        <field name="model">hr.employee.degree.division</field>
+        <field name="arch" type="xml">
+            <form string="Division">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Division in which em,ployee passed Action -->
+    <record id="hr_employee_degree_division_action" model="ir.actions.act_window">
+        <field name="name">Division</field>
+        <field name="res_model">hr.employee.degree.division</field>
+        <field name="view_id" ref="hr_employee_degree_division_tree"/>
+    </record>
+
+
+    <menuitem
+            id="menu_hr_employee_degree_division"
+            name="Division"
+            action="instellars_custom_fields.hr_employee_degree_division_action"
+            parent="instellars_custom_fields.menu_hr_configuration_employee_degree"
+            
+            sequence="3"
+            />
+
+
+     <!-- work domain in which employee experienced Tree View -->
+    <record model="ir.ui.view" id="hr_employee_work_domain_tree">
+        <field name="name">hr.employee.domain.tree</field>
+        <field name="model">hr.employee.domain</field>
+        <field name="arch" type="xml">
+            <tree string="Domain" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--work domain in which employee experienced Form View -->
+    <record model="ir.ui.view" id="hr_employee_work_domain_form">
+        <field name="name">hr.employee.work.domain.form</field>
+        <field name="model">hr.employee.domain</field>
+        <field name="arch" type="xml">
+            <form string="Domain">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="sequence" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- work domain in which employee experienced Action -->
+    <record id="hr_employee_work_domain_action" model="ir.actions.act_window">
+        <field name="name">Domain</field>
+        <field name="res_model">hr.employee.domain</field>
+        <field name="view_id" ref="hr_employee_work_domain_tree"/>
+    </record>
+
+
+    <menuitem
+            id="menu_hr_employee_work_domain"
+            name="Domain"
+            action="instellars_custom_fields.hr_employee_work_domain_action"
+            parent="instellars_custom_fields.menu_hr_configuration_employee_degree"
+            
+            sequence="4"
+            />
+
+    </data>
+</odoo>

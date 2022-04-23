@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="offerletter_refrence_num" model="ir.sequence">
+            <field name="name">Offer Letter Reference Number</field>
+            <field name="code">hr.applicant.annexure</field>
+            <field name="prefix">OL-</field>
+            <field name="suffix">-%(year)s</field>
+            <field name="padding" eval="0"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_applicant_view_form" model="ir.ui.view">
+        <field name="name">hr.applicant.form.model</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <button name="create_employee_from_applicant" position="before">
+                <field name="enable_on_board" invisible="1"/>
+                <button  name="%(generate_web_link_action)d" type="action" string="Send Onboarding Link" class="oe_highlight" attrs="{'invisible': [('enable_on_board', '=', False)]}"/>
+            </button>
+            <xpath expr="//button[@name='create_employee_from_applicant']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|',('emp_id', '!=', False),('active', '=', False),('enable_on_board', '=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="raise_appraisal_form_view" model="ir.ui.view">
+        <field name="name">raise.appraisal.wizz.form</field>
+        <field name="model">raise.appraisal.wizz</field>
+        <field name="arch" type="xml">
+            <form>
+                 <sheet>
+                    <group>
+                        <group>
+                            <field name="appraisal_period"/>
+                            <!-- <field name="company_id"/> -->
+                        </group>
+                        <group>
+                            <field name="appraisal_deadline"/>
+                            <field name="appraisal_end_date"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="elligible_employee_ids" widget="one2many" nolabel="1">
+                            <tree editable="bottom">
+                                
+                                <field name="employee_id"  required="1"/>
+                                <field name="current_designation" />
+                                <field name="is_designation_changed" />
+                                <field name="new_designation" attrs="{'readonly':[('is_designation_changed','=',False)]}"/>
+                            </tree>
+                        </field>
+                    </group>
+               
+                </sheet>
+                <footer>
+                    <button name="raise_appraisal" type="object" string="Raise Appraisal" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_raise_appraisal_wizz" model="ir.actions.act_window">
+        <field name="name">Raise Appraisal</field>
+        <field name="res_model">raise.appraisal.wizz</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_action_raise_appraisal_wizz" name="Raise Appraisal" parent="hr_appraisal.menu_hr_appraisal_root" action="action_raise_appraisal_wizz" sequence="2"/>
+</odoo>

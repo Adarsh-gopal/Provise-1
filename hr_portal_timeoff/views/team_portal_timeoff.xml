@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <!--  <template id="portal_layout" name="Portal layout: timeoff menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'my_leaves' or my_leaves" t-attf-class="breadcrumb-item #{'active' if not my_leaves else ''}">
+                <t>My Leaves</t>
+            </li>
+            <li t-if="page_name == 'edit_leave' or leave" t-attf-class="breadcrumb-item #{'active ' if not leave else ''}">
+                <a t-if="leave" t-attf-href="/my/leaves/">Leaves</a>
+                <t t-else="">Leaves</t>
+            </li>
+            <li t-if="leave" class="breadcrumb-item active">
+                <span  class="text-muted"> <span t-esc="leave.id"/></span>
+            </li>
+        </xpath>
+    </template> -->
+
+    <template id="portal_home_my_team_timeoff" name="Portal My Home : My Team Timeoff Entries" inherit_id="portal.portal_my_home" priority="55">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="is_timeoff_manager" t-call="portal.portal_docs_entry">
+                <t t-set="title">Team Leaves</t>
+                <t t-set="url" t-value="'/my/team/leaves'"/>
+                <t t-set="count" t-value="team_timeoff_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_team_leaves" name="My Team leaves">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">leaves</t>
+            </t>
+            <t t-if="not grouped_leaves">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no leaves.
+                </div>
+            </t>
+            <t t-if="grouped_leaves">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_leaves" t-as="leaves">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th t-if="groupby == 'none'">Time Off Type</th>
+                                <th t-elif="groupby == 'Employee'">
+                                    <em class="font-weight-normal text-muted">Employee:</em>
+                                    <span t-field="leaves[0].employee_id.name"/>
+                                </th>
+                                <th t-elif="groupby == 'Time Off Type'">
+                                    <em class="font-weight-normal text-muted">Time Off Type:</em>
+                                    <span t-field="leaves[0].holiday_status_id.name"/></th>
+                                <th>Description</th>
+                                <th>From Date</th>
+                                <th>End Date</th>
+                                <th>Employee</th>
+                                <th>No. of Days</th>
+                                <th>Status</th>
+                                <th>Approve</th>
+                                <th>Refuse</th>
+                            </tr>
+                        </thead>
+                        <tbody id="team_time_off">
+                            <t t-foreach="leaves" t-as="leave">
+                                <tr>
+                                    <td><span t-esc="leave.holiday_status_id.name"/></td>
+                                    <td t-att-title="leave.z_name"><t t-if="leave.z_name and len(leave.z_name) > 40"><span t-esc="leave.z_name[:40] + '...'"/></t><t t-else=""><span t-esc="leave.z_name"/></t></td>
+                                    <td><span t-field="leave.request_date_from" t-options='{"widget": "date"}'/></td>
+                                    <td><span t-field="leave.request_date_to" t-options='{"widget": "date"}'/></td>
+                                    <td><span t-field="leave.employee_id"/></td>
+                                    <td><span t-field="leave.number_of_days" /></td>
+                                    <td>
+                                        <t t-if="leave.state == 'draft'"><span t-attf-class="badge badge-pill badge-dark">To Submit</span></t>
+                                        <t t-if="leave.state == 'cancel'"><span t-attf-class="badge badge-pill badge-danger">Cancelled</span></t>
+                                        <t t-if="leave.state == 'confirm'"><span t-attf-class="badge badge-pill badge-info">To Approve</span></t>
+                                        <t t-if="leave.state == 'refuse'"><span t-attf-class="badge badge-pill badge-danger">Refused</span></t>
+                                        <t t-if="leave.state == 'validate1'"><span t-attf-class="badge badge-pill badge-warning">Second Approval</span></t>
+                                        <t t-if="leave.state == 'validate'"><span t-attf-class="badge badge-pill badge-success">Approved</span></t>
+                                    </td>
+                                    <td class="d-none" id="leave_id"><span  t-esc="leave.id"/></td>
+                                    <td class="text-center"><t t-if="leave.state in ['confirm']"> <button class="btn btn-default" id="approve"><span title="Approve"><i class="fa fa-check" style="color:green"></i></span></button></t></td>
+                                    <td class="text-center"><t t-if="leave.state in ['confirm']"> <button  class="btn btn-default"  id="refuse"><span title="Refuse"><i class="fa fa-ban" style="color:red"></i></span></button></t></td>
+                                </tr>
+                            </t>
+                            <div id="manager_review_modal" class="modal fade" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form id="manger_review_form" >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="ayaz" align="center"> 
+                                                    <strong><h6 class="modal-title" id="new_time_off_header" aling="center">Manager's Comment</h6></strong>
+                                                </div>
+                                                <button type="button" class="btn btn-primary close" data-dismiss="modal">&amp;times;</button>
+
+                                            </div>
+                                            <div class="modal-body" style="display:inline-block">
+                                                <div class="form-group col-lg-12 pull-left">
+                                                    <!-- <label class="control-label" for="report_note">Manager Review:<span style="color:red">*</span></label> -->
+                                                    <input type="hidden" name="leave_id" class="form-control"/>
+                                                    <textarea rows="2" name="report_note" class="form-control" ></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="submit_timeoff_review" class="btn btn-primary label-text-align" style="font-size: 15px;border:none;" name="submit_timeoff_review">SAVE</button>
+
+                                                <button type="button" class="btn btn-default pull-right close"  style="font-size: 15px;border:none;" data-dismiss="modal">CANCEL</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="offer_letter_template" model="mail.template">
+        <field name="name">Offer Letter Instellars</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="subject">Offer Release - ${object.job_id.name}</field>
+        <field name="email_to" >${object.email_from}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <div style="margin:0px;padding: 0px;">
+                <div class="oe_form_field oe_form_field_html o_field_widget" name="body_html" style="margin:0 0 0px 0;text-align:left;"><div class="o_readonly"><p style="text-align:left;line-height:120%;direction:ltr;"> </p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><b><font style="font-size:14px;" size="2">Dear ${object.partner_name},</font></b></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;" size="2">We had enjoyed speaking with you each time we got into a conversation, it was great getting to know you and your career aspirations over the course of the last few days.</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;" size="2">The team and I have been impressed with your background, your approach and we would like to formally offer you a position of a <b>${object.job_id.name} </b>at <b>${object.company_id.name}</b></font></p><b> </b><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;" size="2">As agreed mutually over the phone, we feel highly excited to have you started on <b>${object.expected_date_of_joining}.</b></font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;" size="2">We are thrilled to welcome you to the team, kindly confirm your acceptance by returning the signed offer letter (attached) within 2 Days.</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;" size="2">In case you may need any clarifications regarding your job, salary, or any policy, please contact, me o<a href="mailto:hr@instellars.com" target="_blank">hr@instellars.com</a></font></p></div></div></div>
+        
+               
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+      <record id="hr_annexure_inactive" model="hr.annexure.state">
+          <field name="name">Inactive</field>
+          <field name="sequence">1</field>
+      </record>
+
+      <record id="hr_annexure_active" model="hr.annexure.state">
+          <field name="name">Active</field>
+          <field name="sequence">2</field>
+      </record>
+
+  </data>
+
+</odoo>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="portal_timesheet.group_hr_timesheet_portal_approver" model="res.groups">
+        <field name="name">Team Approver Portal</field>
+        <field name="category_id" ref="base.module_category_operations_timesheets"/>
+    </record>
+</odoo>

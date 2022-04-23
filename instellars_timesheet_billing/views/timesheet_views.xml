@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="hr_timesheet_line_tree_inherit" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='date']" position="after">
+                <field name="day"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='task_id']" position="after">
+                <field name="status"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='unit_amount']" position="after">
+                <field name="duration_days" sum="Total" />
+                <field name="delivery_site"/>
+                <field name="hrs_onsite" sum="Total Onsite Duration(Hours)"  optional="show" />
+                <field name="days_onsite" sum="Total Onsite Duration(Days)" optional="show" />
+                <field name="hrs_offsite" sum="Total Offsite Duration(Hours)" optional="show" />
+                <field name="days_offsite" sum="Total Offsite Duration(Days)" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_task_form2_inherited_billing">
+        <field name="name">project.task.form.inherited.billing</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='date']" position="after">
+                <field name="day"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='name']" position="after">
+                <field name="status"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position="after">
+                <field name="duration_days" sum="Total"/>
+                <field name="delivery_site"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position="attributes">
+                <attribute name="sum">Total</attribute>
+            </xpath>
+            <xpath expr="//group[@name='project_hours']" position="before">
+                <group>
+                    <!-- <group>
+                        <field name="onsite_count"/>
+                        <hr/>
+                        <field name="tot_hrs_onsite"/>
+                        <field name="tot_days_onsite"/>
+                      
+                    </group>
+                    <group>
+                        <field name="offsite_count"/>
+                        <hr/>
+                          <field name="tot_hrs_offsite"/>
+                        <field name="tot_days_offsite"/>
+                    </group> -->
+                    <table class="table table-sm ">
+                        <tr >
+                            <th style="border:1px solid #dee2e6"></th>
+                            <th style="border:1px solid #dee2e6">Onsite</th>
+                            <th style="border:1px solid #dee2e6">Offsite</th>
+                        </tr>
+                        <tr>
+                            <th style="border:1px solid #dee2e6">Total</th>
+                            <td style="border:1px solid #dee2e6"><field name="onsite_count"/></td>
+                            <td style="border:1px solid #dee2e6"><field name="offsite_count"/></td>
+                        </tr>
+                        <tr>
+                            <th style="border:1px solid #dee2e6">Hours</th>
+                            <td style="border:1px solid #dee2e6"><field name="tot_hrs_onsite"/></td>
+                            <td style="border:1px solid #dee2e6"><field name="tot_hrs_offsite"/></td>
+                        </tr>
+                        <tr>
+                            <th style="border:1px solid #dee2e6">Days</th>
+                            <td style="border:1px solid #dee2e6"><field name="tot_days_onsite"/></td>
+                            <td style="border:1px solid #dee2e6"><field name="tot_days_offsite"/></td>
+                        </tr>
+                    </table>
+                </group>
+               
+            </xpath>
+            <field name="effective_hours" position="attributes">
+                <attribute name="string">Total Spent Hours</attribute>
+            </field>
+            <xpath expr="//group[@name='project_hours']//field[@name='effective_hours']" position="before">
+              
+                <field name="effective_duration_days" string="Total Spent Days"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

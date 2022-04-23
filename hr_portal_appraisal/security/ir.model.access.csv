@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ir_sequence_portal,ir.sequence.portal.user,base.model_ir_sequence,base.group_portal,1,1,1,0
+hr_appraisal_portal,hr.appraisal.portal.user,hr_appraisal.model_hr_appraisal,base.group_portal,1,1,1,1
+hr_department_portal,hr.department.portal.user,hr.model_hr_department,base.group_portal,1,1,1,1

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="managerial_interview_evaluation" name="Managerial Interview Evaluation">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <form id="managerial_eval_form">
+                    <section id="managerial_eval_information">
+                        <div class="container">
+                            <div class="row">
+                                <input type="hidden" name="applicant_id" t-att-value="applicant_id"/>
+                                <input type="hidden" name="original_link" t-att-value="original_link"/>
+                                <input type="hidden" name="stage_id" t-att-value="stage_id"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt16" >
+                                    <div class="alert alert-success flip" style="cursor:pointer">
+                                        <strong>Candidate Details <i class="fa fa-angle-double-down"></i></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row details-block d-none">
+                                <div class="col-lg-6">
+                                    <table class="table">
+                                        <tr>
+                                            <td><strong> Total Years of Experience</strong></td>
+                                            <td><span t-esc="application_data.total_years_of_experience"/> <span>Years</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Relevant Years of Experience</strong></td>
+                                            <td><span t-esc="application_data.relevant_years_of_experience"/> <span>Years</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong> Certification Type</strong></td>
+                                            <td><span t-esc="application_data.certification_type.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Certification</strong></td>
+                                            <td>
+                                                <t t-if="application_data.certification">
+                                                    <t t-foreach="application_data.certification" t-as="skill">
+                                                        <span t-esc="skill.name"/>
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <t t-if="attachment">
+                                         <a id="resume_button" title="Resume" href="#" data-toggle="modal" data-target="#resume_modal">
+                                            <div class='oe_attachment_embedded o_image' t-att-title="application_data.partner_name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/100x80"/>
+                                           <div class='oe_attachment_name'><t t-raw='application_data.partner_name' /></div>
+                                       </a>
+                                   </t>
+        
+                                </div>
+                            </div>
+                            <div id="resume_modal" class="modal fade" role="dialog" >
+                                <div class="modal-dialog">
+                                    <div  class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Resume</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <iframe id="igc_resume_pdf" t-att-src="pdf_src" height="400px" width="100%" t-att-class="'d-none' if not pdf_src or pdf_src[:28] != 'data:application/pdf;base64,' else ''" allowfullscreen="true"/>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <t t-if="stage.managerial_interview_feedback_enable">
+                                <div class="row">
+                                    <div class="col-lg-12 mt8 flip2" >
+                                        <div class="alert alert-success" style="cursor:pointer">
+                                            <strong>Tech2 Interview Details <i class="fa fa-angle-double-down"></i></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row tech_interview_block d-none">
+                                    <div class="col-lg-12">
+                                        <t t-raw="application_data.tech2_interview"/>
+
+                                    </div>
+                                </div>
+                            </t>
+                            
+                            <div class="row text-center">
+                                <h1><span t-esc="applicant_name"/>&apos;s Evaluation Form-<span t-esc="stage_name"/></h1>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <strong>Note:</strong>
+                                    <p>
+                                        Interview evaluation forms are to be completed by the interviewer to rank the candidate’s overall qualifications for the position for which they have applied. Under each heading, the interviewer should give the candidate a numerical rating and write specific jobrelated comments in the space provided. The numerical rating system is based on the scale below.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper mt8">
+                                <h5><span><strong>Educational Background</strong>– Does the candidate have the appropriate educational qualifications ortraining for this position?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques1"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques1"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques1"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques1"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques1" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Prior Work Experience</strong>– Has the candidate acquired similar skills or qualifications through past work experiences?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques2"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques2"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques2"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques2"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques2" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques2_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Technical Qualifications/Experience</strong>–  Does the candidate have the technical skills necessary for this position?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques3"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques3"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques3"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques3"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques3" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques3_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Communication</strong>– How were the candidate’s communication skills during the interview?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques4"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques4"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques4"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques4"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques4" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques4_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Candidate Interest</strong>– How much interest did the candidate show in the position and the organization?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques5"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques5"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques5"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques5"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques5" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques5_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Knowledge of Organization</strong> – Did the candidate research the organization prior to the interview?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques6"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques6"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques6"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques6"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques6" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques6_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Teambuilding/Interpersonal Skills</strong>–  Did the candidate demonstrate, through their answers, good teambuilding/interpersonal skills?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques7"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques7"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques7"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques7"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques7" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques7_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Initiative</strong>– Did the candidate demonstrate, through their answers, a high degree of initiative?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques8"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques8"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques8"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques8"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques8" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques8_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="js_question-wrapper">
+                                <h5><span><strong>Time Management</strong>–  Did the candidate demonstrate, through their answers, good time management skills?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques9"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques9"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques9"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques9"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques9" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques9_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h5><span><strong>Customer Service/Client service</strong> – Did the candidate demonstrate, through their answers, a high level of customer/Client service skills/abilities?</span></h5>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques10"  value="5"/>
+                                            <span>5</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques10"  value="4"/>
+                                            <span>4</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques10"  value="3"/>
+                                            <span>3</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques10"  value="2"/>
+                                            <span>2</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="ques10" value="1"/>
+                                            <span>1</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques10_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="js_question-wrapper">
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <span><strong> <span t-esc="stage_name"/> Overall Impression and Recommendation</strong> – Summary of your perceptions of the candidate’s strengths/weaknesses. Final comments and recommendations for proceeding with the candidate.</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="managerial_overall_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques11"  value="advance"/>
+                                            <span>Advance</span>
+                                        </label> 
+                                        <label>
+                                            <input type="radio"  name="ques11"  value="advance_with_reserve"/>
+                                            <span>Advance with reservations</span>
+                                        </label>
+                                         <label>
+                                            <input type="radio"  name="ques11"  value="do_not_advance"/>
+                                            <span>Do not advance</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row js_radio">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="hr_cs_control hr_cs_control_radio" >Selected For Next Round
+                                            <input type="radio" name="kanban_state" value="done" class="advantage_input" required="required" />
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Hold
+                                            <input type="radio" name="kanban_state" value="hold" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Reject
+                                            <input type="radio" name="kanban_state" value="blocked" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Re-Schedule
+                                            <input type="radio" name="kanban_state" value="re_schedule" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 d-none" name="hold_block">
+                                    <span>Comment On Holding</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="hold_reason"></textarea>
+                                </div>
+                                <div class="col-lg-12 d-none" name="reject_reason_block">
+                                    <span>Comment For Rejecting</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="reject_reason"></textarea>
+                                </div>
+                                <div class="col-lg-12 d-none" name="reschedule_block">
+                                    <span>Comment Rescheduling</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="re_schedule_reason"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">                                      
+                                <div class="col-md-12 text-center">
+                                    <div class="form-group">
+                                        <button type="button" id="hr_manage_eval_form_submit" class="hr_cs_btn_submit btn" style="text-transform:uppercase" name="submit2">submit</button>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </t>
+    </template>
+
+</odoo>

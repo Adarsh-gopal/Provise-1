@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_contact_info_company_line,project.contact.info.company.line,model_project_contact_info_company_line,project.group_project_user,1,1,1,1
+access_project_contact_info_client_line,project.contact.info.client.line,model_project_contact_info_client_line,project.group_project_user,1,1,1,1
+access_project_contact_info_line_type,project.contact.info.line.type,model_project_contact_info_line_type,project.group_project_user,1,1,1,1

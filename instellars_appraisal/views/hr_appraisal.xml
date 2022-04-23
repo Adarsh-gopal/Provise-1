@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_appraisal_form_inherited" model="ir.ui.view">
+        <field name="name">hr.appraisal.form.inherited</field>
+        <field name="model">hr.appraisal</field>
+        <field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                <button name="open_employee_sign_requests" type="object"  class="oe_stat_button" icon="fa-pencil" >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="sign_request_count"/></span>
+                        <span class="o_stat_text">PMDB</span>
+                    </div>
+                </button>
+            </xpath>
+            <field name="state" position="attributes">
+                <attribute name="options">{'clickable': '1'}</attribute>
+            </field>
+            <xpath expr="//header" position="inside">
+                 <button string="Compute Sheet" name="compute_sheet" type="object"  class="oe_highlight" attrs="{'invisible': [('new_net_salary', '=', 0)]}"/>
+                 <button  name="send_appraisal" type="object" string="Send Appraisal by Mail" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'approved')]}" />
+            </xpath>
+            <xpath expr="//header//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">new,pending,done,pending_app_calc,app_calc,approved</attribute>
+            </xpath>
+            <field name="employee_id" position="before">
+                <field name="appraisal_reference"/>
+            </field>
+            <field name="employee_id" position="after">
+                <field name="current_designation"/>
+                <field name="is_designation_changed"/>
+            </field>
+            <field name="date_close" position="after">
+                <field name="appraisal_period"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page name="appraisal_calculations" string="Appraisal Calculation">
+                    <group>
+                        <field name="overall_performance" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                    <group  groups="instellars_appraisal.group_allow_for_appraisal">
+                        <group string="Current Year CTC">
+                            <field name="current_fy"/>
+                            <label for="net_salary"/>
+                            <div class="o_row" name="net_salary">
+                                <field name="net_salary" readonly="True"  nolabel="1"/>
+                                <span>/ Year</span>
+                            </div>
+                        </group>
+                        <group string="Appraisal %">
+                            <label for="appraisal_percentage"/>
+                            <div class="o_row" name="appraisal_percentage">
+                                <field name="appraisal_percentage"   nolabel="1"/>
+                                <span>/ %</span>
+                                <button type="object"   name="calcluate_new_net_salary" icon="fa-refresh"/>
+                                
+                            </div>
+
+                            <label for="new_net_salary"/>
+                            <div class="o_row" name="new_net_salary">
+                                <field name="new_net_salary"   nolabel="1"/>
+                                <span>/ Year</span>
+                            </div>
+                            <field name="new_designation" attrs="{'invisible': [('is_designation_changed','=',False)],'required':[('is_designation_changed','=',True)]}"/>
+                            
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="struct_id" required="True" string="Structure"/>
+                            <label for="medical_allowance"/>
+                            <div class="o_row" name="medical_allowance">
+                                <field name="medical_allowance" widget="monetary"  readonly="True" required="True" nolabel="1"/>
+                                <span>/ Year</span>
+                            </div>
+                            <label for="conveyance"/>
+                            <div class="o_row" name="conveyance">
+                                <field name="conveyance" readonly="True" widget="monetary"  required="True" nolabel="1"/>
+                                <span>/ Year</span>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="appraisal_line_ids" colspan="4" nolabel="1">
+                            <tree string="Salary Structure" editable="bottom" >
+                                <field name="name"/>
+                                <field name="code"/>
+                                <!-- <field name="category_id"/> -->
+                                <field name="sequence" invisible="1"/>
+                                <field name="yearly_total"/>
+                                <field name="monthly_total"/>
+                                <field name="salary_rule_id"/>
+                                
+                            </tree>
+                            <form string="Annexure Line">
+                                <group col="4">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence"/>
+                                    <field name="yearly_total"/>
+                                    <field name="monthly_total"/>
+                                   
+                                    <field name="salary_rule_id"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_appraisal.hr_appraisal_action_from_department" model="ir.actions.act_window">
+            <field name="name">Appraisal to start</field>
+            <field name="res_model">hr.appraisal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_appraisal.hr_appraisal_search"/>
+            <field name="domain">[('department_id', '=', active_id), ('state', 'in', ['new', 'pending','pending_app_calc','app_calc','approved'])]</field>
+    </record>
+</odoo>

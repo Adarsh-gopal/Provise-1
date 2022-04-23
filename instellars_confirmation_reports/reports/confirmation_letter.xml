@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="confirmation_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars offfer Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">38</field>
+            <field name="margin_left">14</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="confirmation_letter_instellars"
+            model="hr.employee"
+            string="Confirmation Letter"
+            report_type="qweb-pdf"
+            name="instellars_confirmation_reports.confirmation_letter_template"
+            file="instellars_confirmation_reports.confirmation_letter_template"
+            attachment="((object.name or 'CL')+'.pdf')"
+            print_report_name="'CL_%s_%s' % (object.registration_number,time.strftime('%y'))"
+            paperformat="instellars_confirmation_reports.confirmation_letter_paper_format"
+        />
+     
+        <template id="confirmation_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style>
+                <div class="page" >
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_confirmation_reports.external_layout_confirmation_letter">
+                        <div class="row" style="padding-top:50px">
+                            <div class="col-12 text-center">
+                                <h5 style="font-weight:900;">Confirmation Letter</h5>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong> <p><span t-esc="o.get_today_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong> <p>Ref:&#160;<span t-field="o.confirmation_ref"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                <p><span t-esc="o.title.name"/> <span t-esc="o.name"/><br/>
+                                <strong> Emp Id - <span t-field="o.registration_number"/></strong></p> 
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                    <p>Dear <strong><span t-esc="o.get_name()"/>,</strong></p>
+                                    <strong><p style="font-style: italic;">Congratulations!</p></strong>  
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-12">
+
+                                <p style="text-align:justify;">You have successfully completed the <strong><span t-esc="o.company_id.name"/></strong> probationary period as of &#160;<strong><span t-esc="o.get_date()"/></strong>. This letter confirms your appointment as  <strong><span t-esc="o.job_id.name"/></strong>. Upon Hiring the organization, you received an appointment letter that outlined the terms and conditions of your employment. Please refer to the appointment letter when necessary.</p>
+
+                                <p style="text-align:justify;"><strong><span t-esc="o.company_id.name"/></strong> has a Policy and Procedure Manual, and we expect that you will abide by policies outlined in the manual. If you have any questions or concerns, please contact me or any team member in the Human Resources Department. We are happy to assist you in any way.</p>
+
+                                <p style="text-align:justify;">As you progress in your career at <strong><span t-esc="o.get_company_name()"/></strong>, you may be promoted or reassigned to other bands or roles. On such movement, you will be expected to work within the terms and conditions applicable to such bands or roles.</p>
+
+                                <p style="text-align:justify;">Please note that on confirmation, your notice period will be two months. While we expect you to serve the notice period, in case you leave our employment without serving the notice period, we shall reserve right to deduct an amount equivalent to two months gross salary, from any amount that may be due to you.</p>
+
+                                <p style="text-align:justify;"><strong><span t-esc="o.get_name()"/></strong>, we are pleased to confirm your employment at <strong><span t-esc="o.company_id.name"/></strong>. We are thrilled that you are an employee of Instellars and look forward to a mutually beneficial relationship.</p>
+
+                                <p style="text-align:justify;">Kindly acknowledge a copy of this letter and submit the same to the undersigned.</p>   
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Sincerely,<br/>
+                                for<strong> <span t-esc="o.company_id.name"/></strong></p>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="margin-top: -30px;">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{12}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Gopinath MN<br/>
+                                Director</p>
+                            </div>
+                        </div>
+                   </t>
+                </t>
+            </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="apprisal_letter_paper_format" model="report.paperformat">
+            <field name="name">instellars apprisal Letter</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">22</field>
+            <field name="margin_bottom">30</field>
+            <field name="margin_left">14</field>
+            <field name="margin_right">14</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="apprisal_letter_instellars"
+                model="hr.appraisal"
+                string="Appraisal letter"
+                report_type="qweb-pdf"
+                name="instellars_apprisalletter_report.apprisal_letter_template"
+                file="instellars_apprisalletter_report.apprisal_letter_template"
+                attachment="((object.employee_id.name or 'AL')+'.pdf')"
+                print_report_name="'AP_%s_%s' % (object.employee_id.registration_number,time.strftime('%y'))"
+                paperformat="instellars_apprisalletter_report.apprisal_letter_paper_format"
+        />
+     
+        <template id="apprisal_letter_template">
+            <t t-call="web.html_container">
+                <style>
+                    @font-face 
+                    {
+                        font-family: Arial;
+                        src: url('Arial.ttf.woff');
+                    }
+                    body,p,div
+                    {
+                        font-family: Arial !important;
+                        font-size:14px !important;
+                    }
+                </style> 
+                <div class="page" >
+                  <t t-foreach="docs" t-as="o">
+                    <t t-call="instellars_apprisalletter_report.external_layout_offer_letter">
+                        <t t-if="o.company_id.id == 1">
+                        <div class="row" style="padding-top:10px">
+                            <div class="col-12 text-center">
+                                <h4 style="text-decoration:underline;font-weight:900;">Appraisal letter</h4>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p><span t-esc="o.get_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p>Ref: <span t-field="o.appraisal_reference"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                <strong style="
+                              line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p><span t-field="o.employee_id.title"/> <span t-esc="o.employee_id.name"/><br/>
+                                HR Ref:- <span t-esc="o.employee_id.registration_number"/><br/>
+                                </p></strong>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                    <strong style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><p>Dear <span t-esc="o.ename_split_fun(o.employee_id.name)"/>,</p></strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="padding-top:10px;">
+                                <p style="
+                                line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">Last Year went with a lot of growth and achievement at Instellars. The future holds a lot of promises and we are happy to have you as a part of our team.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">We hope that in the coming year, you would continue to play a vital role in supporting the organization’s strategies and priorities.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">In recognition of your performance and contributing to the organization as&#160;<strong><span t-field="o.current_designation"/></strong>,during the appraisal period of <strong><span t-field="o.appraisal_period"/></strong>, we are pleased to inform you that a revision has been made to your current annual compensation, your monthly Cost to Company (CTC) (inclusive of all statutory payments that one is liable for) has been revised to <strong>Rs.<span t-esc="'{0}'.format(int(o.new_net_salary))"/> ( <span t-esc="o.amount_in_words(o.new_net_salary)"/> ) </strong>effective from <strong><span t-esc="o.date_close.strftime('%d %B %Y')"/>.</strong></p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">Enclosed is a worksheet with your updated annual compensation (Cost to company) structure with revised components.</p>
+
+                                <strong><p style="text-align:center;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !importanttext-decoration:underline; margin-bottom:0px;">Compensation and Benefits Structure Effective <span t-esc="o.date_close.strftime('%d %B %Y')"/></p></strong>
+
+                              <div style="padding-left:50px;padding-right:50px">
+                                <table class="table" style="width:100%;border:1px solid black;font-size:13px !important;margin-bottom:0 !important; padding-left:1.2em;">
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>Total Fixed</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <strong><span t-esc="'{0}'.format(int(o.new_net_salary))"/></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          <strong><span t-esc="'{0}'.format(int((o.new_net_salary)/12))"/></strong>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>Component</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <strong><span>Yearly&#160;(&#8377;)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          <strong>Monthly&#160;(&#8377;)</strong>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                        <strong><span>Basic (A)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                        <span>
+                                          <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                            <t t-if="'BASIC' == line.code">
+                                              <span t-field="line.yearly_total"/><br/>
+                                            </t>
+                                          </t>
+                                        </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                        <span>
+                                          <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'BASIC' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>BOA (B)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'BOA' == line.code">
+                                                  <span t-field="line.yearly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                             <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'BOA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>HRA</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'HRA' == line.code">
+                                                  <span t-field="line.yearly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                            <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'HRA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>Conveyance</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'SA' == line.code">
+                                                  <span t-field="line.yearly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'SA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>Medical</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'MA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'MA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>LTA</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'LTA' == line.code">
+                                                  <span t-field="line.yearly_total"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'LTA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>Special Allowances</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'CCA' == line.code">
+                                                  <span t-field="line.yearly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          
+                                              <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'CCA' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                          
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>PF(C)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'PF' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                            <span>
+                                              <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'PF' == line.code">
+                                                  <span t-field="line.monthly_total"/><br/>
+                                              </t>
+                                          </t>
+                                        </span>   
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>Total Fixed (A+B+C)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <strong> <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'NET' == line.code">
+                                                  <span t-esc="'{0}'.format(int(line.yearly_total))"/><br/>
+                                              </t>
+                                          </t>
+                                          </span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          <strong>
+                                             <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'NET' == line.code">
+                                                  <span t-esc="'{0}'.format(int(line.monthly_total))"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                          </strong>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <span>Flexible Component (*) (D)</span>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:25%">
+                                          <strong><span>-</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          <strong><span>-</span></strong>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:45%">
+                                          <strong><span>Total Cost to Company (A+B+C+D)</span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:35%">
+                                          <strong><span>
+                                             <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'NET' == line.code">
+                                                  <span t-esc="'{0}'.format(int(line.yearly_total))"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                          </span></strong>
+                                    </td>
+                                    <td style="border:2px solid black;padding:1px;font-size:13px !important;width:30%">
+                                          <strong>
+                                            <span>
+                                            <t t-foreach="o.appraisal_line_ids" t-as="line">
+                                              <t t-if="'NET' == line.code">
+                                                  <span t-esc="'{0}'.format(int(line.monthly_total))"/><br/>
+                                              </t>
+                                          </t>
+                                          </span>
+                                          </strong>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                      <td style="border:2px solid black;padding:1px;font-size:13px !important;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important" colspan="3">
+                                         <span>
+                                             ** Net Take home is further subject to reduce by an amount equivalent to Professional Tax
+                                                  and TDS(Income Tax on salary)<br/>
+                                              ** As per the Statutory requirement, equal amount will be contributed to the employee’s
+                                              Provident Fund and same will be deducted from Monthly gross salary of the employee
+                                         </span>
+                                      </td>
+                                  </tr>  
+                              </table><br/>
+                            </div>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">All the other terms and conditions of your employment remains the same.</p>
+
+                                <p style="text-align:justify;line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">We look forward to you having a long and successful relationship with Instellars.</p>   
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">Yours sincerely,<br/>
+                                For <strong><span t-esc="o.company_id.name"/>.</strong></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{15}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><b>Gopinath MN</b></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><b>Director</b></p>
+                            </div>
+                        </div>
+                      </t>
+
+                      <!-- for SGD company -->
+                      <t t-if="o.company_id.id != 1">
+
+                        <div class="row" style="padding-top:50px">
+                            <div class="col-12 text-center">
+                                <h4 style="text-decoration:underline;font-weight:900;">Appraisal letter</h4>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                              <strong style="
+                              line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p><span t-esc="o.get_date()"/></p></strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p>Ref: <span t-field="o.appraisal_reference"/></p></strong>
+                            </div>
+                        </div>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                <br/>
+                                <strong style="
+                              line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"> <p><span t-field="o.employee_id.title"/> <span t-esc="o.employee_id.name"/><br/>
+                                <span t-esc="o.employee_id.work_email"/><br/>
+                                HR Ref:- <span t-esc="o.employee_id.registration_number"/><br/>
+                                </p></strong>
+                            </div>
+                        </div><br/>
+                        <div class="row mt6">
+                            <div class="col-6">
+                                    <strong style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><p>Dear <span t-esc="o.ename_split_fun(o.employee_id.name)"/>,</p></strong>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-12">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">In recognition of your performance and contribution to the organization as&#160;<strong><span t-field="o.current_designation"/></strong>,during the appraisal period of <strong><span t-field="o.appraisal_period"/></strong>, your monthly Cost to Company (CTC) (inclusive of all statutory payments that one is liable for) has been revised to  <strong>SGD <span t-esc="'{0}'.format(int(o.new_net_salary))"/> ( <span t-esc="o.amount_in_words(o.new_net_salary)"/> SGD) </strong> effective from <strong><span t-esc="o.date_close.strftime('%B %d %Y')"/>.</strong></p>
+
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">All the other terms and conditions of your employment remains the same.</p>
+
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">We look forward to you having a long and successful relationship with Instellars</p>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important">Yours sincerely,<br/><br/>
+                                For<strong> <span t-esc="o.company_id.name"/>.</strong></p>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-6">
+                              <img t-attf-src="/web/image?model=res.users&amp;field=sign_signature&amp;id=#{15}" style="height:auto;max-width:225px;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><b>Gopinath MN</b></p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                           <div class="col-6">
+                                <p style="line-height:1.2 !important;font-family: Arial !important;
+                        font-size:13px !important"><b>Director</b></p>
+                            </div>
+                        </div>
+                      </t>
+                    </t>
+                </t>
+              </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+            
+                             
+                        
+
+
+
+

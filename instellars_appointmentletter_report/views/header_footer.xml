@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <template id="external_layout_appointment_letter" >
+        <div class="header">           
+          <div class="row">
+              <div class="col-2" style="margin-top:13px;">
+                  <img class="text-left" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="height:70px;max-width:280px;float:left;z-index:9999"/>
+              </div>
+          </div>
+        </div>
+
+        <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer o_standard_footer">
+          <table class="table" style="border-top:2px solid black;padding:1px;width:100%">
+            <tr>
+              <td style="padding:1px;width:100%;font-family: Arial !important;font-size:14px !important;">
+                  <span style="padding:1px;line-height:1.2 !important;font-size:20px"> <strong><span t-field="o.company_id.name"/>.</strong></span><br/>
+                  <span style="padding:1px;line-height:1.2 !important;" t-field="o.company_id.partner_id.street"/>
+                  <span style="padding:1px;line-height:1.2 !important;" t-field="o.company_id.partner_id.street2"/>
+                  <span style="padding:1px;line-height:1.2 !important;" t-field="o.company_id.city"/>,
+                  <t t-if="o.company_id.state_id" name="state_id">
+                    <br/><span style="padding:1px;line-height:1.2 !important;" t-field="o.company_id.state_id"/>
+                  </t>
+                  <t t-if="o.company_id.partner_id.zip" name="partner_id.zip">
+                    <span style="padding:1px;line-height:1.2 !important;" t-field="o.company_id.partner_id.zip"/>.<br/>
+                </t>
+                  <t t-if="o.company_id.company_registry" name="company_registry">
+                        <p style="padding:1px;line-height:1.2 !important;">CIN:&#160;<span t-field="o.company_id.company_registry"/></p>
+                  </t>
+                  <t t-if="o.company_id.l10n_sg_unique_entity_number" name="cl10n_sg_unique_entity_number">
+                    <span style="padding:1px;font-size: 14px !important;line-height:1.2 !important;">UEN&#160;</span><span  t-field="o.company_id.l10n_sg_unique_entity_number">.</span>
+                </t>
+            </td>
+            </tr>
+                </table>
+        </div>
+    </template>
+</data>
+</odoo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="hr_applicant_view_form_instellar" model="ir.ui.view">
+        <field name="name">Jobs - Recruitment Form inherit</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+        	<xpath expr="//form/sheet/group//group[1]" position="attributes">
+				<attribute name="string">Personal</attribute>
+			</xpath>
+            <field name="user_id" position="after">
+                <field name="appointment_letter_sequence"/>
+            </field>
+
+            <field name="salary_expected" position="attributes">
+                <attribute name="string">Expected CTC</attribute>
+            </field>
+
+            <field name="salary_proposed" position="attributes">
+                <attribute name="string">Proposed CTC</attribute>
+            </field>
+
+			<field name="partner_mobile" position="after">
+        		<field name="skype_id"/>
+        		<field name="linkedin_url"/>
+        	</field>
+        	<field name="type_id" position="replace"/>
+        	<field name="source_id" position="replace"/>
+            
+            <field name="legend_done" position="after">
+                <label for="profile_id" class="oe_edit_only"/>
+                <h2><field name="profile_id" readonly="True"/></h2>
+              
+            </field>
+            
+        	<xpath expr="//form/sheet/group//group[2]" position="after">
+        		<group name="education" string="Education">
+                    <field name="type_id" placeholder="Degree"/>
+                    <field name="course" placeholder="course" invisible="1"/>
+                    <field name="course_id" widget="many2many_tags"/>
+                    <field name="year_of_passing"/>
+                </group>
+                <group name="reffered_by" string="Reffered By">
+                	<field name="source_id"/>
+                	<field name="source_name" invisible="1"/>
+                	<field name="vendor_name" attrs="{'invisible': [('source_name','!=', 'Vendor')]}"/>
+                	<field name="referral_channel"/>
+
+                </group>
+                <group name="professional" string="Professional">
+                	<field name="current_company_of_applicant" domain="[('is_company','=','True')]"/>
+
+                	<field name="employment_start_date"/>
+                    <label for="calculate_tot_yrs_exp" class="oe_edit_only"/>
+                    <div class="oe_edit_only">
+                        <field name="calculate_tot_yrs_exp" options="{'horizontal': true}"  widget="radio"/>
+                    </div>
+                	   <field name="total_years_of_experience" attrs="{'readonly': [('calculate_tot_yrs_exp','!=', 'custom')]}"/>
+                   
+                	<field name="relevant_start_date"/>
+                    <label for="calculate_tot_relavant_yrs_exp" class="oe_edit_only"/>
+                     <div class="oe_edit_only">
+                        <field name="calculate_tot_relavant_yrs_exp" options="{'horizontal': true}"  widget="radio"/>
+                    </div>
+                        <field name="relevant_years_of_experience" attrs="{'readonly': [('calculate_tot_relavant_yrs_exp','!=', 'custom')]}"/>
+
+                	<field name="current_salary"/>
+                	<field name="included_variable_pay" options="{'horizontal': true}"  widget="radio" />
+                	<field name="expected_ctc_type" options="{'horizontal': true}"  widget="radio"  />
+                	<field name="current_designation"/>
+                	<field name="reason_for_change"/>
+                </group>
+                <group name="resume" string="Resume">
+                	<field name="current_country"/>
+                	<field name="current_location"/>
+                	<field name="preferred_country"/>
+                	<field name="preferred_location"/>
+                	<field name="willing_to_relocate" options="{'horizontal': true}"  widget="radio"  />
+                	<field name="permanent_residency"/>
+                	<field name="resume_received" options="{'horizontal': true}"  widget="radio"  />
+                	<field name="resume_received_date" attrs="{'invisible': [('resume_received','!=', 'yes')]}"/>
+                	<field name="notice_period_type" options="{'horizontal': true}"  widget="radio"  />
+                	<field name="notice_period"/>
+                	<field name="date_of_last_working_day" attrs="{'invisible': [('notice_period_type','!=', 'serving_np')]}"/>
+                	<field name="expected_date_of_joining"/>
+                	<field name="resignation_acceptance" options="{'horizontal': true}"  widget="radio"  />
+                	<field name="certification_type" />
+                	<field name="certification" widget="many2many_tags"  domain="[('skill_type_id','=',certification_type)]"/>
+                    <field name="pdn_number" />
+                    <div>
+                        <a href="https://academy.pega.com/verify-certification" target="new" class="oe_link">https://academy.pega.com/verify-certification </a>
+                    </div>
+                	<field name="resume_upload"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

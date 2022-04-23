@@ -1,0 +1,45 @@
+V12.0.0.1 to V13.0.0.0
+Date:10.07.2020
+Changes Made:
+    1. Converted complete functionality from V12 to V13
+Changes Made By:
+    Madhukumar
+
+****************************************
+
+V13.0.0.0 to V13.0.0.1
+Date:13.07.2020
+Changes Made:
+    1. created Separate Salary rule for actual pay roll
+Changes Made By:
+    Madhukumar
+
+*****************************************
+
+V13.0.0.1 to V13.0.0.2
+Date:14.07.2020
+Changes Made:
+    1. Salary computation with the actual pay roll salary rules.
+Changes Made By:
+    Madhukumar
+
+
+*****************************************
+
+V13.0.0.2 to V13.0.0.3
+Date:14.07.2020
+Changes Made:
+    1. resolved warning and errors while deploying in odoo sh
+Changes Made By:
+    Madhukumar
+
+
+
+*****************************************
+
+V13.0.0.3 to V13.0.0.4
+Date:22.09.2020
+Changes Made:
+    1. resolved singleton error in payslip
+Changes Made By:
+    Madhukumar

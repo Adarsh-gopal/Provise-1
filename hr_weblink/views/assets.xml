@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="onboarding_form_assets" inherit_id="website.assets_frontend" name="onboarding form">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/hr_weblink/static/src/scss/onboardingform.scss"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/hr_weblink/static/src/js/onboardingform.js"></script>
+
+        </xpath>
+    </template>
+</odoo>

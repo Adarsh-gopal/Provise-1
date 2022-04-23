@@ -1,0 +1,52 @@
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="actual_view_salary_form">
+			<field name="name">hr.salary.rule.form</field>
+			<field name="model">hr.salary.rule</field>
+			<field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+			<field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                     <!-- <page name="general" string="General">
+                        <group name="general_conditions" col="4">
+                            <separator colspan="4" string="Conditions"/>
+                            <field name="condition_select"/><newline/>
+                            <field name="condition_python" attrs="{'invisible':[('condition_select','!=','python')], 'required': [('condition_select','=','python')]}" colspan="4"/> <newline/>
+                            <field name="condition_range" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
+                            <field name="condition_range_min" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
+                            <field name="condition_range_max" colspan="2" attrs="{'invisible':[('condition_select','!=','range')], 'required':[('condition_select','=','range')]}"/><newline/>
+                            <separator colspan="4" string="Computation"/>
+                            <field name="amount_select"/><newline/>
+                            <field name="amount_percentage_base" attrs="{'invisible':[('amount_select','!=','percentage')], 'required': [('amount_select','=','percentage')]}"/><newline/>
+                            <field name="quantity" attrs="{'invisible':[('amount_select','=','code')], 'required':[('amount_select','!=','code')]}"/><newline/>
+                            <field name="amount_fix" attrs="{'invisible':[('amount_select','!=','fix')], 'required':[('amount_select','=','fix')]}"/><newline/>
+                            <field colspan="4" name="amount_python_compute" attrs="{'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}"/>
+                            <field name="amount_percentage" attrs="{'invisible':[('amount_select','!=','percentage')], 'required':[('amount_select','=','percentage')]}"/>
+                            <separator colspan="4" string="Company Contribution"/>
+                            <field name="partner_id"/>
+                        </group>
+                    </page>
+                    <page name="description" string="Description">
+                        <field name="note"/>
+                    </page> -->
+    				<page name="actual_payroll_block" string="Actual Payroll">
+                        <group  name="general_conditions" col="4">
+        					<separator colspan="4" string="Conditions"/>
+        					<field name="condition_select_1" string="Condition Based on"/><newline/>
+                            <field name="condition_python_1" string="Python Condition" attrs="{'invisible':[('condition_select_1','!=','python')], 'required': [('condition_select_1','=','python')]}" colspan="4"/> <newline/>
+                            <field name="condition_range_1" string="Range Based on" attrs="{'invisible':[('condition_select_1','!=','range')], 'required':[('condition_select_1','=','range')]}"/><newline/>
+                            <field name="condition_range_min_1" string="Minimum Range" colspan="2" attrs="{'invisible':[('condition_select_1','!=','range')], 'required':[('condition_select_1','=','range')]}"/><newline/>
+                            <field name="condition_range_max_1" string="Maximum Range" colspan="2" attrs="{'invisible':[('condition_select_1','!=','range')], 'required':[('condition_select_1','=','range')]}"/><newline/>
+                            <separator colspan="4" string="Computation"/>
+        					<field name="actual_select"/><newline/>
+        					<field name="actual_percentage_base" string="Percentage based on" attrs="{'invisible':[('actual_select','!=','percentage')], 'required': [('actual_select','=','percentage')]}"/><newline/>
+        					<field name="quantity" attrs="{'invisible':[('actual_select','=','code')], 'required':[('actual_select','!=','code')]}"/><newline/>
+        					<field name="actual_fix" string="Fixed Amount" attrs="{'invisible':[('actual_select','!=','fix')], 'required':[('actual_select','=','fix')]}"/><newline/>
+        					<field colspan="4" name="actual_python_compute" string="Python Code" attrs="{'invisible':[('actual_select','!=','code')], 'required':[('actual_select','=','code')]}"/>
+        					<field name="actual_percentage" string="string='Percentage (%)" attrs="{'invisible':[('actual_select','!=','percentage')], 'required':[('actual_select','=','percentage')]}"/>
+                        </group>
+    				</page>
+                </xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

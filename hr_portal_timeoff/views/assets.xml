@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="timeoff_portal_frontend" inherit_id="website.assets_frontend"
+        name="Timeoff Portal Frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/hr_portal_timeoff/static/src/scss/time_off.scss"/>
+            <script type="text/javascript" src="/hr_portal_timeoff/static/src/js/portal_timeoff.js"></script>
+            <script type="text/javascript" src="/hr_portal_timeoff/static/src/js/edit_portal_timeoff.js"></script>
+            <script type="text/javascript" src="/hr_portal_timeoff/static/src/js/manager_approval.js"></script>
+        </xpath>
+       
+    </template>
+
+</odoo>

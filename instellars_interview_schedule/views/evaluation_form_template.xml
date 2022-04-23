@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="interview_evaluation" name="Interview Evaluation">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <form id="hr_eval_form">
+                    <section id="hr_eval_information">
+                        <div class="container">
+                            <div class="row">
+                                <input type="hidden" name="applicant_id" t-att-value="applicant_id"/>
+                                <input type="hidden" name="original_link" t-att-value="original_link"/>
+                                <input type="hidden" name="stage_id" t-att-value="stage_id"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt16" >
+                                    <div class="alert alert-success flip" style="cursor:pointer">
+                                        <strong>Candidate Details <i class="fa fa-angle-double-down"></i></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row details-block d-none">
+                                <div class="col-lg-6">
+                                    <table class="table">
+                                        <tr>
+                                            <td><strong> Total Years of Experience</strong></td>
+                                            <td><span t-esc="application_data.total_years_of_experience"/> <span>Years</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Relevant Years of Experience</strong></td>
+                                            <td><span t-esc="application_data.relevant_years_of_experience"/> <span>Years</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong> Certification Type</strong></td>
+                                            <td><span t-esc="application_data.certification_type.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <strong>Certification</strong></td>
+                                            <td>
+                                                <t t-if="application_data.certification">
+                                                    <t t-foreach="application_data.certification" t-as="skill">
+                                                        <span t-esc="skill.name"/>
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- <t t-if="attachment">
+                                        <a t-attf-href="/web/content/#{attachment.id}?download=true" target="_blank">
+                                            <div class='oe_attachment_embedded o_image' t-att-title="application_data.partner_name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/100x80"/>
+                                            <div class='oe_attachment_name'><t t-raw='application_data.partner_name' /></div>
+
+                                        </a>
+                                    </t> -->
+                                    <t t-if="attachment">
+                                         <a id="resume_button" title="Resume" href="#" data-toggle="modal" data-target="#resume_modal">
+                                            <div class='oe_attachment_embedded o_image' t-att-title="application_data.partner_name" t-att-data-mimetype="attachment.mimetype" t-attf-data-src="/web/image/#{attachment.id}/100x80"/>
+                                           <div class='oe_attachment_name'><t t-raw='application_data.partner_name' /></div>
+                                       </a>
+                                   </t>
+        
+                                </div>
+                            </div>
+                         
+                        <div id="resume_modal" class="modal fade" role="dialog" >
+                            <div class="modal-dialog">
+                                <div  class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Resume</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe id="igc_resume_pdf" t-att-src="pdf_src" height="400px" width="100%" t-att-class="'d-none' if not pdf_src or pdf_src[:28] != 'data:application/pdf;base64,' else ''" allowfullscreen="true"/>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <t t-if="stage.tech2_interview_feedback_enable">
+                                <div class="row">
+                                    <div class="col-lg-12 mt8 flip2" >
+                                        <div class="alert alert-success" style="cursor:pointer">
+                                            <strong>Tech1 Interview Details <i class="fa fa-angle-double-down"></i></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row tech_interview_block d-none">
+                                    <div class="col-lg-12">
+                                        <t t-raw="application_data.tech1_interview"/>
+
+                                    </div>
+                                </div>
+                            </t>
+                            <div class="row text-center">
+                                    <h1><span t-esc="applicant_name"/>&apos;s Evaluation Form-<span t-esc="stage_name"/></h1>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Pega Basics</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques1_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques1_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques1_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Pega 7 or 8</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques2_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques2_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques2_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Agents &amp; Integration</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques3_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques3_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques3_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>User Interface</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques4_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques4_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques4_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Security Model</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques5_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques5_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques5_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>DB Concepts</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques6_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques6_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques6_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Reporting / ETL</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques7_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques7_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques7_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Debugging / Analysis</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques8_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques8_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques8_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Pega / Ext Frameworks</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques9_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques9_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques9_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Problem Solving Skills (Pega specific)</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques10_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques10_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques10_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Experience in Database &amp; App/Web Server Tools</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques11_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques11_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques11_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Contributions to Pega Community / Pega Exchange</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques12_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques12_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques12_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Knowledge on Advanced Concepts like AI, Robotics,NLP</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques13_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques13_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques13_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Client Interfacing</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques14_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques14_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques14_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div><div class="js_question-wrapper">
+                                <h4><span>Pega Upgrade Experience</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques15_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques15_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques15_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Knowledge about DevOps concepts</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques16_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques16_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques16_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Ability to analyse problems &amp; self-learn (IC)</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques17_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques17_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques17_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Understanding of IT Landscape &amp; Infrastructure</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques18_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques18_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques18_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Leadership Skills</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques19_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques19_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques19_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Soft Skills/Communication</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques20_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques20_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques20_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <h4><span>Attitude</span></h4>                             
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques21_tech1" value="yes"/>
+                                            <span>Yes</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>
+                                            <input type="radio"  name="ques21_tech1"  value="no"/>
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <span>Comment, If any</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="ques21_tech1_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="js_question-wrapper">
+                                <div class="row js_radio">
+                                    <div class="col-lg-12">
+                                        <span t-esc="stage_name"/><span> Over all Feedback</span>
+                                        <textarea type="text"  rows="1" class="form-control" name="tech1_overall_cmnt"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row js_radio">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="hr_cs_control hr_cs_control_radio" >Selected For Next Round
+                                            <input type="radio" name="kanban_state" value="done" class="advantage_input" required="required" />
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Hold
+                                            <input type="radio" name="kanban_state" value="hold" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Reject
+                                            <input type="radio" name="kanban_state" value="blocked" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                        <label class="hr_cs_control hr_cs_control_radio" >Re-Schedule
+                                            <input type="radio" name="kanban_state" value="re_schedule" class="advantage_input"/>
+                                            <div class="hr_cs_control_indicator hr_cs_control_indicator_white"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 d-none" name="hold_block">
+                                    <span>Comment On Holding</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="hold_reason"></textarea>
+                                </div>
+                                <div class="col-lg-12 d-none" name="reject_reason_block">
+                                    <span>Comment For Rejecting</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="reject_reason"></textarea>
+                                </div>
+                                <div class="col-lg-12 d-none" name="reschedule_block">
+                                    <span>Comment Rescheduling</span>
+                                    <textarea type="text"  rows="1" class="form-control" name="re_schedule_reason"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">                                      
+                                <div class="col-md-12 text-center">
+                                    <div class="form-group">
+                                        <button type="button" id="hr_eval_form_submit" class="hr_cs_btn_submit btn" style="text-transform:uppercase" name="submit2">submit</button>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="evaluation_submit_thank_you" name="Evaluation submitted">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional"><i class="fa fa-check-circle-o mr8"/>Thank you!!</h1>
+                        <p class="lead mb24"><t t-if="applicant_name" t-esc="applicant_name"/>&apos;s Evaluation form has been submitted:</p>
+                        <p class="lead mb4"> <b><t t-if="stage_name" t-esc="stage_name"/></b></p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="not_authorised" name="Not Authorised">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional" style="color:red"><i class="fa fa-exclamation-triangle mr8"/>Sorry!!</h1>
+                        <p class="lead mb24">You are Not Authorised to Access this Process:</p>
+                        <p class="lead mb4"> <b><t t-if="stage_name" t-esc="stage_name"/></b></p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+     <template id="not_tech_interview_stage" name="Stage is not Tech Inteview Stage">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional" style="color:red"><i class="fa fa-exclamation-triangle mr8"/>Sorry!!</h1>
+                        <p class="lead mb24">This is not a Evaluation Stage</p>
+                        <p class="lead mb4"> <b><t t-if="stage_name" t-esc="stage_name"/></b></p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+
+    <template id="applicant_exist" name="Applicant Already Exist">
+        <t t-call="website.layout">
+            <div class="wrap">
+                <div class="container">
+                    <div class="text-center mt48 mb48">
+                        <h1 class="hr_cs_brand_optional"><i class="fa fa-exclamation mr8"/>ERROR</h1>
+                        <p class="lead mb24">The following applicant already in employee list</p>
+                        <!-- <p class="lead mb4"> <b><t t-if="responsible_name" t-esc="responsible_name"/></b></p> -->
+                        <p class="mb24">
+                            <!-- <a t-if="responsible_email" t-att-href="'mailto:' + responsible_email" class="hr_cs_brand_optional">
+                                <t t-if="responsible_email" t-esc="responsible_email"/>
+                            </a>
+                            <span class="text-muted mr4 ml4">|</span>
+                            <a t-if="responsible_phone" t-att-href="'tel:' + responsible_phone" class="hr_cs_brand_optional">
+                                <t t-esc="responsible_phone"/>
+                            </a> -->
+                        </p>
+                        <p>Please contact<br/> HR responsible</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

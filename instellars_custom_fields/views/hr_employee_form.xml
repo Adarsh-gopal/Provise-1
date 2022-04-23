@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record id="hr_employee_form_custom_fields" model="ir.ui.view">
+        <field name="name">hr.employee.custom.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//form/sheet//page[@name='personal_information']//field[@name='gender']" position="after">
+        		<field name="blood_group" />
+        	</xpath>
+            <xpath expr="//form/sheet//page[@name='personal_information']/group//field[@name='children']" position="before">
+                <field name="father_name" />
+                <field name="mother_name" />
+            </xpath>
+             <xpath expr="//form/sheet/div//field[@name='category_ids']" position="after">
+                <div>
+                    <field name='title' placeholder="Title"/>
+                </div>
+            </xpath>
+             <field name="category_ids" position="after">
+                <br/><field name="employee_status" options="{'no_create_edit': True}"  placeholder="Employee Status"/>
+                <br/><field name="project_id" readonly="True"  placeholder="Project Name"/>
+            </field>
+            <xpath expr="//form/sheet//page[@name='personal_information']" position="after">
+                <page string="Offer Details" name="offer_details" >
+                    <group>                               
+                        <group>
+                        <!-- <field name="parent_id" position="after"> -->
+                            <field name="offer_date"/>
+                            <field name="date_of_joining"/>
+                            <field name="confirmation_types" widget="radio" options="{'horizontal': true}"/>
+                            <field name="pip_duration" attrs="{'invisible': [('confirmation_types','!=', 'pip')]}"/>
+                            <field name="confirmation_date" attrs="{'invisible': [('confirmation_types','!=', 'confirmed')]}" />
+                            <field name="confirmation_ref" attrs="{'invisible': [('confirmation_types','!=', 'confirmed')]}" />
+                            <field name="pip_ref" attrs="{'invisible': [('confirmation_types','!=', 'pip')]}"/>
+                            <field name="offered_salary"/>
+                            <field name="remarks"/>
+                            <field name="hire_type" widget="radio" options="{'horizontal': true}"/>                      
+                            
+                        </group>
+                    </group>
+                </page>
+                <!-- </field> -->
+            </xpath>
+            <page name="hr_settings" position="after">
+                <page string="Employee Documents" name="employee_documents">
+                    <group>
+                        <field name="photo_for_id"/>                     
+                        <field name="previous_company_salary_slip"/>                     
+                        <field name="previous_company_salary_slip2"/>                     
+                        <field name="previous_company_salary_slip3"/>                     
+                        <field name="last_company_releiving_letter"/>                     
+                        <field name="last_company_experience_letter"/>                     
+                        <field name="last_company_offer_letter"/>                     
+                        <field name="certificate_of_fitness"/>                    
+                    </group>
+                </page>
+                <page string="Offboard Employee" name="offboard_employee" attrs="{'invisible': [('off_board','=', False)]}">
+                    <group>
+                        <group>
+                            <field name="offboarding_type"/>
+                            <field name="resigned_date" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            <field name="relieving_letter_ref" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            <field name="offboard_date_from_current_project" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            <field name="get_last_working_day" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            <label for="notice_period_adjustable" attrs="{'invisible':[('get_last_working_day','!=', 'custom')]}"/>
+                            <div class="o_row" name="notice_period_adjustable" attrs="{'invisible':[('get_last_working_day','!=', 'custom')]}">
+                                <field name="notice_period_adjustable" nolabel="1"/>
+                                <span>Days</span>
+                            </div>
+                            <!-- <field name="notice_period_adjustable" attrs="{'invisible':[('get_last_working_day','!=', 'custom')]}"/> -->
+                            <field name="notice_period" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}" readonly="1"/>
+                            <field name="reason_for_resigning" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            <field name="informed_client" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('offboarding_type','!=', 'exit_from_company')]}"/>
+                            
+
+                            <!-- offboard from current project -->
+                            <field name="offboard_date_from_current_project" attrs="{'invisible': [('offboarding_type','!=', 'offboard_from_current_project')]}"/>
+                            <field name="reasons_for_offboarding" attrs="{'invisible': [('offboarding_type','!=', 'offboard_from_current_project')]}"/>
+                            <field name="off_board_type" attrs="{'invisible': [('offboarding_type','!=', 'offboard_from_current_project')]}"  widget="radio"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+            <field name="country_id" position="after">
+                <field name="universal_account_number"/>
+                <field name="provident_fund"/>
+                <field name="pan_no"/>
+                <field name="esi_number"/>
+                <field name="pan_doc"/>
+            </field>
+            <field name="identification_id" position="after">
+                <field name="aadhar_doc"/>
+            </field>
+            <field name="bank_account_id" position="after">
+                <field name="skype_id"/>
+            </field>
+            <field name="emergency_phone" position="after">
+                <field name="relation_with_employee"/>
+                <field name="emergency_contact_city"/>
+                <field name="emergency_contact_state" string="State"/>
+                <field name="emergency_contact_country" string="Country"/>
+            </field>
+            <field name="certificate" position="before">
+                <field name="employee_degree" widget="many2many_tags"/>
+                <field name="degree_type"/>
+                <field name="division"/>
+                <field name="year_of_pass"/>
+                <field name="university_name"/>
+                <field name="percentage"/>
+            </field>
+            <page name="public" position="before">
+                <page string="Work Experience Details" name="last_work_experience_details" groups="hr.group_hr_manager">
+                    <group>    
+                        <group>
+                            <field name="experience_level" options="{'horizontal': true}"  widget="radio"  />
+                            <field name="domain"  attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="last_working_company" attrs="{'invisible': [('experience_level','=', 'fresher')]}" domain="[('is_company','=','True')]"/>
+                            <field name="last_drawn_salary" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="last_company_department" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="last_company_designation" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="last_working_day" attrs="{'invisible': [('experience_level','=', 'fresher')]}" />
+                            <field name="start_date_of_career" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="last_company_employeed_code" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="reason_for_leaving" attrs="{'invisible': [('experience_level','=', 'fresher')]}" />
+                            <field name="total_years_of_experience" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="relevant_years_of_experience" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="relevant_yrs_of_exp_till_date" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                            <field name="total_yrs_of_exp_till_date" attrs="{'invisible': [('experience_level','=', 'fresher')]}"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+            <field name="address_home_id" position="after">
+                 <label for="" name="address_name">
+                        <b>Present Address: </b>
+                 </label>
+                <div class="o_address_format">
+                    <field name="street_present" placeholder="Street..." class="o_address_street"/>
+                    <field name="street2_present" placeholder="Street 2..." class="o_address_street"/>
+                    <field name="city_present" placeholder="City" class="o_address_city"/>
+                    <field name="state_id_present" string="State" class="o_address_state" placeholder="State" />
+                    <field name="zip_present" placeholder="ZIP" class="o_address_zip"/>
+                    <field name="country_id_present" string="Country" placeholder="Country" class="o_address_country" />
+                </div>
+
+                <label for="" name="address_name">
+                        <b>Permanent Address: </b>
+                 </label>
+                <div class="o_address_format">
+                    <field name="street_permanent" placeholder="Street..." class="o_address_street"/>
+                    <field name="street2_permanent" placeholder="Street 2..." class="o_address_street"/>
+                    <field name="city_permanent" placeholder="City" class="o_address_city"/>
+                    <field name="state_id_permanent" string="State" class="o_address_state" placeholder="State" />
+                    <field name="zip_permanent" placeholder="ZIP" class="o_address_zip"/>
+                    <field name="country_id_permanent" string="Country" placeholder="Country" class="o_address_country" />
+                </div>
+            </field>
+            <xpath expr="//header" psoition="inside">
+                <button name="activate_offboard" string="OFFBOARD" class="btn-danger" style="background-color: #875a7b;
+    border-color: #875a7b;" type="object" groups="hr.group_hr_manager"/>
+
+                 <button  name="send_confirmation" type="object" string="Send Confirmation"  class="oe_highlight" attrs="{'invisible': ['|',('confirmation_date','=', False),('confirmation_types','not in', ('confirmed'))]}"/>
+
+                 <button  name="send_pip" type="object" string="Send PIP Letter By Mail"  class="oe_highlight" attrs="{'invisible': ['|',('pip_duration','=', False),('confirmation_types','not in', ('pip'))]}"/> 
+
+                 <button  name="send_relieving" type="object" string="Send Releving Letter By Mail "  class="oe_highlight" attrs="{'invisible': ['|','|','|',('offboarding_type','not in', ('exit_from_company')),('resigned_date','=', False),('get_last_working_day','=', False),'|',('notice_period','=', False),('off_board','=', False)]}"/>
+            </xpath>
+            <xpath expr="//form/sheet//page[@name='hr_settings']//field[@name='user_id']" position="before">
+                <field name="off_board" invisible="1"/>
+            </xpath>
+            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                <button name="probationary_sign_request_open" type="object"  class="oe_stat_button" icon="fa-pencil" >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="sign_request_count_probationary"/></span>
+                        <span class="o_stat_text">Probationary Review</span>
+                    </div>
+                </button>
+
+                <button name="compute_tasks_count" type="object" class="oe_stat_button" icon="fa-file-text">
+                    <field name="task_count" string="Tasks" widget="statinfo"/>
+                </button>
+            
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_employee_project_tree" model="ir.ui.view">
+        <field name="name">hr.employee.project.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree string="Employees">
+                <field name="name" optional="show"/>
+                <field name="project_id" optional="show"/>
+                <field name="total_years_of_experience" string="Total Exp(in Years)" optional="show"/>
+                <field name="relevant_years_of_experience" string="Rel Exp(in Years)" optional="show"/>
+                <field name="employee_skill_ids"  widget="many2many_tags" string="Certifications" optional="show"/>
+               
+            </tree>
+        </field>
+    </record>
+
+    <record id="open_view_employee_project_tree" model="ir.actions.act_window">
+        <field name="name">Employee Project View</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_employee_project_tree"/>
+        <field name="context" eval="{'tree_view_ref': 'instellars_custom_fields.view_employee_project_tree'}"/>
+        
+    </record>
+
+    <record id="hr_employee_form_custom_fields_kanban_view" model="ir.ui.view">
+        <field name="name">hr.employee.custom.fields.kanban</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//span[hasclass('o_kanban_record_subtitle')]" position="before">
+                <span t-if="record.registration_number.raw_value" class="o_kanban_record_subtitle" style="color:#ef4c5a;"><field name="registration_number"/></span>
+            </xpath>
+        </field>
+    </record>
+
+
+    <menuitem
+        id="menu_hr_employee_project_user"
+        name="Employees - Project"
+        action="open_view_employee_project_tree"
+        parent="hr.menu_hr_employee_payroll"
+        sequence="3"/>
+</odoo>

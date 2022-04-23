@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="timesheet_portal_frontend" inherit_id="website.assets_frontend"
+        name="Timesheet Portal Frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/portal_timesheet/static/src/scss/portal_vallidate.scss"/>
+            <script type="text/javascript" src="/portal_timesheet/static/src/js/portal_timesheet.js"></script>
+            <script type="text/javascript" src="/portal_timesheet/static/src/js/edit_timesheet.js"></script>
+            <script type="text/javascript" src="/portal_timesheet/static/src/js/team_timesheet.js"></script>
+            <script type="text/javascript" src="/portal_timesheet/static/src/js/jquery-table2excel.js"></script>
+        </xpath>
+       
+    </template>
+
+</odoo>

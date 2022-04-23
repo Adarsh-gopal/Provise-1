@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="portal_layout_inherit" inherit_id="portal.portal_layout" name="Portal Layout Dashboard">
+        <xpath expr="//div[hasclass('row')]/div[@t-attf-class='col-12 col-md col-lg-6']" position="attributes">
+            <attribute name="t-attf-class">col-12 col-md-12 col-lg-9</attribute>
+        </xpath>
+        <xpath expr="//div[@id='o_my_sidebar']" position="attributes">
+            <attribute name="class">col-lg-3 o_my_sidebar</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_my_details')]/h4" position="replace">
+            <h4>My Profile</h4>
+        </xpath>
+        <xpath expr="//hr" position="after">
+            <div class="mb8 mt8 text-center">
+                <img class="img rounded-circle" t-attf-src="/web/image?model=res.users&amp;field=image_128&amp;id=#{user_id.id}" t-att-title="user_id.name" t-att-alt="user_id.name"/>
+            </div>
+
+            <h5 class="text-center"><span t-esc="employee_data.name"/></h5>
+            <div  class="text-center" style="margin-top:-12px;font-size:12px;">
+                    <span t-esc="employee_data.registration_number"/>
+            </div>
+            <div style="padding:5px;"/>
+            <div>
+                <i class="fa fa-briefcase fa-fw" role="img" aria-label="Email" title="Email"></i>
+                <span style="margin-left: 3px;" t-esc="employee_data.job_id.name"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@t-field='user_id.partner_id']" position="replace">
+            <div t-field="employee_data.address_id" t-options='{"widget": "contact", "fields": ["address"]}'/>
+            <div>
+                <i class="fa fa-phone fa-fw" role="img" aria-label="Email" title="Email"></i>
+                <span style="margin-left: 3px;" t-esc="employee_data.work_phone"/>
+            </div>
+            <div>
+                <i class="fa fa-envelope fa-fw" role="img" aria-label="Email" title="Email"></i>
+                <span  style="margin-left: 3px;" t-esc="employee_data.work_email"/>
+            </div>
+            <div id="o_employee_right" class="mt16 mb16">
+                <h4 class="o_org_chart_title mb16 mt0">Organization Chart</h4>
+                <div id="org_chart_portal" t-att-data-employee_id="employee_data.id">
+                    <input type="hidden" name="emp_id" t-att-value="employee_data.id"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_layout_custom" name="Portal Layout Custom" inherit_id="portal.portal_my_home" priority="1">
+        <xpath expr="//h3" position="replace">
+            <h3>Dashboard</h3>
+        </xpath>
+         <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="class">o_portal_docs list-group prix_portal</attribute>
+        </xpath>
+    </template>
+    
+    
+
+</odoo>

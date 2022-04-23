@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="conifrmation_letter_template" model="mail.template">
+        <field name="name">Confirmation Letter Temaplate</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="subject">Confirmation of ${object.name}</field>
+        <field name="email_to">${object.work_email | safe}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><b>Dear ${object.name},</b></p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><b><br/></b><br/>We are delighted to inform you that, after reviewing your performance and contribution through the probation period, we have decided to confirm your position at Instellars as&#160;<b>${object.job_id.name}</b></p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><br/></p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;">We are sure you will make the best use of the opportunity offered to you and contributed substantially to the success of our company as you have done in the past.</p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><br/>P.S: A manager’s opinion of an employee’s performance is confidential and must be guarded against inappropriate disclosures.</p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><br/></p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><br/></p><p style="widows:2;orphans:2;text-align:left;line-height:120%;direction:ltr;"><b>Thanks &amp; Regards,<br/>HR Team | Instellars Global Consulting<br/>Mobile:&#160;+91 9591417744 |&#160;www.instellars.com&#160;|&#160;Bangalore | Singapore</b><br/><br/></p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+    <record id="pip_letter_template" model="mail.template">
+        <field name="name">PIP Letter Temaplate</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="subject">PIP - ${object.name}</field>
+        <field name="email_to">${object.work_email | safe}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;"><b>Dear&#160;</b></font><span style="text-align:inherit;font-size: 14px;"><b>${object.name}</b></span><font style="color:rgb(0, 0, 0);font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit; font-size: 14px;"><b>&#160;</b></font><span style="font-style:inherit;font-variant-ligatures: inherit; font-variant-caps: inherit; text-align: inherit; color: rgb(0, 0, 0); font-size: 14px; font-weight: bolder;">,</span></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;">Your
+                performance has been reviewed&#160;from past one month and we did not
+                find it as per the required standards so,we have decided to put into
+                a PIP (Performance improvement plan)&#160;.</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;">Continuous
+                feedback will be provided to you throughout the Performance
+                Improvement Period&#160; to provide you the right direction and help
+                you make the necessary.improvements.</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;">P.S:
+                A manager’s opinion of an employee’s performance is confidential
+                and must be guarded against inappropriate disclosures.</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;"><br/></font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;"><b>Thanks,</b></font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;">Tulika
+                Kumari&#160;<b>|</b>&#160;HR-
+                Manager&#160;<b>|</b>&#160;Instellars&#160;</font></p><p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font size="2" style="font-size:14px;">+91-7899250569&#160;|&#160;<a href="http://www.instellars.com/" target="_blank">www.instellars.com</a>&#160;|
+                India | Singapore | USA | Australia | Middle East</font></p>
+                <p style="text-align:left;line-height:120%;direction:ltr;">    
+                    <style type="text/css"><font style="font-size: 14px;">
+                            @page { margin: 2cm }
+                            p { margin-bottom: 0.25cm; direction: ltr; line-height: 120%; text-align: left; orphans: 2; widows: 2 }
+                            a:link { color: #0563c1 }
+                        </font>
+                    </style>
+                </p>
+                <p style="text-align:left;line-height:120%;direction:ltr;margin-bottom: 0.28cm; line-height: 108%"><font style="font-size:14px;"><b>Follow
+            us on LinkedIn</b>:</font></p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+    <record id="relieving_letter_template" model="mail.template">
+        <field name="name">Relieving Letter Temaplate</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="subject">Relieving Letter - ${object.name}</field>
+        <field name="email_to">${object.work_email | safe}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm"><font color="#232323"><font face="Arial, sans-serif"><font style="font-size:11pt" size="2">Dear&#160;</font></font></font><b><span style="text-align:inherit;font-size: 14.6667px;"><font face="Arial, sans-serif" color="#232323">${object.name}</font></span><span style="font-size:11pt;font-family: Arial, sans-serif; color: rgb(35, 35, 35); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; text-align: inherit;">&#160;</span></b><span style="font-size:11pt;font-family: Arial, sans-serif; color: rgb(35, 35, 35); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;">,</span></p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.51cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-right: 2.86cm; margin-bottom: 0cm; line-height: 160%">
+<font color="#232323"><font face="Arial, sans-serif"><font style="font-size:11pt" size="2">This is with reference to your resignation dated&#160;</font></font></font><span style="text-align:inherit;font-size: 14.6667px;"><font face="Arial, sans-serif" color="#232323"><b>${object.resigned_date}</b>&#160;</font></span><span style="font-size:11pt;font-family: Arial, sans-serif; color: rgb(35, 35, 35); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;">&#160;from the position of <br/></span></p><h2 style="display: inline-block;"><span class="o_field_char o_field_widget" name="subject" placeholder="Subject (placeholders may be used here)" style="margin:0 0 0px 0;text-align:left;">${object.job_id.name | safe}</span></h2><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-right: 2.86cm; margin-bottom: 0cm; line-height: 160%"><span style="font-size:11pt;font-family: Arial, sans-serif; color: rgb(35, 35, 35); font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;"> </span><b><span style="text-align:inherit;font-size: 14.6667px;"><b><a href="https://satishprixgen-instellars-demo1.odoo.com/${object.job_id.website_url or ''}" style="color:#9A6C8E;"><strong></strong></a><strong></strong></b></span><span style="color:rgb(35, 35, 35);font-family: Arial, sans-serif; font-size: 11pt; font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; text-align: inherit;">.</span></b></p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.08cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-right: 0.11cm; margin-bottom: 0cm; line-height: 0.58cm">
+<font color="#232323"><font face="Arial, sans-serif"><font style="font-size:11pt" size="2">Please
+find your Relieving letter attached </font></font></font>
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.12cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.16cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.16cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.16cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.16cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.16cm"><br/>
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm"><font color="#232323"><font face="Arial, sans-serif"><font style="font-size:11pt" size="2">We
+wish you all the best for your future endeavours.</font></font></font></p><p style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;text-align:left;">
+    
+    
+    <style type="text/css">
+        @page { margin: 2cm }
+        p { margin-bottom: 0.25cm; direction: ltr; color: #000000; line-height: 120%; orphans: 2; widows: 2 }
+        p.western { font-family: "Calibri", sans-serif; font-size: 10pt; so-language: en-IN }
+        p.cjk { font-family: "Calibri", sans-serif; font-size: 10pt }
+        p.ctl { font-family: "Arial", sans-serif; font-size: 10pt; so-language: ar-SA }
+        a:link { so-language: zxx }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p><p class="western" style="line-height:120%;color:rgb(0, 0, 0);direction:ltr;margin-bottom: 0cm; line-height: 0.51cm"><br/>
+
+</p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+  </data>
+
+</odoo>

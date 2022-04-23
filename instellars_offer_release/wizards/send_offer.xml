@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="send_offer_letter_form" model="ir.ui.view">
+    <field name="name">send.offer.letter.form</field>
+    <field name="model">send.offer.letter</field>
+    <field name="arch" type="xml">
+      <form string="Offer Letter">
+        <group>
+          <div class="text-center">
+          
+                <h4><strong><span> Stage:</span></strong><field name="stage_name" class="o_badge_text" readonly="1"/></h4>
+           
+          </div>
+        </group>
+        <group>
+          <group>
+            <field name="profile_id" readonly="1"/>
+            <field name="current_ctc" readonly="1"/>
+            <field name="total_years_of_exp" readonly="1"/>
+            <field name="notice_period" readonly="1"/>
+            <field name="status" required="True"/>
+          </group>
+          <group>
+            <field name="applicants_name" readonly="1"/>
+            <field name="expected_ctc" readonly="1"/>
+            <field name="total_relavant_years_of_exp" readonly="1"/>
+            <field name="notice_period_type" readonly="1"/>
+            <!-- <field name="applicant_id" /> -->
+          </group>
+        </group>
+        <group>
+          <group>
+            <field name="scheduled_with"/>
+            <field name="preferred_country" required="True"/>
+            <field name="offer_date_of_join" required="True" attrs="{'invisible': [('status','!=', 'cleared')]}"/>
+            <field name="candidate_pedology"  attrs="{'invisible': [('status','!=', 'cleared')]}" required="True"/>
+            <field name="designation"  attrs="{'invisible': [('status','!=', 'cleared')]}" required="True"/>
+          </group>
+          <group>
+            <field name="scheduled_on"/>
+            <field name="visa_deposit"  attrs="{'invisible': ['|','|',('preferred_country','=', 104),('status','=', 'rejected'),('status','=', 're_scheduled')],'required':[('preferred_country','!=', 104)]}"/>
+            <field name="visa_deposit_amount"  attrs="{'invisible': [('visa_deposit','!=', 'yes')],'required':[('visa_deposit','=', 'yes')]}"/>
+            <field name="visa_deposit_refundable"  attrs="{'invisible': [('visa_deposit','!=', 'yes')],'required':[('visa_deposit','=', 'yes')]}"/>
+            <field name="visa_deposit_refundable_month"  attrs="{'invisible': [('visa_deposit_refundable','!=', 'yes')],'required':[('visa_deposit_refundable','=', 'yes')]}"/>
+            <field name="rejected_reason"  attrs="{'invisible': [('status','!=', 'rejected')]}" />
+            <field name="re_scheduled_reason" attrs="{'invisible': [('status','!=', 're_scheduled')]}"/>
+            <field name="skype_records"/>
+            <field name="attach_audio"/>
+            
+          </group>
+        </group>
+
+        <group string="Offer Details- INDIA" attrs="{'invisible': [('status','!=', 'cleared')]}" style="border: 1px solid grey; padding: 10px;">
+          <group>
+            <field name="offer_type_ind" attrs="{'required': [('status','=', 'cleared')]}"/>
+            <field name="employement_loc_ind" string="Employement Location India"  attrs="{'required': [('status','=', 'cleared')]}"/>
+            <field name="offer_condition" attrs="{'invisible': [('offer_type_ind','!=', 'conditional')],'required':[('offer_type_ind','=', 'conditional')]}"/>
+            <field name="is_jb_conditional" attrs="{'invisible': [('offer_type_ind','!=', 'regular_jb'),('offer_type_ind','!=', 'conditional_jb')],'required':['|',('offer_type_ind','=', 'regular_jb'),('offer_type_ind','=', 'conditional_jb')]}"/>
+            <field name="jb_condition" attrs="{'invisible': [('is_jb_conditional','!=', 'yes')],'required':[('is_jb_conditional','=', 'yes')]}"/>
+            <field name="jb_amount" attrs="{'invisible': [('offer_type_ind','!=', 'regular_jb'),('offer_type_ind','!=', 'conditional_jb')],'required': ['|',('offer_type_ind','=', 'regular_jb'),('offer_type_ind','=', 'conditional_jb')]}"/>
+          </group>
+          <group>
+            <field name="offered_salary_ind" required="True"/>
+            <field name="jb_date" attrs="{'invisible': [('offer_type_ind','!=', 'regular_jb'),('offer_type_ind','!=', 'conditional_jb')],'required': ['|',('offer_type_ind','=', 'regular_jb'),('offer_type_ind','=', 'conditional_jb')]}"/>
+            <field name="jb_amount_deposited_on" attrs="{'invisible': [('offer_type_ind','!=', 'regular_jb'),('offer_type_ind','!=', 'conditional_jb')],'required': ['|',('offer_type_ind','=', 'regular_jb'),('offer_type_ind','=', 'conditional_jb')]}"/>
+          </group>
+        </group>
+
+        <group string="Offer Details- Others" attrs="{'invisible': ['|',('status','!=', 'cleared'),('preferred_country','=', 104)]}" style="border: 1px solid grey; padding: 10px;">
+          <group>
+            <field name="offer_type_others" attrs="{'required': [('status','=', 'cleared'),('preferred_country','!=', 104)]}"/>
+            <field name="employement_loc_others" string="Employement Location Other" attrs="{'required': [('status','=', 'cleared'),('preferred_country','!=', 104)]}"/>
+          </group>
+          <group>
+            <field name="offered_salary_other" attrs="{'required': [('status','=', 'cleared'),('preferred_country','!=', 104)]}"/>
+          </group>
+        </group>
+        <group>
+          <field name="feedback"/>
+          <!-- <field name="email_to"/> -->
+        <!--   <field name="url"/> -->
+        </group>
+        <footer>
+        <button name="update" type="object" string="Update" class="oe_highlight"/>
+        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+
+    <record id="send_offer_action" model="ir.actions.act_window">
+        <field name="name">Offer Release</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">send.offer.letter</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="send_offer_letter_form"/>
+        <field name="context">{'active_id' : active_id, 'active_model': 'hr.applicant'}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

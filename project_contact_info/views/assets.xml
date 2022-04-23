@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend_project" name="assets_backend_project" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/project_contact_info/static/src/css/project_contact_info.scss"/>
+            <script type="text/javascript" src="/project_contact_info/static/src/js/project_contact_info.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

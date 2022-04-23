@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_home_my_team_timesheet" name="Portal My Home : My Team Timesheet Entries" inherit_id="portal.portal_my_home" priority="55">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="is_timesheet_manager" t-call="portal.portal_docs_entry">
+                <t t-set="title">Team Timesheets</t>
+                <t t-set="url" t-value="'/my/team/timesheets'"/>
+                <!-- <t t-set="count" t-value="team_employees_count"/> -->
+            </t>
+        </xpath>
+    </template>
+ 
+    <template id="portal_my_team_timesheets" name="My Team">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Timesheets</t>
+            </t>
+            <t t-if="not grouped_timesheets">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no timesheets.
+                </div>
+            </t>
+            <t t-if="grouped_timesheets">
+                <t t-call="portal.portal_table">
+                            <thead>
+                                <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th>Employee</th>
+                                <th>Month</th>
+                                <th>Project</th>
+                                <th>Status</th>
+                                <th>View</th>
+                                <!-- <th t-if="groupby == 'none'">Description</th>
+                                <th t-else="">
+                                    <em class="font-weight-normal text-muted">Timesheets for project:</em>
+                                    <span t-esc="timesheets[0].project_id.name"/></th>
+                                <th class="text-right">Duration</th> -->
+                            </tr>
+                        </thead>
+                    <t t-foreach="grouped_timesheets" t-as="timesheets">
+                        <thead>
+                            <tr t-if="not groupby == 'none'" t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th colspan="5" t-if="groupby == 'project'"> 
+                                    <em class="font-weight-normal text-muted">Group By:</em>
+                                    <span t-esc="timesheets[0][2].name"/>
+                                </th>
+                                <th colspan="5" t-if="groupby == 'employee'"> 
+                                    <em class="font-weight-normal text-muted">Group By:</em>
+                                    <span t-esc="timesheets[0][0].name"/>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="timesheets" t-as="timesheet">
+                                <tr>
+                                    <td><span t-esc="timesheet[0].name"/></td>
+                                    <td><span t-esc="timesheet[1]"/></td>
+                                    <td><span t-esc="timesheet[2].name"/></td>
+                                    <td>
+                                        <t t-set="stat" t-value="request.env['project.project'].sudo().send_manager_approve_status(timesheet[0],timesheet[1],timesheet[2])"/>
+                                        <!-- <span t-esc="stat"/> -->
+                                        <t t-if="stat == 'pending_submission'"><span t-attf-class="badge badge-pill badge-dark">Not Yet Submitted</span></t>
+                                        <t t-elif="stat == 'pending_approval'"><span t-attf-class="badge badge-pill badge-primary">Submitted</span></t>
+                                        <t t-else=""><span t-attf-class="badge badge-pill badge-success">Approved</span></t>
+                  
+                                      
+                                    </td>
+                                    <td><t t-set="time_ob" t-value="time.strptime(timesheet[1],'%b %Y')"/>
+                                        <a t-attf-href="/my/team/timesheets/#{timesheet[0].id}/#{timesheet[2].id}/#{time_ob.tm_mon}/#{time_ob.tm_year}"><span title="View"><i class="fa fa-eye"></i></span></a></td>
+                                    
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="team_timesheet_by_month_portal" name="">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md">
+                            <h5 class="mb-1 mb-md-0">
+                                <span t-field="project_id.name"/>
+                                <small class="text-muted"> (#<span t-field="project_id.id"/>)</small>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mb-1">
+                            <strong>Month:</strong> <span t-esc="period.strftime('%b %Y')"/>
+                        </div>
+                        <div class="col-12 col-md-6 mb-1">
+                          <strong>Project:</strong> <span t-esc="project_id.name"/>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4" t-if="project_id.user_id or project_id.partner_id">
+                        <div class="col-12 col-md-6 pb-2" t-if="project_id.user_id">
+                            <strong>Assigned to</strong>
+                            <div class="row">
+                                <div class="col flex-grow-0 pr-3">
+                                    <img t-if="employee_id.user_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(employee_id.user_id.image_1024)" alt="Contact"/>
+                                    <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                </div>
+                                <div class="col pl-md-0">
+                                    <div t-field="employee_id.user_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coll-12 col-md-6 pb-2" t-if="project_id.partner_id">
+                            <strong>Reported by</strong>
+                            <div class="row">
+                                <div class="col flex-grow-0 pr-3">
+                                    <img t-if="project_id.partner_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(project_id.partner_id.image_1024)" alt="Contact"/>
+                                    <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                </div>
+                                <div class="col pl-md-0">
+                                    <div t-field="project_id.partner_id" t-options='{"widget": "contact", "fields": ["name", "email", "phone"]}'/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container" t-if="timesheets" id="tm_approval_block">
+                        <hr class="mt-4 mb-1"/>
+                        <h5 class="mt-2 mb-2">Timesheets</h5>
+                       <!--  <button id="export_xls" class="btn btn-sm btn-primary" icon="fa-file-excel-o"><i class="fa fa-file-excel-o"></i> Export</button> -->
+                        <div id="timesheet_reject_modal" class="modal fade" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form id="manger_review_form" >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="ayaz" align="center"> 
+                                                    <strong><h6 class="modal-title" id="new_time_off_header" aling="center">Manager's Comment</h6></strong>
+                                                </div>
+                                                <button type="button" class="btn btn-primary close" data-dismiss="modal">&amp;times;</button>
+
+                                            </div>
+                                            <div class="modal-body" style="display:inline-block">
+                                                <div class="form-group col-lg-12 pull-left">
+                                                    <!-- <label class="control-label" for="report_note">Manager Review:<span style="color:red">*</span></label> -->
+                                                    <input type="hidden" name="tm_id" class="form-control"/>
+                                                    <textarea rows="2" name="resubmit_reason" class="form-control" ></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="submit_timesheet_resubmit_reason" class="btn btn-primary label-text-align" style="font-size: 15px;border:none;" name="submit_timesheet_resubmit_reason">SAVE</button>
+
+                                                <button type="button" class="btn btn-default pull-right close"  style="font-size: 15px;border:none;" data-dismiss="modal">CANCEL</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        
+                        <table class="table table-sm" id="tm_by_mnth_team">
+                            <thead>
+                                <tr>
+                                    <th colspan="6"/>
+                                    <t t-set="all_ids" t-value="[tm.id  for tm in timesheets]"/>
+                                    <th class="approve_all_ids d-none"><t t-esc="all_ids"/></th>
+                                    <th colspan="2" style="text-align: center;">
+                                        <button  class="btn btn-success"  id="approve_all">
+                                            <span title="Approve All">Approve All</span>
+                                        </button>
+                                    </th>
+                                    <th colspan="2" style="text-align: center;">
+                                        <button  class="btn btn-danger"  id="resubmit_all">
+                                            <span title="Reject All">Resubmit All</span>
+                                        </button>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                              <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Status</th>
+                                <th>Delivery Site</th>
+                                <th>Duration Days</th>
+                                <th>Description</th>
+                                <!-- <th>Employee</th> -->
+                                <th class="text-right">Duration</th>
+                                <th></th>
+                                <th>Approve</th>
+                                <th>Re-Submit</th>
+                                <!-- <th>Reject</th> -->
+                              </tr>
+                            </thead>
+                            <tr t-foreach="timesheets" t-as="timesheet">
+                                <td><t t-esc="timesheet.date" t-options='{"widget": "date"}'/></td>
+                                <td><t t-esc="timesheet.day"/></td>
+                                <td><span t-field="timesheet.status"/></td>
+                                <td><span t-field="timesheet.delivery_site"/></td>
+                                <td><span t-field="timesheet.duration_days"/></td>
+                                <td><t t-esc="timesheet.name"/></td>
+                                <!-- <td><t t-esc="timesheet.employee_id.name"/></td> -->
+                                <td class="text-right"><span t-field="timesheet.unit_amount" t-options='{"widget": "duration", "unit": "hour", "round": "minute"}'/></td>
+
+                                <td class="d-none" id="timesheet_id"><span  t-esc="timesheet.id"/></td>
+                                <td class="text-center">
+                                    <t t-if="timesheet.manager_approval_state == 'pending_submission'"><span t-attf-class="badge badge-pill badge-dark">Pending Submission</span></t>
+                                    <t t-if="timesheet.manager_approval_state == 'pending_approval'"><span t-attf-class="badge badge-pill badge-primary">Pending Approval</span></t>
+                                    <t t-if="timesheet.manager_approval_state == 'approved'"><span t-attf-class="badge badge-pill badge-success">Approved</span></t>
+                                    <t t-if="timesheet.manager_approval_state == 'resubmit'"><span t-attf-class="badge badge-pill badge-warning">Resubmit</span></t>
+                                   <!--  <t t-if="timesheet.manager_approval_state == 'rejected'"><span t-attf-class="badge badge-pill badge-danger">Rejected</span></t> -->
+                                </td>
+
+                                <td class="text-center"><t t-if="timesheet.manager_approval_state in ['pending_approval'] and timesheet.validated == false"> <button class="btn btn-default" id="timesheet_approve"><span title="Approve"><i class="fa fa-check" style="color:green"></i></span></button></t></td>
+
+                                <td class="text-center"><t t-if="timesheet.manager_approval_state in ['approved','pending_approval'] and timesheet.validated == false "> <button  class="btn btn-default"  id="timesheet_resubmit"><span title="Resubmit"><i class="fa fa-refresh" style="color:green"></i></span></button></t></td>
+
+                              <!--   <td class="text-center"><t t-if="timesheet.manager_approval_state in ['pending_approval'] and timesheet.validated == false"> <button  class="btn btn-default"  id="timesheet_refuse"><span title="Refuse"><i class="fa fa-ban" style="color:red"></i></span></button></t></td> -->
+
+
+                            </tr>
+                        </table>
+                    </div>
+                
+                </t>
+            </t>
+
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_portal_appraisal" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr.portal.appraisal</field>
+        <field name="model">res.config.settings</field>
+        <!-- <field name="priority" eval="45"/> -->
+        <field name="inherit_id" ref="hr_appraisal.res_config_settings_view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-string='Appraisal']//div[hasclass('o_settings_container')]" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box" >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane" >
+                        <span class="o_form_label" >
+                           Appraisal Report For Portal Download
+                        </span>
+                        <div class="text-muted" >
+                               Select Report for download appraisal in portal
+                        </div>
+                        <div class="text-muted" >
+                            <field name="appraisal_report_template" options="{'no_quick_create': True, 'no_create_edit' : True}" />
+                        </div>
+                    </div>
+                    
+                </div>
+               
+            </xpath>
+        </field>
+    </record>
+</odoo>

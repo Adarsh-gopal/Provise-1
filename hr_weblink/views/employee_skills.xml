@@ -1,0 +1,38 @@
+<odoo>
+
+    <record id="employee_skill_level_view_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.skill.level.tree.inherit</field>
+        <field name="model">hr.skill.level</field>
+        <field name="inherit_id" ref="hr_skills.employee_skill_level_view_tree"/>
+        <field name="arch" type="xml">
+            <tree string="Skill Levels">
+                <field name="name" position="after">
+                    <field name="is_default"/>
+                </field>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="employee_skill_level_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.skill.level.form.inherit</field>
+        <field name="model">hr.skill.level</field>
+         <field name="inherit_id" ref="hr_skills.employee_skill_level_view_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="is_default"/>
+            </field>
+        </field>
+    </record>
+    <record id="employee_skill_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.skill.form.inherit</field>
+        <field name="model">hr.skill.type</field>
+         <field name="inherit_id" ref="hr_skills.hr_employee_skill_type_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='skill_ids']/tree" position="inside">
+                <field name="not_applicable"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    
+    <template id="appraisal_self_assessment" name="Self Assessment">
+        <t t-call="portal.portal_layout">
+           <t t-set="no_footer">1</t>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md text-center">
+                            <h5 class="mb-1 mb-md-0">
+                                <span>Performance Management And Dvelopment Process </span><br/>
+                                <span>(PMDP)</span>
+                    
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <td><strong>Employee Name:</strong></td><td><span t-esc="appraisal.employee_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Employee IEN (Instellars Employee No.):</strong></td><td><span t-esc="appraisal.employee_id.registration_number"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Joining IGC:</strong></td><td><span t-esc="appraisal.employee_id.date_of_joining"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Designation:</strong></td><td><span t-esc="appraisal.employee_id.job_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Client Name</strong></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Assessment Period</strong></td><td><span t-esc="appraisal.appraisal_period.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Name of Counselor</strong></td><td><span t-esc="appraisal.employee_id.parent_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Issue of Form:</strong></td><td><span t-esc="appraisal.create_date" t-options='{"widget": "date"}'/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Submission(to Counselor) of Form:</strong></td><td><span t-esc="appraisal.employee_assessment_submit_date" t-options='{"widget": "date"}'/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="self_assessment_form" class="row">
+                        <form>
+                            <input type="hidden" name="appraisal_id" t-att-value="appraisal.id"/>
+                            <input type="hidden" name="original_link" t-att-value="original_link"/>
+                            <div class="col-lg-8 offset-lg-2 mb8 pull-left">
+                                <h5 class="mb16 mt16 text-center" style="background-color: #2b2554;color: white;padding: 7px;"> Self Assessment Form</h5>
+                                <p style="text-align:justify">
+                                    To be filled in and submitted by the Counselee to the Counselor prior to the one on one discussion. The counselee should fill up self-assessment form based on evidence, facts and self-observations on demonstration.
+                                </p>
+                            </div>
+                    
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="quest1">1. What is your current role and briefly describe your responsibilities?</label>
+                                <textarea rows="2" name="ques1" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques2">2. How do you see your current role vis-à-vis your own career goal?</label>
+                                <textarea rows="2" name="ques2" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques3">3. What according to you are the top three strengths that you demonstrate in your current role?</label>
+                                <textarea rows="2" name="ques3" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques4">4. What according to you are your top three areas of improvement in your current role? (E.g. knowledge, skills, etc.)</label>
+                                <textarea rows="2" name="ques4" class="form-control" required="required"/>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <label class="control-label" for="ques5">5. Mention any significant contribution you made towards the following areas. Please support with examples.</label>
+                                <table class="table table-sm table-bordered">
+                                    <tr>
+                                        <th>Knowledge Sharing:</th>
+                                        <td><textarea rows="2" name="ques5_1" class="form-control" required="required"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th> Developing Others:</th>
+                                        <td><textarea rows="2" name="ques5_2" class="form-control" required="required"/></td>
+                                    </tr><tr>
+                                        <th>Improving process efficiency (Innovation/ cost saving ideas, etc.):</th>
+                                        <td><textarea rows="2" name="ques5_3" class="form-control" required="required"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Any other: (Please specify)</th><td><textarea rows="2" name="ques5_4" class="form-control" required="required"/></td>
+                                    </tr>
+                                
+
+                                </table>
+                            </div>
+                            <div class="col-lg-8 offset-lg-2 mb8 pull-left">
+                                <h5 class="mb16 mt16 text-center" style="background-color: #2b2554;color: white;padding: 7px;">Personal Development Plan</h5>
+                                <p style="text-align:justify">
+                                    The Personal Development Plan (PDP) documents the short term and long-term learning activities that a Counselee plans to accomplish. This is to further develop the competencies (knowledge/ skills etc) required to successfully achieve current job standards and further career development. Competencies identified for professional development should relate to the counselee’s job assignments and/ or to career aspirations for the short and long term.
+                                </p>
+                            </div>
+                            <div class="form-group col-lg-8 offset-lg-2 pull-left">
+                              
+                                <table class="table table-sm table-bordered">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group col-lg-12 pull-left">
+                                                <label class="control-label" for="pdp_ques1">1. What is your career goal in:</label>
+                                            </div>
+                                            <div class="form-group col-lg-6 pull-left">
+                                                <label class="control-label" for="pdp_ques1_1">Short Term:(1-2 years):</label>
+                                                <textarea rows="2" name="pdp_ques1_1" class="form-control" required="required"/>
+                                            </div>
+                                            <div class="form-group col-lg-6 pull-left">
+                                                <label class="control-label" for="pdp_ques1_2"> Long Term:(2-4 years):</label>
+                                                <textarea rows="2" name="pdp_ques1_2" class="form-control" required="required"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group col-lg-12 pull-left">
+                                                <label class="control-label" for="pdp_ques2">2. What training/ coaching inputs you would require so as to enhance your performance in your current role? </label>
+                                                <textarea rows="2" name="pdp_ques2" class="form-control" required="required"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                            <div class="form-group col-lg-12 pull-left">
+                                                <label class="control-label" for="pdp_ques3">3. What support would you require for further enhancing your performance in your current role?</label>
+                                            </div>
+                                            <div class="form-group col-lg-12 pull-left">
+                                                <label class="control-label">    a. From your Counselor: </label>
+                                                <textarea rows="2" name="pdp_ques3_1" class="form-control" required="required"/>
+                                            </div>
+                                             <div class="form-group col-lg-12 pull-left">
+                                                  <label class="control-label">  b. From your team members: </label>
+                                                  <textarea rows="2" name="pdp_ques3_2" class="form-control" required="required"/>
+                                            </div>
+                                             <div class="form-group col-lg-12 pull-left">
+                                                  <label class="control-label">  c. Others (please specify):</label>
+                                                  <textarea rows="2" name="pdp_ques3_3" class="form-control" required="required"/>
+                                            </div>
+                                           
+                                        </td>
+                                    </tr>
+                                    
+
+                                </table>
+                            </div>
+                            <div  class="form-group col-lg-8 offset-lg-2 pull-left">
+                                <button type="button" id="submit_self_assesment" class="btn btn-primary label-text-align" style="font-size: 15px;border:none;" name="submit_self_assesment">SEND</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </t>
+            </t>
+
+        </t>
+    </template>
+</odoo>

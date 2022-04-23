@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_home_timesheet_inherit" inherit_id="hr_timesheet.portal_my_home_timesheet">
+        <xpath expr="//t[@t-if='timesheet_count']" position="replace">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Timesheet</t>
+                <t t-set="url" t-value="'/my/timesheets'"/>
+                <t t-set="count" t-value="timesheet_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_timesheets_inherit" inherit_id="hr_timesheet.portal_my_timesheets">
+        <xpath expr="//tbody//tr//td[1]" position="attributes">
+            <attribute name="style">white-space: pre-wrap;</attribute>
+        </xpath>
+        <xpath expr="//thead/tr" position="inside">
+            <th>Status</th>
+            <th>Duration Days</th>
+            <th>Delivery Site</th>
+             <th>Manager Approval Satatus</th>
+        </xpath>
+
+        <xpath expr="//tbody//tr" position="inside">
+           <td><span t-field="timesheet.status"/></td>
+           <td><span t-field="timesheet.duration_days"/></td>
+           <td><span t-field="timesheet.delivery_site"/></td>
+           <td class="text-center">
+             <t t-if="timesheet.manager_approval_state == 'pending_submission'"><span t-attf-class="badge badge-pill badge-dark">Pending Submission</span></t>
+            <t t-if="timesheet.manager_approval_state == 'pending_approval'"><span t-attf-class="badge badge-pill badge-primary">Pending Approval</span></t>
+                <t t-if="timesheet.manager_approval_state == 'approved'"><span t-attf-class="badge badge-pill badge-success">Approved</span></t>
+                <t t-if="timesheet.manager_approval_state == 'resubmit'"><span t-attf-class="badge badge-pill badge-warning">Resubmit</span></t>
+               <!--  <t t-if="timesheet.manager_approval_state == 'rejected'"><span t-attf-class="badge badge-pill badge-danger">Rejected</span></t> -->
+            </td>
+        </xpath>
+
+   
+    </template>
+</odoo>
